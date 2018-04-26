@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>ESRI.ArcGIS.ArcMap</name>
+  </assembly>
+  <members>
+    <member name="T:ESRI.ArcGIS.ArcMap.IReportDataSource">
+      <summary>Provides access to members that set the data source properties for Report reports.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportDataSource.DefinitionQuery">
+      <summary>Indicates the definition expression for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportDataSource.Extent">
+      <summary>Indicates the extent of the report features.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportDataSource.Layer">
+      <summary>Indicates the data for the report is from a layer.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportDataSource.SelectionSet">
+      <summary>Indicates the selection set for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportDataSource.Table">
+      <summary>Indicates the data for the report is from a table.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.IReportEngine">
+      <summary>Provides access to members that operate on the report.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportEngine.ExportReport(System.String,System.String,ESRI.ArcGIS.ArcMap.esriReportExportType)">
+      <summary>Exports an executed report in the desired format.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportEngine.RunReport(ESRI.ArcGIS.esriSystem.ITrackCancel)">
+      <summary>Executes the report base on the IReportDataSource properties.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.IReportTemplate">
+      <summary>Provides access to template members of a report.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportTemplate.FieldMapping(System.String,System.String)">
+      <summary>Sets the field mapping from the report template to the new fields.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportTemplate.LoadReportTemplate(System.String)">
+      <summary>Loads the report template file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportTemplate.RelatedReportMapping(System.String,ESRI.ArcGIS.Geodatabase.IRelationshipClass,System.String,System.String)">
+      <summary>Sets the mapping information for a related report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportTemplate.ReportTitle">
+      <summary>Indicates the title for the report.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.IReportTemplate.SaveReportTemplate(System.String)">
+      <summary>Saves the report as a template file.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.IReportTemplate.StartingPageNumber">
+      <summary>Indicates the starting page number for the report.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.Application">
+      <summary>Esri ArcMap Application</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.ApplicationClass">
+      <summary>Esri ArcMap Application</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.DataWindows">
+      <summary>The data windows in the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplicationWindows_DataWindows">
+      <summary>The data windows in the application.</summary>
+    </member>
+    <member name="ESRI.ArcGIS.ArcMap..">
+      <summary>Esri ArcMap Application Constructor has no input arguments.</summary>
+    </member>
+    <member name="ESRI.ArcGIS.ArcMap.._">
+      <summary>Esri ArcMap Application Constructor has no input arguments.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.#ctor">
+      <summary>Esri ArcMap Application Constructor has no input arguments.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Next">
+      <summary>The next Printer Name.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IEnumPrinterNames_Next">
+      <summary>The next Printer Name.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Reset">
+      <summary>Reset the Enumeration to the beginning.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IEnumPrinterNames_Reset">
+      <summary>Reset the Enumeration to the beginning.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.CopyToClipboard">
+      <summary>Copies the current view to the clipboard.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_CopyToClipboard">
+      <summary>Copies the current view to the clipboard.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Display">
+      <summary>The application display.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_Display">
+      <summary>The application display.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Export">
+      <summary>Exports the current document.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_Export">
+      <summary>Exports the current document.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Paper">
+      <summary>The current paper settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_Paper">
+      <summary>The current paper settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Printer">
+      <summary>The current printer settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_Printer">
+      <summary>The current printer settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.SelectionEnvironment">
+      <summary>The selection environment.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication_SelectionEnvironment">
+      <summary>The selection environment.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_CopyToClipboard">
+      <summary>Copies the current view to the clipboard.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_Display">
+      <summary>The application display.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_Export">
+      <summary>Exports the current document.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_Paper">
+      <summary>The current paper settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.PauseDrawing">
+      <summary>Pause display updates.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_PauseDrawing">
+      <summary>Pause display updates.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_Printer">
+      <summary>The current printer settings.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IMxApplication2_SelectionEnvironment">
+      <summary>The selection environment.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.DefaultDatabaseName">
+      <summary>The default geodatabase.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxCatalogDefaultDatabase_DefaultDatabaseName">
+      <summary>The default geodatabase.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.DefaultDatabaseNameNoValidate">
+      <summary>The default geodatabase.  Does not perform validation on the geodatabase.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxCatalogDefaultDatabase_DefaultDatabaseNameNoValidate">
+      <summary>The default geodatabase.  Does not perform validation on the geodatabase.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.OpenWorkspaceFolder(System.String)">
+      <summary>Opens the document catalog.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxCatalogWorkspace_OpenWorkspaceFolder(System.String)">
+      <summary>Opens the document catalog.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.UseWorkspaceFolder">
+      <summary>Indicates if the catalog uses a workspace folder as a home folder.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxCatalogWorkspace_UseWorkspaceFolder">
+      <summary>Indicates if the catalog uses a workspace folder as a home folder.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.WorkspaceFolderPath">
+      <summary>The workspace path.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxCatalogWorkspace_WorkspaceFolderPath">
+      <summary>The workspace path.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.AreaOfInterest">
+      <summary>The default area of interest for the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_AreaOfInterest">
+      <summary>The default area of interest for the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.CanDeleteSelection">
+      <summary>Indicates if the current selection can be deleted.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_CanDeleteSelection">
+      <summary>Indicates if the current selection can be deleted.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.CanRenameSelection">
+      <summary>Indicates if the current selection can be renamed.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_CanRenameSelection">
+      <summary>Indicates if the current selection can be renamed.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Catalog">
+      <summary>The current catalog.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_Catalog">
+      <summary>The current catalog.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.DeleteSelection">
+      <summary>Deletes the current selection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_DeleteSelection">
+      <summary>Deletes the current selection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.ExpandSelection">
+      <summary>Expands the current selection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_ExpandSelection">
+      <summary>Expands the current selection.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Location">
+      <summary>The location to the specified path.  If the path isn't yet part of the catalog, it is added as a folder connection.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_Location">
+      <summary>The location to the specified path.  If the path isn't yet part of the catalog, it is added as a folder connection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Refresh(System.String)">
+      <summary>Refreshes the catalog tree starting at the specified path.  If startingPath is 0 or the empty string, the entire catalog is refreshed.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_Refresh(System.String)">
+      <summary>Refreshes the catalog tree starting at the specified path.  If startingPath is 0 or the empty string, the entire catalog is refreshed.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.RenameSelection">
+      <summary>Renames the current selection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_RenameSelection">
+      <summary>Renames the current selection.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.SelectedObject">
+      <summary>The first selected object, or the location if no objects are selected.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_SelectedObject">
+      <summary>The first selected object, or the location if no objects are selected.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Selection">
+      <summary>The selection of application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_Selection">
+      <summary>The selection of application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.ShowContextMenu(System.Int32,System.Int32)">
+      <summary>Displays a context menu for the current selection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_ShowContextMenu(System.Int32,System.Int32)">
+      <summary>Displays a context menu for the current selection.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.TreeView">
+      <summary>The tree view.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_TreeView">
+      <summary>The tree view.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.View">
+      <summary>The current view.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_View">
+      <summary>The current view.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.ViewClassID">
+      <summary>The current view's class ID.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IGxApplication_ViewClassID">
+      <summary>The current view's class ID.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Caption">
+      <summary>The caption of this application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Caption">
+      <summary>The caption of this application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.CurrentTool">
+      <summary>The currently selected tool.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_CurrentTool">
+      <summary>The currently selected tool.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Document">
+      <summary>The document that is currently loaded in the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Document">
+      <summary>The document that is currently loaded in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.FindExtensionByCLSID(ESRI.ArcGIS.esriSystem.IUID)">
+      <summary>Finds an extension by its CLSID.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_FindExtensionByCLSID(ESRI.ArcGIS.esriSystem.IUID)">
+      <summary>Finds an extension by its CLSID.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.FindExtensionByName(System.String)">
+      <summary>Finds an extension by its name.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_FindExtensionByName(System.String)">
+      <summary>Finds an extension by its name.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.hWnd">
+      <summary>The handle of the application's window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_hWnd">
+      <summary>The handle of the application's window.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IsDialogVisible(System.Int32)">
+      <summary>Indicates if the specified dialog is visible in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_IsDialogVisible(System.Int32)">
+      <summary>Indicates if the specified dialog is visible in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.LockCustomization(System.String,ESRI.ArcGIS.Framework.ICustomizationFilter)">
+      <summary>Locks the application's user interface against any customizations.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_LockCustomization(System.String,ESRI.ArcGIS.Framework.ICustomizationFilter)">
+      <summary>Locks the application's user interface against any customizations.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Name">
+      <summary>The name of this application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Name">
+      <summary>The name of this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.NewDocument(System.Boolean,System.String)">
+      <summary>Creates a new document in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_NewDocument(System.Boolean,System.String)">
+      <summary>Creates a new document in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.OpenDocument(System.String)">
+      <summary>Opens a document in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_OpenDocument(System.String)">
+      <summary>Opens a document in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.PrintDocument">
+      <summary>Displays the Print dialog.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_PrintDocument">
+      <summary>Displays the Print dialog.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.PrintPreview">
+      <summary>Displays how the document will look like when it is printed.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_PrintPreview">
+      <summary>Displays how the document will look like when it is printed.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.RefreshWindow">
+      <summary>Redraws the application window.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_RefreshWindow">
+      <summary>Redraws the application window.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.SaveAsDocument(System.String,System.Boolean)">
+      <summary>Saves the document that is currently open in this application to a different file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_SaveAsDocument(System.String,System.Boolean)">
+      <summary>Saves the document that is currently open in this application to a different file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.SaveDocument(System.String)">
+      <summary>Saves the document that is currently open in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_SaveDocument(System.String)">
+      <summary>Saves the document that is currently open in this application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.ShowDialog(System.Int32,System.Object@)">
+      <summary>Displays the specified dialog in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_ShowDialog(System.Int32,System.Object@)">
+      <summary>Displays the specified dialog in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Shutdown">
+      <summary>Terminates the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Shutdown">
+      <summary>Terminates the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.StatusBar">
+      <summary>The statusbar of this application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_StatusBar">
+      <summary>The statusbar of this application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Templates">
+      <summary>The templates collection.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Templates">
+      <summary>The templates collection.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.UnlockCustomization(System.String)">
+      <summary>Unlocks previous user interface customization lock.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_UnlockCustomization(System.String)">
+      <summary>Unlocks previous user interface customization lock.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.VBE">
+      <summary>The Visual Basic Environment.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_VBE">
+      <summary>The Visual Basic Environment.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Visible">
+      <summary>Indicates if the application window is visible.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplication_Visible">
+      <summary>Indicates if the application window is visible.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Initialized">
+      <summary>Is the application initialized.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplicationStatus_Initialized">
+      <summary>Is the application initialized.</summary>
+    </member>
+    <member name="E:ESRI.ArcGIS.ArcMap.ApplicationClass.Initialized">
+      <summary>Fired when the application UI is initialized.</summary>
+    </member>
+    <member name="E:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplicationStatusEvents_Initialized">
+      <summary>Fired when the application UI is initialized.</summary>
+    </member>
+    <member name="E:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplicationStatusEvents_Event_Initialized">
+      <summary>Fired when the application UI is initialized.</summary>
+    </member>
+    <member name="E:ESRI.ArcGIS.ArcMap.ApplicationClass.IApplicationStatusEvents_Event.Initialized">
+      <summary>Fired when the application UI is initialized.</summary>
+    </member>
+    <member name="E:ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event.Initialized">
+      <summary>Fired when the application UI is initialized.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_InitializedEventHandler">
+      <summary>Handles the IApplicationStatusEvents_Event.Initialized Event</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event">
+      <summary>Provides access to events fired by application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.GetDockableWindow(ESRI.ArcGIS.esriSystem.IUID)">
+      <summary>Finds a dockable window looking first in the collection and then in the category.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IDockableWindowManager_GetDockableWindow(ESRI.ArcGIS.esriSystem.IUID)">
+      <summary>Finds a dockable window looking first in the collection and then in the category.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.GetProcessID">
+      <summary>The process ID for the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMultiThreadedApplication_GetProcessID">
+      <summary>The process ID for the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.RegisterThreadManager(ESRI.ArcGIS.Framework.IDllThreadManager)">
+      <summary>Registers a DLL thread manager with the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMultiThreadedApplication_RegisterThreadManager(ESRI.ArcGIS.Framework.IDllThreadManager)">
+      <summary>Registers a DLL thread manager with the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.UnregisterThreadManager(System.Int32)">
+      <summary>Unregisters a DLL thread manager with the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IMultiThreadedApplication_UnregisterThreadManager(System.Int32)">
+      <summary>Unregisters a DLL thread manager with the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Create(System.Object)">
+      <summary>Creates an instance of an object identified by objectID.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IObjectFactory_Create(System.Object)">
+      <summary>Creates an instance of an object identified by objectID.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.CreateCodeModule(System.String,System.String)">
+      <summary>Creates a code module in the specified VBA project.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IVbaApplication_CreateCodeModule(System.String,System.String)">
+      <summary>Creates a code module in the specified VBA project.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.InsertCode(System.String,System.String,System.String)">
+      <summary>Inserts code into the specified module.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IVbaApplication_InsertCode(System.String,System.String,System.String)">
+      <summary>Inserts code into the specified module.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.RemoveCodeModule(System.String,System.String)">
+      <summary>Removes a code module from the specified VBA project.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IVbaApplication_RemoveCodeModule(System.String,System.String)">
+      <summary>Removes a code module from the specified VBA project.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.RunVBAMacro(System.String,System.String,System.String,System.Object@)">
+      <summary>Runs the specified VBA macro.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IVbaApplication_RunVBAMacro(System.String,System.String,System.String,System.Object@)">
+      <summary>Runs the specified VBA macro.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Height">
+      <summary>The height of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_Height">
+      <summary>The height of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Left">
+      <summary>The distance between the internal left edge of the window and screen.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_Left">
+      <summary>The distance between the internal left edge of the window and screen.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.Move(System.Int32,System.Int32,System.Int32,System.Int32)">
+      <summary>Moves and optionally resizes the windows in a single function.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_Move(System.Int32,System.Int32,System.Int32,System.Int32)">
+      <summary>Moves and optionally resizes the windows in a single function.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.State">
+      <summary>The state of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_State">
+      <summary>The state of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Top">
+      <summary>The distance between the internal top edge of the window and screen.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_Top">
+      <summary>The distance between the internal top edge of the window and screen.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Width">
+      <summary>The width of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IWindowPosition_Width">
+      <summary>The width of the window.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.Extension(System.Int32)">
+      <summary>The extension at the specified index.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IExtensionManager_Extension(System.Int32)">
+      <summary>The extension at the specified index.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.ExtensionCLSID(System.Int32)">
+      <summary>The CLSID of the extension at the specified index.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IExtensionManager_ExtensionCLSID(System.Int32)">
+      <summary>The CLSID of the extension at the specified index.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.ExtensionCount">
+      <summary>The number of extensions loaded in the application.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ApplicationClass.IExtensionManager_ExtensionCount">
+      <summary>The number of extensions loaded in the application.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.FindExtension(System.Object)">
+      <summary>Finds the extension by CLSID (IUID) or name (String).</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ApplicationClass.IExtensionManager_FindExtension(System.Object)">
+      <summary>Finds the extension by CLSID (IUID) or name (String).</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.Report">
+      <summary>The Report class implements the report engine.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.ReportClass">
+      <summary>The Report class implements the report engine.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.DefinitionQuery">
+      <summary>Indicates the definition expression for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportDataSource_DefinitionQuery">
+      <summary>Indicates the definition expression for the report.</summary>
+    </member>
+    <member name="ESRI.ArcGIS.ArcMap..">
+      <summary>The Report class implements the report engine. Constructor has no input arguments.</summary>
+    </member>
+    <member name="ESRI.ArcGIS.ArcMap.._">
+      <summary>The Report class implements the report engine. Constructor has no input arguments.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.#ctor">
+      <summary>The Report class implements the report engine. Constructor has no input arguments.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.Extent">
+      <summary>Indicates the extent of the report features.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportDataSource_Extent">
+      <summary>Indicates the extent of the report features.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.Layer">
+      <summary>Indicates the data for the report is from a layer.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportDataSource_Layer">
+      <summary>Indicates the data for the report is from a layer.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.SelectionSet">
+      <summary>Indicates the selection set for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportDataSource_SelectionSet">
+      <summary>Indicates the selection set for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.Table">
+      <summary>Indicates the data for the report is from a table.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportDataSource_Table">
+      <summary>Indicates the data for the report is from a table.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.ExportReport(System.String,System.String,ESRI.ArcGIS.ArcMap.esriReportExportType)">
+      <summary>Exports an executed report in the desired format.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportEngine_ExportReport(System.String,System.String,ESRI.ArcGIS.ArcMap.esriReportExportType)">
+      <summary>Exports an executed report in the desired format.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.RunReport(ESRI.ArcGIS.esriSystem.ITrackCancel)">
+      <summary>Executes the report base on the IReportDataSource properties.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportEngine_RunReport(ESRI.ArcGIS.esriSystem.ITrackCancel)">
+      <summary>Executes the report base on the IReportDataSource properties.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.FieldMapping(System.String,System.String)">
+      <summary>Sets the field mapping from the report template to the new fields.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_FieldMapping(System.String,System.String)">
+      <summary>Sets the field mapping from the report template to the new fields.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.LoadReportTemplate(System.String)">
+      <summary>Loads the report template file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_LoadReportTemplate(System.String)">
+      <summary>Loads the report template file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.RelatedReportMapping(System.String,ESRI.ArcGIS.Geodatabase.IRelationshipClass,System.String,System.String)">
+      <summary>Sets the mapping information for a related report.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_RelatedReportMapping(System.String,ESRI.ArcGIS.Geodatabase.IRelationshipClass,System.String,System.String)">
+      <summary>Sets the mapping information for a related report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.ReportTitle">
+      <summary>Indicates the title for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_ReportTitle">
+      <summary>Indicates the title for the report.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.SaveReportTemplate(System.String)">
+      <summary>Saves the report as a template file.</summary>
+    </member>
+    <member name="M:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_SaveReportTemplate(System.String)">
+      <summary>Saves the report as a template file.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.StartingPageNumber">
+      <summary>Indicates the starting page number for the report.</summary>
+    </member>
+    <member name="P:ESRI.ArcGIS.ArcMap.ReportClass.IReportTemplate_StartingPageNumber">
+      <summary>Indicates the starting page number for the report.</summary>
+    </member>
+    <member name="T:ESRI.ArcGIS.ArcMap.esriReportExportType">
+      <summary>Report export types.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportHTML">
+      <summary>Exports a Report report as HTML files.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportPDF">
+      <summary>Exports a Report report as a PDF file.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportRTF">
+      <summary>Exports a Report report as an RTF file.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportTIFF">
+      <summary>Exports a Report report as a TIFF file.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportTXT">
+      <summary>Exports a Report report as a TXT file.</summary>
+    </member>
+    <member name="F:ESRI.ArcGIS.ArcMap.esriReportExportType.esriReportExportXLS">
+      <summary>Exports a Report report as an XLS file.</summary>
+    </member>
+  </members>
+</doc>

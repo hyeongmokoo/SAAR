@@ -1,0 +1,1103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9519B8F7-6C1C-4F6F-A7F2-CDF66B85FC46}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VisUncertainty</RootNamespace>
+    <AssemblyName>VisUncertainty</AssemblyName>
+    <ApplicationIcon>Earth.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.ArcCatalog, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.ArcMap, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.ArcMapUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.AxControls, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
+    <Reference Include="ESRI.ArcGIS.Carto, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.CartoUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Catalog, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.CatalogUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Controls, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataManagementTools, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataSourcesFile, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataSourcesRaster, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Display, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Framework, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.GeoDatabaseUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geoprocessor, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Output, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.System, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.SystemUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Version, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Gurobi70.NET">
+      <HintPath>C:\gurobi702\win64\bin\Gurobi70.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="UncernVis.BivariateRenderer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ClassLibraries\UncernVis.BivariateRenderer\UncernVis.BivariateRenderer\bin\Debug\UncernVis.BivariateRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="RDotNet">
+      <HintPath>..\..\RDotNet.Windows\RDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="RDotNet.Graphics">
+      <HintPath>..\..\RDotNet.Windows\RDotNet.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="RDotNet.NativeLibrary">
+      <HintPath>..\..\RDotNet.Windows\RDotNet.NativeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.DataVisualization">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddFeatureClass.cs" />
+    <Compile Include="clsBlockNames.cs" />
+    <Compile Include="clsBrusingLinking.cs" />
+    <Compile Include="clsColorRamps.cs" />
+    <Compile Include="clsRPackageNames.cs" />
+    <Compile Include="frmAdvSWM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdvSWM.Designer.cs">
+      <DependentUpon>frmAdvSWM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAttributeField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAttributeField.designer.cs">
+      <DependentUpon>frmAttributeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBiCluster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBiCluster.Designer.cs">
+      <DependentUpon>frmBiCluster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBiLocalSAM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBiLocalSAM.Designer.cs">
+      <DependentUpon>frmBiLocalSAM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBiOutlier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBiOutlier.Designer.cs">
+      <DependentUpon>frmBiOutlier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBiQuadrants.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBiQuadrants.Designer.cs">
+      <DependentUpon>frmBiQuadrants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBiSAutoCorr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBiSAutoCorr.Designer.cs">
+      <DependentUpon>frmBiSAutoCorr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBivariateGlobal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBivariateGlobal.Designer.cs">
+      <DependentUpon>frmBivariateGlobal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBivariateLISA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBivariateLISA.Designer.cs">
+      <DependentUpon>frmBivariateLISA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBivariateProbability.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBivariateProbability.Designer.cs">
+      <DependentUpon>frmBivariateProbability.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBivariateSignificance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBivariateSignificance.Designer.cs">
+      <DependentUpon>frmBivariateSignificance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBivariateSpQuadrant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBivariateSpQuadrant.Designer.cs">
+      <DependentUpon>frmBivariateSpQuadrant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBoxCox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBoxCox.Designer.cs">
+      <DependentUpon>frmBoxCox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCCMaps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCCMaps.Designer.cs">
+      <DependentUpon>frmCCMaps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCCMapsResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCCMapsResults.Designer.cs">
+      <DependentUpon>frmCCMapsResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClustogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClustogram.Designer.cs">
+      <DependentUpon>frmClustogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConnectivityHistogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConnectivityHistogram.Designer.cs">
+      <DependentUpon>frmConnectivityHistogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConnectivityMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConnectivityMap.Designer.cs">
+      <DependentUpon>frmConnectivityMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCorrelogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCorrelogram.Designer.cs">
+      <DependentUpon>frmCorrelogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCorrelogram_local.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCorrelogram_local.Designer.cs">
+      <DependentUpon>frmCorrelogram_local.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateFlowLines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateFlowLines.Designer.cs">
+      <DependentUpon>frmCreateFlowLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDebug.Designer.cs">
+      <DependentUpon>frmDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmErrorLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmErrorLog.Designer.cs">
+      <DependentUpon>frmErrorLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmExportChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExportChart.Designer.cs">
+      <DependentUpon>frmExportChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGeocoding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGeocoding.Designer.cs">
+      <DependentUpon>frmGeocoding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGLM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGLM.Designer.cs">
+      <DependentUpon>frmGLM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHCluster1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHCluster1.Designer.cs">
+      <DependentUpon>frmHCluster1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHierClustering.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHierClustering.Designer.cs">
+      <DependentUpon>frmHierClustering.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmKFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmKFunction.Designer.cs">
+      <DependentUpon>frmKFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMCscatterwithColor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMCscatterwithColor.Designer.cs">
+      <DependentUpon>frmMCscatterwithColor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMScatterResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMScatterResults.Designer.cs">
+      <DependentUpon>frmMScatterResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewClassSeparability.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewClassSeparability.Designer.cs">
+      <DependentUpon>frmNewClassSeparability.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewTemp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewTemp.Designer.cs">
+      <DependentUpon>frmNewTemp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOptimizationSelResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOptimizationSelResults.Designer.cs">
+      <DependentUpon>frmOptimizationSelResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmParallPlotforRS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmParallPlotforRS.Designer.cs">
+      <DependentUpon>frmParallPlotforRS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProgramProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProgramProperties.Designer.cs">
+      <DependentUpon>frmProgramProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProperties2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProperties2.Designer.cs">
+      <DependentUpon>frmProperties2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmREnvironment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREnvironment.Designer.cs">
+      <DependentUpon>frmREnvironment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRSSample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRSSample.Designer.cs">
+      <DependentUpon>frmRSSample.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSimpleSymbol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSimpleSymbol.Designer.cs">
+      <DependentUpon>frmSimpleSymbol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStartup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStartup.Designer.cs">
+      <DependentUpon>frmStartup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSubsetPoly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSubsetPoly.Designer.cs">
+      <DependentUpon>frmSubsetPoly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSWMAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSWMAnalysis.Designer.cs">
+      <DependentUpon>frmSWMAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSWMSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSWMSummary.Designer.cs">
+      <DependentUpon>frmSWMSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUncernSAM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUncernSAM.Designer.cs">
+      <DependentUpon>frmUncernSAM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVariogramCloud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVariogramCloud.Designer.cs">
+      <DependentUpon>frmVariogramCloud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmViloinPlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmViloinPlot.Designer.cs">
+      <DependentUpon>frmViloinPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVisDN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVisDN.Designer.cs">
+      <DependentUpon>frmVisDN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVisEntropy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVisEntropy.Designer.cs">
+      <DependentUpon>frmVisEntropy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVisProbEnt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVisProbEnt.Designer.cs">
+      <DependentUpon>frmVisProbEnt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ISpacingBreaksRenderer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LayerSymbology.cs" />
+    <Compile Include="SaveLayerFile.cs" />
+    <Compile Include="SpacingBreaksRendererClass.cs" />
+    <Compile Include="clsRenderedLayers.cs" />
+    <Compile Include="clsSnippet.cs" />
+    <Compile Include="frmEvalRobustness.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEvalRobustness.Designer.cs">
+      <DependentUpon>frmEvalRobustness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOptimizationSample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOptimizationSample.Designer.cs">
+      <DependentUpon>frmOptimizationSample.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQQPlotResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQQPlotResult.Designer.cs">
+      <DependentUpon>frmQQPlotResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateNewDocument.cs" />
+    <Compile Include="frmAddField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddField.Designer.cs">
+      <DependentUpon>frmAddField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAttGraduatedSymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAttGraduatedSymbols.Designer.cs">
+      <DependentUpon>frmAttGraduatedSymbols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAttributeTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAttributeTable.Designer.cs">
+      <DependentUpon>frmAttributeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBlinking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBlinking.Designer.cs">
+      <DependentUpon>frmBlinking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBoxplot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBoxplot.Designer.cs">
+      <DependentUpon>frmBoxplot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBoxPlotResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBoxPlotResults.Designer.cs">
+      <DependentUpon>frmBoxPlotResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChoroplethwithOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChoroplethwithOverlay.Designer.cs">
+      <DependentUpon>frmChoroplethwithOverlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmColorRamps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmColorRamps.Designer.cs">
+      <DependentUpon>frmColorRamps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateWeightMatrix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateWeightMatrix.Designer.cs">
+      <DependentUpon>frmCreateWeightMatrix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeleteField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeleteField.Designer.cs">
+      <DependentUpon>frmDeleteField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDesStat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDesStat.Designer.cs">
+      <DependentUpon>frmDesStat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDrawDenPlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDrawDenPlot.Designer.cs">
+      <DependentUpon>frmDrawDenPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmESF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmESF.Designer.cs">
+      <DependentUpon>frmESF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExport.Designer.cs">
+      <DependentUpon>frmExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFieldCalculator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFieldCalculator.Designer.cs">
+      <DependentUpon>frmFieldCalculator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFieldProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFieldProperties.Designer.cs">
+      <DependentUpon>frmFieldProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGenResult.Designer.cs">
+      <DependentUpon>frmGenResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLayoutView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLayoutView.Designer.cs">
+      <DependentUpon>frmLayoutView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLocalSAM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLocalSAM.Designer.cs">
+      <DependentUpon>frmLocalSAM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMScatterplot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMScatterplot.Designer.cs">
+      <DependentUpon>frmMScatterplot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScatterPlotResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScatterPlotResults.Designer.cs">
+      <DependentUpon>frmScatterPlotResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSAutoCorr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSAutoCorr.Designer.cs">
+      <DependentUpon>frmSAutoCorr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScaleBarProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScaleBarProperties.Designer.cs">
+      <DependentUpon>frmScaleBarProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSlider.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSlider.Designer.cs">
+      <DependentUpon>frmSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHistogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHistogram.Designer.cs">
+      <DependentUpon>frmHistogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlot.Designer.cs">
+      <DependentUpon>frmPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPreVisuUncern.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPreVisuUncern.Designer.cs">
+      <DependentUpon>frmPreVisuUncern.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProgress.Designer.cs">
+      <DependentUpon>frmProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProperties.Designer.cs">
+      <DependentUpon>frmProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQQplot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQQplot.Designer.cs">
+      <DependentUpon>frmQQplot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegression.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegression.Designer.cs">
+      <DependentUpon>frmRegression.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegResult.Designer.cs">
+      <DependentUpon>frmRegResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScatterplot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScatterplot.Designer.cs">
+      <DependentUpon>frmScatterplot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSpatialRegression.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSpatialRegression.Designer.cs">
+      <DependentUpon>frmSpatialRegression.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHistResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHistResults.Designer.cs">
+      <DependentUpon>frmHistResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayerProperties.cs" />
+    <Compile Include="LinkingTool.cs" />
+    <Compile Include="LinkingToolbar.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenAttribtueTable.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveLayer.cs" />
+    <Compile Include="RobustnessRenderer.cs" />
+    <Compile Include="StackedChartRenderer.cs" />
+    <Compile Include="StackedLegend.cs" />
+    <Compile Include="ToolCumsum.cs" />
+    <Compile Include="toolDenPlot.cs" />
+    <Compile Include="toolHistogram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZoomToLayer.cs" />
+    <Compile Include="ZoomToSelectedFeatures.cs" />
+    <EmbeddedResource Include="frmAdvSWM.resx">
+      <DependentUpon>frmAdvSWM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAttributeField.resx">
+      <DependentUpon>frmAttributeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBiCluster.resx">
+      <DependentUpon>frmBiCluster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBiLocalSAM.resx">
+      <DependentUpon>frmBiLocalSAM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBiOutlier.resx">
+      <DependentUpon>frmBiOutlier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBiQuadrants.resx">
+      <DependentUpon>frmBiQuadrants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBiSAutoCorr.resx">
+      <DependentUpon>frmBiSAutoCorr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBivariateGlobal.resx">
+      <DependentUpon>frmBivariateGlobal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBivariateLISA.resx">
+      <DependentUpon>frmBivariateLISA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBivariateProbability.resx">
+      <DependentUpon>frmBivariateProbability.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBivariateSignificance.resx">
+      <DependentUpon>frmBivariateSignificance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBivariateSpQuadrant.resx">
+      <DependentUpon>frmBivariateSpQuadrant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBoxCox.resx">
+      <DependentUpon>frmBoxCox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCCMaps.resx">
+      <DependentUpon>frmCCMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCCMapsResults.resx">
+      <DependentUpon>frmCCMapsResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClustogram.resx">
+      <DependentUpon>frmClustogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConnectivityHistogram.resx">
+      <DependentUpon>frmConnectivityHistogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConnectivityMap.resx">
+      <DependentUpon>frmConnectivityMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCorrelogram.resx">
+      <DependentUpon>frmCorrelogram.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCorrelogram_local.resx">
+      <DependentUpon>frmCorrelogram_local.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateFlowLines.resx">
+      <DependentUpon>frmCreateFlowLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDebug.resx">
+      <DependentUpon>frmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmErrorLog.resx">
+      <DependentUpon>frmErrorLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEvalRobustness.resx">
+      <DependentUpon>frmEvalRobustness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExportChart.resx">
+      <DependentUpon>frmExportChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGeocoding.resx">
+      <DependentUpon>frmGeocoding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGLM.resx">
+      <DependentUpon>frmGLM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHCluster1.resx">
+      <DependentUpon>frmHCluster1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHierClustering.resx">
+      <DependentUpon>frmHierClustering.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmKFunction.resx">
+      <DependentUpon>frmKFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMCscatterwithColor.resx">
+      <DependentUpon>frmMCscatterwithColor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMScatterResults.resx">
+      <DependentUpon>frmMScatterResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewClassSeparability.resx">
+      <DependentUpon>frmNewClassSeparability.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewTemp.resx">
+      <DependentUpon>frmNewTemp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOptimizationSample.resx">
+      <DependentUpon>frmOptimizationSample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOptimizationSelResults.resx">
+      <DependentUpon>frmOptimizationSelResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmParallPlotforRS.resx">
+      <DependentUpon>frmParallPlotforRS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProgramProperties.resx">
+      <DependentUpon>frmProgramProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProperties2.resx">
+      <DependentUpon>frmProperties2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQQPlotResult.resx">
+      <DependentUpon>frmQQPlotResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddField.resx">
+      <DependentUpon>frmAddField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAttGraduatedSymbols.resx">
+      <DependentUpon>frmAttGraduatedSymbols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAttributeTable.resx">
+      <DependentUpon>frmAttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBlinking.resx">
+      <DependentUpon>frmBlinking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBoxplot.resx">
+      <DependentUpon>frmBoxplot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBoxPlotResults.resx">
+      <DependentUpon>frmBoxPlotResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChoroplethwithOverlay.resx">
+      <DependentUpon>frmChoroplethwithOverlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmColorRamps.resx">
+      <DependentUpon>frmColorRamps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateWeightMatrix.resx">
+      <DependentUpon>frmCreateWeightMatrix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDeleteField.resx">
+      <DependentUpon>frmDeleteField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDesStat.resx">
+      <DependentUpon>frmDesStat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDrawDenPlot.resx">
+      <DependentUpon>frmDrawDenPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmESF.resx">
+      <DependentUpon>frmESF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExport.resx">
+      <DependentUpon>frmExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFieldCalculator.resx">
+      <DependentUpon>frmFieldCalculator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFieldProperties.resx">
+      <DependentUpon>frmFieldProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGenResult.resx">
+      <DependentUpon>frmGenResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLayoutView.resx">
+      <DependentUpon>frmLayoutView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLocalSAM.resx">
+      <DependentUpon>frmLocalSAM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMScatterplot.resx">
+      <DependentUpon>frmMScatterplot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmREnvironment.resx">
+      <DependentUpon>frmREnvironment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRSSample.resx">
+      <DependentUpon>frmRSSample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScatterPlotResults.resx">
+      <DependentUpon>frmScatterPlotResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSAutoCorr.resx">
+      <DependentUpon>frmSAutoCorr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScaleBarProperties.resx">
+      <DependentUpon>frmScaleBarProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSimpleSymbol.resx">
+      <DependentUpon>frmSimpleSymbol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSlider.resx">
+      <DependentUpon>frmSlider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHistogram.resx">
+      <DependentUpon>frmHistogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlot.resx">
+      <DependentUpon>frmPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPreVisuUncern.resx">
+      <DependentUpon>frmPreVisuUncern.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProgress.resx">
+      <DependentUpon>frmProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProperties.resx">
+      <DependentUpon>frmProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQQplot.resx">
+      <DependentUpon>frmQQplot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegression.resx">
+      <DependentUpon>frmRegression.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegResult.resx">
+      <DependentUpon>frmRegResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScatterplot.resx">
+      <DependentUpon>frmScatterplot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSpatialRegression.resx">
+      <DependentUpon>frmSpatialRegression.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHistResults.resx">
+      <DependentUpon>frmHistResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStartup.resx">
+      <DependentUpon>frmStartup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSubsetPoly.resx">
+      <DependentUpon>frmSubsetPoly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSWMAnalysis.resx">
+      <DependentUpon>frmSWMAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSWMSummary.resx">
+      <DependentUpon>frmSWMSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUncernSAM.resx">
+      <DependentUpon>frmUncernSAM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVariogramCloud.resx">
+      <DependentUpon>frmVariogramCloud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViloinPlot.resx">
+      <DependentUpon>frmViloinPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVisDN.resx">
+      <DependentUpon>frmVisDN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVisEntropy.resx">
+      <DependentUpon>frmVisEntropy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVisProbEnt.resx">
+      <DependentUpon>frmVisProbEnt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddFeatureClass.bmp" />
+    <Content Include="App.ico" />
+    <EmbeddedResource Include="LayerSymbology.bmp" />
+    <None Include="bin\Debug\startup.png" />
+    <Content Include="Earth.ico" />
+    <None Include="Resources\icon6_0307.png" />
+    <EmbeddedResource Include="SaveLayerFile.bmp" />
+    <EmbeddedResource Include="ZoomToSelectedFeatures.bmp" />
+    <EmbeddedResource Include="ZoomToLayer.bmp" />
+    <EmbeddedResource Include="LinkingTool.cur" />
+    <EmbeddedResource Include="LinkingTool.bmp" />
+    <EmbeddedResource Include="ToolCumsum.cur" />
+    <EmbeddedResource Include="ToolCumsum.bmp" />
+    <EmbeddedResource Include="toolHistogram.bmp" />
+    <EmbeddedResource Include="toolHistogram.cur" />
+    <EmbeddedResource Include="toolDenPlot.cur" />
+    <EmbeddedResource Include="toolDenPlot.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
