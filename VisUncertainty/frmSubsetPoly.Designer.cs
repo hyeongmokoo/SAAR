@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSubsetPoly));
             this.label5 = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 67;
             this.label5.Text = "Input Polygon:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // btnApply
             // 
@@ -76,11 +78,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(243, 105);
             this.Controls.Add(this.cboTargetLayer);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.label5);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSubsetPoly";
             this.Text = "Clipping by Polygon";
             this.ResumeLayout(false);

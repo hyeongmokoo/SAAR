@@ -125,7 +125,7 @@ namespace VisUncertainty
                     MessageBox.Show("Please select the dependent input variables to be used in the regression model.",
                         "Please choose at least one input variable");
                 }
-                if (lstIndeVar.Items.Count == 0)
+                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
@@ -147,14 +147,6 @@ namespace VisUncertainty
                     independentNames[j] = (string)lstIndeVar.Items[j];
                 }
 
-                // Creates the input and output matrices from the shapefile//
-                //string strLayerName = cboTargetLayer.Text;
-
-                //int intLIndex = m_pSnippet.GetIndexNumberFromLayerName(m_pActiveView, strLayerName);
-                //ILayer pLayer = m_pForm.axMapControl1.get_Layer(intLIndex);
-
-                //IFeatureLayer pFLayer = pLayer as IFeatureLayer;
-                //ESRI.ArcGIS.Geodatabase.IFeatureClass pFClass = pFLayer.FeatureClass;
                 int nFeature = m_pFClass.FeatureCount(null);
 
                 //Warning for method
@@ -247,15 +239,19 @@ namespace VisUncertainty
                 else
                     plotCommmand.Append("spautolm(" + dependentName + "~");
 
-
-                for (int j = 0; j < nIDepen; j++)
+                if (chkIntercept.Checked == false)
                 {
-                    //double[] arrVector = arrInDepen.GetColumn<double>(j);
-                    NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
-                    m_pEngine.SetSymbol(independentNames[j], vecIndepen);
-                    plotCommmand.Append(independentNames[j] + "+");
+                    for (int j = 0; j < nIDepen; j++)
+                    {
+                        //double[] arrVector = arrInDepen.GetColumn<double>(j);
+                        NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
+                        m_pEngine.SetSymbol(independentNames[j], vecIndepen);
+                        plotCommmand.Append(independentNames[j] + "+");
+                    }
+                    plotCommmand.Remove(plotCommmand.Length - 1, 1);
                 }
-                plotCommmand.Remove(plotCommmand.Length - 1, 1);
+                else
+                    plotCommmand.Append("1");
 
                 //Select Method
                 if (rbtEigen.Checked)
@@ -477,6 +473,8 @@ namespace VisUncertainty
 
                     //Get EVs and residuals
                     NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sum.lm$residuals)").AsNumeric();
+                    if (rbtCAR.Checked || rbtSMA.Checked)
+                        nvResiduals = m_pEngine.Evaluate("as.numeric(sum.lm$fit$residuals)").AsNumeric();
 
                     // Create field, if there isn't
                     if (m_pFClass.FindField(strResiFldName) == -1)
@@ -869,5 +867,22 @@ namespace VisUncertainty
         }
         #endregion
 
+        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIntercept.Checked == false)
+            {
+                lstFields.Enabled = true;
+                lstIndeVar.Enabled = true;
+                btnMoveLeft.Enabled = true;
+                btnMoveRight.Enabled = true;
+            }
+            else
+            {
+                lstFields.Enabled = false;
+                lstIndeVar.Enabled = false;
+                btnMoveLeft.Enabled = false;
+                btnMoveRight.Enabled = false;
+            }
+        }
     }
 }

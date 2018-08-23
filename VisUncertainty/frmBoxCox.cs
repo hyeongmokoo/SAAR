@@ -153,7 +153,12 @@ namespace VisUncertainty
 
         private void trbGamma_MouseUp(object sender, MouseEventArgs e)
         {
-            trbGamma.Value = Convert.ToInt32(Convert.ToDouble(nudGamma.Value * 200) / (m_dblIinValue));
+            if (trbGamma.Value == -200)
+                trbGamma.Value = -199; //To avoid Error occured by zero value transformation
+
+            nudGamma.Value = Convert.ToDecimal((Convert.ToDouble(trbGamma.Value) * m_dblIinValue) / 200);
+
+            //trbGamma.Value = Convert.ToInt32(Convert.ToDouble(nudGamma.Value * 200) / (m_dblIinValue));
         }
 
         private void btnAddPlot_Click(object sender, EventArgs e)

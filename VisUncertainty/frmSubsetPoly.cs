@@ -69,5 +69,10 @@ namespace VisUncertainty
             m_pFLayer = pLayer as IFeatureLayer;
             
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

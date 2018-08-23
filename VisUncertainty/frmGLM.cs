@@ -200,7 +200,7 @@ namespace VisUncertainty
                         "Please choose at least one input variable");
                     return;
                 }
-                if (lstIndeVar.Items.Count == 0)
+                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
@@ -344,13 +344,18 @@ namespace VisUncertainty
                 else
                     plotCommmand.Append(dependentName + "~");
 
-                for (int j = 0; j < nIDepen; j++)
+                if (chkIntercept.Checked == false)
                 {
-                    NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
-                    m_pEngine.SetSymbol(independentNames[j], vecIndepen);
-                    plotCommmand.Append(independentNames[j] + "+");
+                    for (int j = 0; j < nIDepen; j++)
+                    {
+                        NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
+                        m_pEngine.SetSymbol(independentNames[j], vecIndepen);
+                        plotCommmand.Append(independentNames[j] + "+");
+                    }
+                    plotCommmand.Remove(plotCommmand.Length - 1, 1);
                 }
-                plotCommmand.Remove(plotCommmand.Length - 1, 1);
+                else
+                    plotCommmand.Append("1");
 
                 if (cboFamily.Text == "Poisson")
                 {
@@ -861,6 +866,24 @@ namespace VisUncertainty
                 lblSWM.Enabled = false;
                 txtSWM.Enabled = false;
                 btnOpenSWM.Enabled = false;
+            }
+        }
+
+        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIntercept.Checked == false)
+            {
+                lstFields.Enabled = true;
+                lstIndeVar.Enabled = true;
+                btnMoveLeft.Enabled = true;
+                btnMoveRight.Enabled = true;
+            }
+            else
+            {
+                lstFields.Enabled = false;
+                lstIndeVar.Enabled = false;
+                btnMoveLeft.Enabled = false;
+                btnMoveRight.Enabled = false;
             }
         }
     }

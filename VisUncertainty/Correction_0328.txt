@@ -3,3 +3,5 @@ Checking Custom color ramps,
 Change the scale bar properity as modal.
 Label for frmAdvSWM
 Field calculator (ArcGIS )
+Linking and brushing with Original QQ-plot in BoxCox tool
+Change menu name (Uncertainty vis)

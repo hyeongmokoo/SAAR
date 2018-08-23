@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Residuals",
             "esf_resi"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Spatial Filter",
             "sfilter"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmESF));
@@ -67,6 +67,7 @@
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
+            this.chkIntercept = new System.Windows.Forms.CheckBox();
             this.grbEV.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEValue)).BeginInit();
             this.grbSave.SuspendLayout();
@@ -244,7 +245,7 @@
             this.lstFields.Location = new System.Drawing.Point(17, 201);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 173);
+            this.lstFields.Size = new System.Drawing.Size(113, 147);
             this.lstFields.TabIndex = 43;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -254,7 +255,7 @@
             this.lstIndeVar.Location = new System.Drawing.Point(170, 201);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 173);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 147);
             this.lstIndeVar.TabIndex = 42;
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
@@ -305,8 +306,8 @@
             this.lstSave.Enabled = false;
             this.lstSave.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstSave.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
             this.lstSave.LabelEdit = true;
             this.lstSave.Location = new System.Drawing.Point(12, 45);
             this.lstSave.Name = "lstSave";
@@ -411,12 +412,24 @@
             this.ofdOpenSWM.Filter = "GAL files|*.gal|GWT files|*.gwt";
             this.ofdOpenSWM.Title = "Open GAL files";
             // 
+            // chkIntercept
+            // 
+            this.chkIntercept.AutoSize = true;
+            this.chkIntercept.Location = new System.Drawing.Point(17, 355);
+            this.chkIntercept.Name = "chkIntercept";
+            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
+            this.chkIntercept.TabIndex = 64;
+            this.chkIntercept.Text = "Regression with an intercept only";
+            this.chkIntercept.UseVisualStyleBackColor = true;
+            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
+            // 
             // frmESF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(579, 393);
+            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.btnOpenSWM);
             this.Controls.Add(this.txtSWM);
             this.Controls.Add(this.label6);
@@ -488,5 +501,6 @@
         private System.Windows.Forms.TextBox txtSWM;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.OpenFileDialog ofdOpenSWM;
+        private System.Windows.Forms.CheckBox chkIntercept;
     }
 }

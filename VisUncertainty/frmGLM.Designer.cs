@@ -60,13 +60,14 @@
             this.btnOpenSWM = new System.Windows.Forms.Button();
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.lblSWM = new System.Windows.Forms.Label();
+            this.chkIntercept = new System.Windows.Forms.CheckBox();
             this.grbSave.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(462, 276);
+            this.btnCancel.Location = new System.Drawing.Point(462, 307);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(115, 23);
             this.btnCancel.TabIndex = 35;
@@ -76,7 +77,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(303, 276);
+            this.btnRun.Location = new System.Drawing.Point(303, 307);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(115, 23);
             this.btnRun.TabIndex = 34;
@@ -145,7 +146,7 @@
             this.lstFields.Location = new System.Drawing.Point(13, 198);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 121);
+            this.lstFields.Size = new System.Drawing.Size(113, 108);
             this.lstFields.TabIndex = 27;
             // 
             // lstIndeVar
@@ -154,7 +155,7 @@
             this.lstIndeVar.Location = new System.Drawing.Point(166, 201);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 121);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 108);
             this.lstIndeVar.TabIndex = 26;
             // 
             // label1
@@ -220,7 +221,7 @@
             this.grbSave.Controls.Add(this.cboResiType);
             this.grbSave.Controls.Add(this.lstSave);
             this.grbSave.Controls.Add(this.chkSave);
-            this.grbSave.Location = new System.Drawing.Point(303, 125);
+            this.grbSave.Location = new System.Drawing.Point(303, 146);
             this.grbSave.Name = "grbSave";
             this.grbSave.Size = new System.Drawing.Size(274, 130);
             this.grbSave.TabIndex = 71;
@@ -295,7 +296,7 @@
             this.groupBox1.Controls.Add(this.btnOpenSWM);
             this.groupBox1.Controls.Add(this.txtSWM);
             this.groupBox1.Controls.Add(this.lblSWM);
-            this.groupBox1.Location = new System.Drawing.Point(303, 25);
+            this.groupBox1.Location = new System.Drawing.Point(303, 46);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(274, 90);
             this.groupBox1.TabIndex = 91;
@@ -342,12 +343,24 @@
             this.lblSWM.TabIndex = 87;
             this.lblSWM.Text = "Spatial Weight Matrix";
             // 
+            // chkIntercept
+            // 
+            this.chkIntercept.AutoSize = true;
+            this.chkIntercept.Location = new System.Drawing.Point(20, 315);
+            this.chkIntercept.Name = "chkIntercept";
+            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
+            this.chkIntercept.TabIndex = 92;
+            this.chkIntercept.Text = "Regression with an intercept only";
+            this.chkIntercept.UseVisualStyleBackColor = true;
+            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
+            // 
             // frmGLM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(596, 346);
+            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grbSave);
             this.Controls.Add(this.cboNormalization);
@@ -410,5 +423,6 @@
         private System.Windows.Forms.Button btnOpenSWM;
         private System.Windows.Forms.TextBox txtSWM;
         private System.Windows.Forms.Label lblSWM;
+        private System.Windows.Forms.CheckBox chkIntercept;
     }
 }

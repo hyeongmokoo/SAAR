@@ -55,6 +55,7 @@
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.lblSWM = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkIntercept = new System.Windows.Forms.CheckBox();
             this.grbSave.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +72,7 @@
             // cboTargetLayer
             // 
             this.cboTargetLayer.FormattingEnabled = true;
-            this.cboTargetLayer.Location = new System.Drawing.Point(13, 25);
+            this.cboTargetLayer.Location = new System.Drawing.Point(14, 25);
             this.cboTargetLayer.Name = "cboTargetLayer";
             this.cboTargetLayer.Size = new System.Drawing.Size(266, 21);
             this.cboTargetLayer.TabIndex = 10;
@@ -83,7 +84,7 @@
             this.lstIndeVar.Location = new System.Drawing.Point(166, 122);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 121);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 134);
             this.lstIndeVar.TabIndex = 12;
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
@@ -93,7 +94,7 @@
             this.lstFields.Location = new System.Drawing.Point(13, 119);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 121);
+            this.lstFields.Size = new System.Drawing.Size(113, 134);
             this.lstFields.TabIndex = 13;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -128,7 +129,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 49);
+            this.label2.Location = new System.Drawing.Point(12, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 16;
@@ -154,7 +155,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(15, 483);
+            this.btnRun.Location = new System.Drawing.Point(310, 260);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(115, 23);
             this.btnRun.TabIndex = 20;
@@ -164,7 +165,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(161, 483);
+            this.btnCancel.Location = new System.Drawing.Point(456, 260);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(115, 23);
             this.btnCancel.TabIndex = 22;
@@ -175,7 +176,7 @@
             // chkPlots
             // 
             this.chkPlots.AutoSize = true;
-            this.chkPlots.Location = new System.Drawing.Point(14, 250);
+            this.chkPlots.Location = new System.Drawing.Point(309, 27);
             this.chkPlots.Name = "chkPlots";
             this.chkPlots.Size = new System.Drawing.Size(137, 17);
             this.chkPlots.TabIndex = 23;
@@ -199,7 +200,7 @@
             // 
             this.grbSave.Controls.Add(this.lstSave);
             this.grbSave.Controls.Add(this.chkSave);
-            this.grbSave.Location = new System.Drawing.Point(14, 364);
+            this.grbSave.Location = new System.Drawing.Point(309, 141);
             this.grbSave.Name = "grbSave";
             this.grbSave.Size = new System.Drawing.Size(264, 111);
             this.grbSave.TabIndex = 57;
@@ -278,19 +279,31 @@
             this.groupBox1.Controls.Add(this.btnOpenSWM);
             this.groupBox1.Controls.Add(this.txtSWM);
             this.groupBox1.Controls.Add(this.lblSWM);
-            this.groupBox1.Location = new System.Drawing.Point(15, 270);
+            this.groupBox1.Location = new System.Drawing.Point(310, 47);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(261, 90);
             this.groupBox1.TabIndex = 90;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Residual analysis";
             // 
+            // chkIntercept
+            // 
+            this.chkIntercept.AutoSize = true;
+            this.chkIntercept.Location = new System.Drawing.Point(14, 269);
+            this.chkIntercept.Name = "chkIntercept";
+            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
+            this.chkIntercept.TabIndex = 93;
+            this.chkIntercept.Text = "Regression with an intercept only";
+            this.chkIntercept.UseVisualStyleBackColor = true;
+            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
+            // 
             // frmRegression
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(300, 515);
+            this.ClientSize = new System.Drawing.Size(596, 298);
+            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grbSave);
             this.Controls.Add(this.chkPlots);
@@ -345,5 +358,6 @@
         private System.Windows.Forms.TextBox txtSWM;
         private System.Windows.Forms.Label lblSWM;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox chkIntercept;
     }
 }

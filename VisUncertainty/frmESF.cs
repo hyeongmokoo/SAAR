@@ -174,7 +174,7 @@ namespace VisUncertainty
                         "Please choose at least one input variable");
                     return;
                 }
-                if (lstIndeVar.Items.Count == 0)
+                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
@@ -316,15 +316,22 @@ namespace VisUncertainty
                 else
                     plotCommmand.Append(dependentName + "~");
 
-                for (int j = 0; j < nIDepen; j++)
+                if(chkIntercept.Checked == false)
                 {
-                    //double[] arrVector = arrInDepen.GetColumn<double>(j);
-                    //NumericVector vecIndepen = pEngine.CreateNumericVector(arrVector);
-                    NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
-                    m_pEngine.SetSymbol(independentNames[j], vecIndepen);
-                    plotCommmand.Append(independentNames[j] + "+");
+                    for (int j = 0; j < nIDepen; j++)
+                    {
+                        //double[] arrVector = arrInDepen.GetColumn<double>(j);
+                        //NumericVector vecIndepen = pEngine.CreateNumericVector(arrVector);
+                        NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
+                        m_pEngine.SetSymbol(independentNames[j], vecIndepen);
+                        plotCommmand.Append(independentNames[j] + "+");
+                    }
+                    plotCommmand.Remove(plotCommmand.Length - 1, 1);
                 }
-                plotCommmand.Remove(plotCommmand.Length - 1, 1);
+                else
+                {
+                    plotCommmand.Append("1");
+                }
 
                 m_pEngine.Evaluate("sample.n <- length(sample.nb)");
                 m_pEngine.Evaluate("B <- listw2mat(sample.listb); M <- diag(sample.n) - matrix(1/sample.n, sample.n, sample.n); MBM <- M%*%B%*%M");
@@ -1309,6 +1316,24 @@ namespace VisUncertainty
             pfrmAdvSWM.ShowDialog();
             m_blnCreateSWM = pfrmAdvSWM.blnSWMCreation;
             txtSWM.Text = pfrmAdvSWM.txtSWM.Text;
+        }
+
+        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkIntercept.Checked == false)
+            {
+                lstFields.Enabled = true;
+                lstIndeVar.Enabled = true;
+                btnMoveLeft.Enabled = true;
+                btnMoveRight.Enabled = true;
+            }
+            else
+            {
+                lstFields.Enabled = false;
+                lstIndeVar.Enabled = false;
+                btnMoveLeft.Enabled = false;
+                btnMoveRight.Enabled = false;
+            }
         }
     }
 }

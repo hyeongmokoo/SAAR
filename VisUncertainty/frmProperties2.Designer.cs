@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProperties2));
             this.tbpGeneral = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtFilePath = new System.Windows.Forms.TextBox();
-            this.lblLayerName = new System.Windows.Forms.TextBox();
-            this.lblLayerProjection = new System.Windows.Forms.TextBox();
-            this.tbcProperties = new System.Windows.Forms.TabControl();
             this.btnClose = new System.Windows.Forms.Button();
+            this.lblLayerProjection = new System.Windows.Forms.TextBox();
+            this.lblLayerName = new System.Windows.Forms.TextBox();
+            this.txtFilePath = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbcProperties = new System.Windows.Forms.TabControl();
             this.tbpGeneral.SuspendLayout();
             this.tbcProperties.SuspendLayout();
             this.SuspendLayout();
@@ -53,66 +54,76 @@
             this.tbpGeneral.Location = new System.Drawing.Point(4, 22);
             this.tbpGeneral.Name = "tbpGeneral";
             this.tbpGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpGeneral.Size = new System.Drawing.Size(502, 228);
+            this.tbpGeneral.Size = new System.Drawing.Size(429, 249);
             this.tbpGeneral.TabIndex = 1;
             this.tbpGeneral.Text = "General";
             this.tbpGeneral.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // btnClose
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 12);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Coordinate:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 12);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Layer Name:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 12);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Date Source:";
-            // 
-            // txtFilePath
-            // 
-            this.txtFilePath.BackColor = System.Drawing.SystemColors.Window;
-            this.txtFilePath.Location = new System.Drawing.Point(93, 102);
-            this.txtFilePath.Multiline = true;
-            this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.ReadOnly = true;
-            this.txtFilePath.Size = new System.Drawing.Size(383, 78);
-            this.txtFilePath.TabIndex = 18;
-            // 
-            // lblLayerName
-            // 
-            this.lblLayerName.BackColor = System.Drawing.SystemColors.Window;
-            this.lblLayerName.Location = new System.Drawing.Point(93, 11);
-            this.lblLayerName.Name = "lblLayerName";
-            this.lblLayerName.ReadOnly = true;
-            this.lblLayerName.Size = new System.Drawing.Size(295, 21);
-            this.lblLayerName.TabIndex = 19;
+            this.btnClose.Location = new System.Drawing.Point(324, 202);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(84, 25);
+            this.btnClose.TabIndex = 21;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblLayerProjection
             // 
             this.lblLayerProjection.BackColor = System.Drawing.SystemColors.Window;
-            this.lblLayerProjection.Location = new System.Drawing.Point(93, 40);
+            this.lblLayerProjection.Location = new System.Drawing.Point(80, 43);
             this.lblLayerProjection.Multiline = true;
             this.lblLayerProjection.Name = "lblLayerProjection";
             this.lblLayerProjection.ReadOnly = true;
-            this.lblLayerProjection.Size = new System.Drawing.Size(383, 52);
+            this.lblLayerProjection.Size = new System.Drawing.Size(329, 56);
             this.lblLayerProjection.TabIndex = 20;
+            // 
+            // lblLayerName
+            // 
+            this.lblLayerName.BackColor = System.Drawing.SystemColors.Window;
+            this.lblLayerName.Location = new System.Drawing.Point(80, 12);
+            this.lblLayerName.Name = "lblLayerName";
+            this.lblLayerName.ReadOnly = true;
+            this.lblLayerName.Size = new System.Drawing.Size(253, 20);
+            this.lblLayerName.TabIndex = 19;
+            // 
+            // txtFilePath
+            // 
+            this.txtFilePath.BackColor = System.Drawing.SystemColors.Window;
+            this.txtFilePath.Location = new System.Drawing.Point(80, 111);
+            this.txtFilePath.Multiline = true;
+            this.txtFilePath.Name = "txtFilePath";
+            this.txtFilePath.ReadOnly = true;
+            this.txtFilePath.Size = new System.Drawing.Size(329, 84);
+            this.txtFilePath.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 118);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Date Source:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Layer Name:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 47);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Coordinate:";
             // 
             // tbcProperties
             // 
@@ -121,25 +132,16 @@
             this.tbcProperties.Location = new System.Drawing.Point(0, 0);
             this.tbcProperties.Name = "tbcProperties";
             this.tbcProperties.SelectedIndex = 0;
-            this.tbcProperties.Size = new System.Drawing.Size(510, 254);
+            this.tbcProperties.Size = new System.Drawing.Size(437, 275);
             this.tbcProperties.TabIndex = 1;
-            // 
-            // btnClose
-            // 
-            this.btnClose.Location = new System.Drawing.Point(378, 186);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(98, 23);
-            this.btnClose.TabIndex = 21;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // frmProperties2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 254);
+            this.ClientSize = new System.Drawing.Size(437, 275);
             this.Controls.Add(this.tbcProperties);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmProperties2";
             this.Text = "Properties";
             this.Load += new System.EventHandler(this.frmProperties2_Load);
