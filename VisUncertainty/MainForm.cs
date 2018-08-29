@@ -975,5 +975,11 @@ namespace VisUncertainty
             frmHierClustering pfrmHCluster = new frmHierClustering();
             pfrmHCluster.Show();
         }
+
+        private void spatiallyVaryingCoefficientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVaryingCoefficients pfrmVC = new frmVaryingCoefficients();
+            pfrmVC.Show();
+        }
     }
 }

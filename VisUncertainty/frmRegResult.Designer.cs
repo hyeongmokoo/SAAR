@@ -82,16 +82,16 @@
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgvResults.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvResults.RowTemplate.Height = 23;
-            this.dgvResults.Size = new System.Drawing.Size(465, 213);
+            this.dgvResults.Size = new System.Drawing.Size(465, 202);
             this.dgvResults.TabIndex = 2;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.txtOutput);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 213);
+            this.panel1.Location = new System.Drawing.Point(0, 202);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(465, 122);
+            this.panel1.Size = new System.Drawing.Size(465, 137);
             this.panel1.TabIndex = 3;
             // 
             // txtOutput
@@ -102,15 +102,15 @@
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
-            this.txtOutput.Size = new System.Drawing.Size(465, 122);
+            this.txtOutput.Size = new System.Drawing.Size(465, 137);
             this.txtOutput.TabIndex = 1;
-            this.txtOutput.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7";
+            this.txtOutput.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8";
             // 
             // frmRegResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 335);
+            this.ClientSize = new System.Drawing.Size(465, 339);
             this.Controls.Add(this.dgvResults);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

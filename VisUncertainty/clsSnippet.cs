@@ -594,6 +594,55 @@ namespace VisUncertainty
                 return;
             }
         }
+        public void MoveSelectedItemsinListBoxtoOtherCheckedListBox(ListBox FromListBox, CheckedListBox ToListBox)
+        {
+            try
+            {
+                int intSelectedItems = FromListBox.SelectedItems.Count;
+                int intToItemCount = ToListBox.Items.Count;
+                if (intSelectedItems > 0)
+                {
+                    for (int i = 0; i < intSelectedItems; i++)
+                    {
+                        ToListBox.Items.Add(FromListBox.SelectedItems[0]);
+                        FromListBox.Items.Remove(FromListBox.SelectedItems[0]);
+
+                    }
+                    FromListBox.ClearSelected();
+                }
+                else
+                    return;
+                ToListBox.SetItemChecked(intToItemCount, true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception:" + ex.Message);
+                return;
+            }
+        }
+        public void MoveSelectedItemsinCheckedListBoxtoOtherListBox(CheckedListBox FromListBox, ListBox ToListBox)
+        {
+            try
+            {
+                int intSelectedItems = FromListBox.SelectedItems.Count;
+                if (intSelectedItems > 0)
+                {
+                    for (int i = 0; i < intSelectedItems; i++)
+                    {
+                        ToListBox.Items.Add(FromListBox.SelectedItems[0]);
+                        FromListBox.Items.Remove(FromListBox.SelectedItems[0]);
+                    }
+                    FromListBox.ClearSelected();
+                }
+                else
+                    return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception:" + ex.Message);
+                return;
+            }
+        }
 
         public void MoveSelectedItemsinListBoxtoOtherListBox(ListBox FromListBox, ListBox ToListBox)
         {

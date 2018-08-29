@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisUncertainty", "VisUncertainty\VisUncertainty.csproj", "{9519B8F7-6C1C-4F6F-A7F2-CDF66B85FC46}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,12 @@ Global
 		{9519B8F7-6C1C-4F6F-A7F2-CDF66B85FC46}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9519B8F7-6C1C-4F6F-A7F2-CDF66B85FC46}.Release|x86.ActiveCfg = Release|x86
 		{9519B8F7-6C1C-4F6F-A7F2-CDF66B85FC46}.Release|x86.Build.0 = Release|x86
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Debug|Any CPU.ActiveCfg = Debug
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Debug|x86.ActiveCfg = Debug
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Release|Any CPU.ActiveCfg = Release
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Release|Mixed Platforms.ActiveCfg = Release
+		{31926D3A-79D9-41F0-8F7D-F15AF7C0F634}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,10 +31,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -470,6 +470,12 @@
     </Compile>
     <Compile Include="frmVariogramCloud.Designer.cs">
       <DependentUpon>frmVariogramCloud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVaryingCoefficients.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVaryingCoefficients.Designer.cs">
+      <DependentUpon>frmVaryingCoefficients.cs</DependentUpon>
     </Compile>
     <Compile Include="frmViloinPlot.cs">
       <SubType>Form</SubType>
@@ -1008,6 +1014,9 @@
     <EmbeddedResource Include="frmVariogramCloud.resx">
       <DependentUpon>frmVariogramCloud.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmVaryingCoefficients.resx">
+      <DependentUpon>frmVaryingCoefficients.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmViloinPlot.resx">
       <DependentUpon>frmViloinPlot.cs</DependentUpon>
     </EmbeddedResource>
@@ -1051,6 +1060,7 @@
     <Content Include="App.ico" />
     <EmbeddedResource Include="LayerSymbology.bmp" />
     <None Include="bin\Debug\startup.png" />
+    <None Include="bin\Debug\Icons\Main_256.ico" />
     <Content Include="Earth.ico" />
     <None Include="Resources\icon6_0307.png" />
     <EmbeddedResource Include="SaveLayerFile.bmp" />
@@ -1068,7 +1078,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4%28x86 및 x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
