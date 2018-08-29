@@ -7,7 +7,7 @@ This is a stand-alone software package for SDA in a geographic information syste
 SAAR provides an efficient working environment for both general and advanced GIS users. For general GIS users with limited programming skills, SAAR furnishes advanced SDA tools in a popular ArcGIS environment with graphical user interfaces. For advanced GIS users, SAAR offers an extensible GIS platform to help them customize and implement SDA functions with relatively little development effort. 
 
 You can find an installation file, a user tutorial and a sample dataset from the below:
-- [SAAR webpage] (https://thesaar.github.io/)
+- [SAAR webpage](https://thesaar.github.io)
 - [Developer's personal homepage](https://hymokoo.weebly.com/gis-applications.html)
 - [Download the current version of SAAR installation file](https://www.utdallas.edu/~yxc070300/SAAR/Setup_saar_103.msi)
 
