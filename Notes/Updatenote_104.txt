@@ -1,4 +1,4 @@
-1.0.4 Update (2018/09/07)
+1.0.4 Update (09/08/2018)
 
 Linear Regression tool
 : Modified the interface for an only-intercept model
