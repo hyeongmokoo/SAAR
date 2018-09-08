@@ -80,7 +80,10 @@ namespace VisUncertainty
                         lstFields.Items.Add(fields.get_Field(i).Name);
                     }
                 }
-                
+
+                //Add intercept in the listview for independent variables
+                lstIndeVar.Items.Add("Intercept");
+
                 //New Spatial Weight matrix function 080317
                 clsSnippet.SpatialWeightMatrixType pSWMType = new clsSnippet.SpatialWeightMatrixType();
                 if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon) //Apply Different Spatial weight matrix according to geometry type 07052017 HK
@@ -130,7 +133,7 @@ namespace VisUncertainty
                     MessageBox.Show("Please select the dependent input variables to be used in the regression model.",
                         "Please choose at least one input variable");
                 }
-                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
+                if (lstIndeVar.Items.Count == 0)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
@@ -141,8 +144,24 @@ namespace VisUncertainty
                 //Decimal places
                 int intDeciPlaces = 5;
 
-                //Get number of Independent variables            
-                int nIDepen = lstIndeVar.Items.Count;
+                //Get number of Independent variables 
+                int nIndevarlistCnt = lstIndeVar.Items.Count;
+                //Indicate an intercept only model (2) or a non-intercept model (1) or not (0)
+                int intInterceptModel = 1;
+                for (int j = 0; j < nIndevarlistCnt; j++)
+                {
+                    if ((string)lstIndeVar.Items[j] == "Intercept")
+                        intInterceptModel = 0;
+                }
+                if (nIndevarlistCnt == 1 && intInterceptModel == 0)
+                    intInterceptModel = 2;
+
+                int nIDepen = 0;
+                if (intInterceptModel == 0)
+                    nIDepen = nIndevarlistCnt - 1;
+                else if (intInterceptModel == 1)
+                    nIDepen = nIndevarlistCnt;
+
                 // Gets the column of the dependent variable
                 String dependentName = (string)cboFieldName.SelectedItem;
                 //sourceTable.AcceptChanges();
@@ -150,23 +169,21 @@ namespace VisUncertainty
 
                 // Gets the columns of the independent variables
                 String[] independentNames = new string[nIDepen];
-                for (int j = 0; j < nIDepen; j++)
+                int intIdices = 0;
+                string strIndependentName = "";
+                for (int j = 0; j < nIndevarlistCnt; j++)
                 {
-                    independentNames[j] = (string)lstIndeVar.Items[j];
+                    strIndependentName = (string)lstIndeVar.Items[j];
+                    if (strIndependentName != "Intercept")
+                    {
+                        independentNames[intIdices] = strIndependentName;
+                        intIdices++;
+                    }
                 }
-
                 // Creates the input and output matrices from the shapefile//
                 clsSnippet pSnippet = new clsSnippet();
-                //string strLayerName = cboTargetLayer.Text;
-
-                //int intLIndex = pSnippet.GetIndexNumberFromLayerName(m_pActiveView, strLayerName);
-                //ILayer pLayer = m_pForm.axMapControl1.get_Layer(intLIndex);
-
-                //IFeatureLayer pFLayer = pLayer as IFeatureLayer;
-                //IFeatureClass pFClass = pFLayer.FeatureClass;
 
                 int nFeature = m_pFClass.FeatureCount(null);
-
 
                 IFeatureCursor pFCursor = m_pFClass.Search(null, true);
                 IFeature pFeature = pFCursor.NextFeature();
@@ -216,19 +233,24 @@ namespace VisUncertainty
                 m_pEngine.SetSymbol(dependentName, vecDepen);
                 plotCommmand.Append("lm(" + dependentName + "~");
 
-                if (chkIntercept.Checked == false)
+                if (intInterceptModel == 2)
+                {
+                    plotCommmand.Append("1");
+                }
+                else
                 {
                     for (int j = 0; j < nIDepen; j++)
                     {
-                        //double[] arrVector = arrInDepen.GetColumn<double>(j);
                         NumericVector vecIndepen = m_pEngine.CreateNumericVector(arrInDepen[j]);
                         m_pEngine.SetSymbol(independentNames[j], vecIndepen);
                         plotCommmand.Append(independentNames[j] + "+");
                     }
                     plotCommmand.Remove(plotCommmand.Length - 1, 1);
+
+                    if (intInterceptModel == 1)
+                        plotCommmand.Append("-1");
                 }
-                else
-                    plotCommmand.Append("1");
+
 
                 plotCommmand.Append(")");
                 m_pEngine.Evaluate("sum.lm <- summary(" + plotCommmand + ")");
@@ -315,15 +337,19 @@ namespace VisUncertainty
                 dColPvT.DataType = System.Type.GetType("System.Double");
                 dColPvT.ColumnName = "Pr(>|t|)";
                 tblRegResult.Columns.Add(dColPvT);
+              
 
                 //Store Data Table by R result
-                for (int j = 0; j < nIDepen + 1; j++)
+                int intNCoeff = matCoe.RowCount;
+                for (int j = 0; j < intNCoeff; j++)
                 {
                     DataRow pDataRow = tblRegResult.NewRow();
-                    if (j == 0)
+                    if (j == 0 && intInterceptModel !=1)
                     {
                         pDataRow["Name"] = "(Intercept)";
                     }
+                    else if (intInterceptModel == 1)
+                        pDataRow["Name"] = independentNames[j];
                     else
                     {
                         pDataRow["Name"] = independentNames[j - 1];
@@ -353,7 +379,7 @@ namespace VisUncertainty
                 strResults[1] = "Multiple R-squared: " + dblRsqaure.ToString("N" + intDeciPlaces.ToString()) +
                     ", Adjusted R-squared: " + dblAdjRsqaure.ToString("N" + intDeciPlaces.ToString());
 
-                if (chkIntercept.Checked == false)
+                if (intInterceptModel != 2)
                 {
                     strResults[2] = "F-Statistic: " + vecF[0].ToString("N" + intDeciPlaces.ToString()) +
                     " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value: " + dblPValueF.ToString("N" + intDeciPlaces.ToString());
@@ -621,22 +647,22 @@ namespace VisUncertainty
             }
         }
 
-        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkIntercept.Checked == false)
-            {
-                lstFields.Enabled = true;
-                lstIndeVar.Enabled = true;
-                btnMoveLeft.Enabled = true;
-                btnMoveRight.Enabled = true;
-            }
-            else
-            {
-                lstFields.Enabled = false;
-                lstIndeVar.Enabled = false;
-                btnMoveLeft.Enabled = false;
-                btnMoveRight.Enabled = false;
-            }
-        }
+        //private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (chkIntercept.Checked == false)
+        //    {
+        //        lstFields.Enabled = true;
+        //        lstIndeVar.Enabled = true;
+        //        btnMoveLeft.Enabled = true;
+        //        btnMoveRight.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        lstFields.Enabled = false;
+        //        lstIndeVar.Enabled = false;
+        //        btnMoveLeft.Enabled = false;
+        //        btnMoveRight.Enabled = false;
+        //    }
+        //}
     }
 }

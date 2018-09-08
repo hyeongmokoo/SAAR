@@ -67,7 +67,6 @@
             this.rbtSMA = new System.Windows.Forms.RadioButton();
             this.rbtError = new System.Windows.Forms.RadioButton();
             this.rbtLag = new System.Windows.Forms.RadioButton();
-            this.chkIntercept = new System.Windows.Forms.CheckBox();
             this.grbSave.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -155,7 +154,7 @@
             this.lstFields.Location = new System.Drawing.Point(17, 171);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 147);
+            this.lstFields.Size = new System.Drawing.Size(113, 173);
             this.lstFields.TabIndex = 27;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -165,7 +164,7 @@
             this.lstIndeVar.Location = new System.Drawing.Point(170, 173);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 147);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 173);
             this.lstIndeVar.TabIndex = 26;
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
@@ -418,24 +417,12 @@
             this.rbtLag.Text = "AR (Spatial Lag)";
             this.rbtLag.UseVisualStyleBackColor = true;
             // 
-            // chkIntercept
-            // 
-            this.chkIntercept.AutoSize = true;
-            this.chkIntercept.Location = new System.Drawing.Point(17, 332);
-            this.chkIntercept.Name = "chkIntercept";
-            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
-            this.chkIntercept.TabIndex = 94;
-            this.chkIntercept.Text = "Regression with an intercept only";
-            this.chkIntercept.UseVisualStyleBackColor = true;
-            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
-            // 
             // frmSpatialRegression
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(607, 367);
-            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.grbSave);
             this.Controls.Add(this.btnOpenSWM);
@@ -507,6 +494,5 @@
         private System.Windows.Forms.RadioButton rbtSMA;
         private System.Windows.Forms.RadioButton rbtError;
         private System.Windows.Forms.RadioButton rbtLag;
-        private System.Windows.Forms.CheckBox chkIntercept;
     }
 }

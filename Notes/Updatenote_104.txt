@@ -1,0 +1,28 @@
+1.0.4 Update (2018/09/07)
+
+Linear Regression tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+
+GLM Tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+: Added a logistic regression option
+: Added double click events for the fields and indepedent listviews
+: Removed Nagelkerke pseudo R squared when calculating a non-intercept model
+
+Spatial Autoregression
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+
+ESF Tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+: Added a logistic regression option
+: Modified the candidate eigenvector selection methods to calculate eigenvalues ratio based on negative extreme value for negative eigenvector selection
+: Removed Nagelkerke pseudo R squared when calculating a non-intercept model
+
+Create Spatial Weights Matrix tool
+: Created SWM in R, previous in ArcObject
+: Added options like the advanced spatial weights matrix function that can be loaded in the tools by clicking the ... button(e.g., spatial autocorrelation and regression tools) 
+ 

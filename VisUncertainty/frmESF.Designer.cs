@@ -67,7 +67,6 @@
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
-            this.chkIntercept = new System.Windows.Forms.CheckBox();
             this.grbEV.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEValue)).BeginInit();
             this.grbSave.SuspendLayout();
@@ -205,7 +204,7 @@
             // cboFieldName
             // 
             this.cboFieldName.FormattingEnabled = true;
-            this.cboFieldName.Location = new System.Drawing.Point(15, 111);
+            this.cboFieldName.Location = new System.Drawing.Point(14, 111);
             this.cboFieldName.Name = "cboFieldName";
             this.cboFieldName.Size = new System.Drawing.Size(265, 21);
             this.cboFieldName.TabIndex = 47;
@@ -213,7 +212,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 95);
+            this.label2.Location = new System.Drawing.Point(14, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 46;
@@ -245,7 +244,7 @@
             this.lstFields.Location = new System.Drawing.Point(17, 201);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 147);
+            this.lstFields.Size = new System.Drawing.Size(113, 173);
             this.lstFields.TabIndex = 43;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -255,14 +254,14 @@
             this.lstIndeVar.Location = new System.Drawing.Point(170, 201);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 147);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 173);
             this.lstIndeVar.TabIndex = 42;
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 9);
+            this.label1.Location = new System.Drawing.Point(14, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 13);
             this.label1.TabIndex = 41;
@@ -344,8 +343,9 @@
             this.cboFamily.Items.AddRange(new object[] {
             "Linear (Gaussian)",
             "Poisson",
-            "Binomial"});
-            this.cboFamily.Location = new System.Drawing.Point(13, 68);
+            "Binomial",
+            "Logistic"});
+            this.cboFamily.Location = new System.Drawing.Point(14, 68);
             this.cboFamily.Name = "cboFamily";
             this.cboFamily.Size = new System.Drawing.Size(265, 21);
             this.cboFamily.TabIndex = 58;
@@ -355,7 +355,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 52);
+            this.label5.Location = new System.Drawing.Point(14, 52);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(39, 13);
             this.label5.TabIndex = 57;
@@ -365,7 +365,7 @@
             // 
             this.cboNormalization.Enabled = false;
             this.cboNormalization.FormattingEnabled = true;
-            this.cboNormalization.Location = new System.Drawing.Point(13, 151);
+            this.cboNormalization.Location = new System.Drawing.Point(14, 151);
             this.cboNormalization.Name = "cboNormalization";
             this.cboNormalization.Size = new System.Drawing.Size(265, 21);
             this.cboNormalization.TabIndex = 60;
@@ -374,7 +374,7 @@
             // 
             this.lblNorm.AutoSize = true;
             this.lblNorm.Enabled = false;
-            this.lblNorm.Location = new System.Drawing.Point(13, 135);
+            this.lblNorm.Location = new System.Drawing.Point(14, 135);
             this.lblNorm.Name = "lblNorm";
             this.lblNorm.Size = new System.Drawing.Size(73, 13);
             this.lblNorm.TabIndex = 59;
@@ -412,24 +412,12 @@
             this.ofdOpenSWM.Filter = "GAL files|*.gal|GWT files|*.gwt";
             this.ofdOpenSWM.Title = "Open GAL files";
             // 
-            // chkIntercept
-            // 
-            this.chkIntercept.AutoSize = true;
-            this.chkIntercept.Location = new System.Drawing.Point(17, 355);
-            this.chkIntercept.Name = "chkIntercept";
-            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
-            this.chkIntercept.TabIndex = 64;
-            this.chkIntercept.Text = "Regression with an intercept only";
-            this.chkIntercept.UseVisualStyleBackColor = true;
-            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
-            // 
             // frmESF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(579, 393);
-            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.btnOpenSWM);
             this.Controls.Add(this.txtSWM);
             this.Controls.Add(this.label6);
@@ -501,6 +489,5 @@
         private System.Windows.Forms.TextBox txtSWM;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.OpenFileDialog ofdOpenSWM;
-        private System.Windows.Forms.CheckBox chkIntercept;
     }
 }

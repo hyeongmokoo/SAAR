@@ -103,6 +103,8 @@ namespace VisUncertainty
                             }
                         }
                     }
+                    //Add intercept in the listview for independent variables
+                    lstIndeVar.Items.Add("Intercept");
                 }
             }
             catch (Exception ex)
@@ -129,9 +131,23 @@ namespace VisUncertainty
                 if (cboTargetLayer.Text != "" && cboFamily.Text != "")
                 {
                     if (cboFamily.Text == "Binomial")
+                    {
                         lblNorm.Text = "Normalization:";
-                    else
+                        lblNorm.Enabled = true;
+                        cboNormalization.Enabled = true;
+                    }
+
+                    else if (cboFamily.Text == "Poisson")
+                    {
                         lblNorm.Text = "Offset (Optional):";
+                        lblNorm.Enabled = true;
+                        cboNormalization.Enabled = true;
+                    }
+                    else if (cboFamily.Text == "Logistic")
+                    {
+                        cboNormalization.Enabled = false;
+                        lblNorm.Enabled = false;
+                    }
 
                     string strLayerName = cboTargetLayer.Text;
 
@@ -149,7 +165,7 @@ namespace VisUncertainty
                     lstIndeVar.Items.Clear();
                     cboNormalization.Text = "";
 
-                    if (cboFamily.Text == "Poisson")
+                    if (cboFamily.Text == "Poisson"||cboFamily.Text == "Logistic")
                     {
                         for (int i = 0; i < fields.FieldCount; i++)
                         {
@@ -175,6 +191,8 @@ namespace VisUncertainty
                             }
                         }
                     }
+                    //Add intercept in the listview for independent variables
+                    lstIndeVar.Items.Add("Intercept");
 
                 }
             }
@@ -200,17 +218,18 @@ namespace VisUncertainty
                         "Please choose at least one input variable");
                     return;
                 }
-                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
+                if (lstIndeVar.Items.Count == 0)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
                     return;
                 }
-                if (cboFamily.Text == "Binomial" && cboNormalization.Text == "")
-                {
-                    MessageBox.Show("Please select a variable for normailization");
-                    return;
-                }
+                //if (cboFamily.Text == "Binomial" && cboNormalization.Text == "")
+                //{
+                //    MessageBox.Show("Please select a variable for normailization");
+                //    return;
+                //}
+
                 frmProgress pfrmProgress = new frmProgress();
                 pfrmProgress.lblStatus.Text = "Pre-Processing:";
                 pfrmProgress.pgbProgress.Style = ProgressBarStyle.Marquee;
@@ -220,8 +239,24 @@ namespace VisUncertainty
                 //Decimal places
                 int intDeciPlaces = 5;
 
-                //Get number of Independent variables            
-                int nIDepen = lstIndeVar.Items.Count;
+                //Get number of Independent variables 
+                int nIndevarlistCnt = lstIndeVar.Items.Count;
+                //Indicate an intercept only model (2) or a non-intercept model (1) or not (0)
+                int intInterceptModel = 1;
+                for (int j = 0; j < nIndevarlistCnt; j++)
+                {
+                    if ((string)lstIndeVar.Items[j] == "Intercept")
+                        intInterceptModel = 0;
+                }
+                if (nIndevarlistCnt == 1 && intInterceptModel == 0)
+                    intInterceptModel = 2;
+
+                int nIDepen = 0;
+                if (intInterceptModel == 0)
+                    nIDepen = nIndevarlistCnt - 1;
+                else if (intInterceptModel == 1)
+                    nIDepen = nIndevarlistCnt;
+
                 // Gets the column of the dependent variable
                 String dependentName = (string)cboFieldName.SelectedItem;
                 string strNoramlName = cboNormalization.Text;
@@ -230,23 +265,19 @@ namespace VisUncertainty
 
                 // Gets the columns of the independent variables
                 String[] independentNames = new string[nIDepen];
-                for (int j = 0; j < nIDepen; j++)
+                int intIdices = 0;
+                string strIndependentName = "";
+                for (int j = 0; j < nIndevarlistCnt; j++)
                 {
-                    independentNames[j] = (string)lstIndeVar.Items[j];
+                    strIndependentName = (string)lstIndeVar.Items[j];
+                    if (strIndependentName != "Intercept")
+                    {
+                        independentNames[intIdices] = strIndependentName;
+                        intIdices++;
+                    }
                 }
 
                 int nFeature = m_pFClass.FeatureCount(null);
-
-                //Warning for method
-                if (nFeature > m_pForm.intWarningCount)
-                {
-                    DialogResult dialogResult = MessageBox.Show("It might take a lot of time. Do you want to continue?", "Warning", MessageBoxButtons.YesNo);
-
-                    if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
 
                 IFeatureCursor pFCursor = m_pFLayer.Search(null, true);
                 IFeature pFeature = pFCursor.NextFeature();
@@ -293,6 +324,19 @@ namespace VisUncertainty
                     pFeature = pFCursor.NextFeature();
                 }
 
+                if (cboFamily.Text == "Binomial" && intNoramIdx == -1)
+                {
+                    double dblMaxDepen = arrDepen.Max();
+                    double dblMinDepen = arrDepen.Min();
+                    if (dblMinDepen < 0 || dblMaxDepen > 1)
+                    {
+                        MessageBox.Show("The value range of a dependent variable must be between 0 and 1");
+
+                        pfrmProgress.Close();
+                        return;
+                    }
+                }
+
                 //Plot command for R
                 StringBuilder plotCommmand = new StringBuilder();
 
@@ -327,9 +371,8 @@ namespace VisUncertainty
                 //Dependent variable to R vector
                 NumericVector vecDepen = m_pEngine.CreateNumericVector(arrDepen);
                 m_pEngine.SetSymbol(dependentName, vecDepen);
-                //plotCommmand.Append("lm.full <- " + dependentName + "~");
                 NumericVector vecNormal = null;
-                if (cboFamily.Text == "Binomial")
+                if (cboFamily.Text == "Binomial" && intNoramIdx != -1)
                 {
                     vecNormal = m_pEngine.CreateNumericVector(arrNormal);
                     m_pEngine.SetSymbol(strNoramlName, vecNormal);
@@ -344,7 +387,11 @@ namespace VisUncertainty
                 else
                     plotCommmand.Append(dependentName + "~");
 
-                if (chkIntercept.Checked == false)
+                if(intInterceptModel == 2)
+                {
+                    plotCommmand.Append("1");
+                }
+                else
                 {
                     for (int j = 0; j < nIDepen; j++)
                     {
@@ -353,16 +400,18 @@ namespace VisUncertainty
                         plotCommmand.Append(independentNames[j] + "+");
                     }
                     plotCommmand.Remove(plotCommmand.Length - 1, 1);
+
+                    if (intInterceptModel == 1)
+                        plotCommmand.Append("-1");
                 }
-                else
-                    plotCommmand.Append("1");
+
 
                 if (cboFamily.Text == "Poisson")
                 {
-                    PoissonRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, intDeciPlaces);
+                    PoissonRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, intDeciPlaces, intInterceptModel);
                 }
-                else if (cboFamily.Text == "Binomial")
-                    BinomRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, intDeciPlaces);
+                else if (cboFamily.Text == "Binomial" || cboFamily.Text == "Logistic")
+                    BinomRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, intDeciPlaces, intInterceptModel);
 
                 pfrmProgress.Close();
             }
@@ -373,7 +422,7 @@ namespace VisUncertainty
             }
         }
         
-        private void PoissonRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, int intDeciPlaces)
+        private void PoissonRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, int intDeciPlaces, int intInterceptModel)
         {
             pfrmProgress.lblStatus.Text = "Calculate Regression Coefficients";
 
@@ -443,19 +492,20 @@ namespace VisUncertainty
             dColPvT.ColumnName = "Pr(>|z|)";
             tblRegResult.Columns.Add(dColPvT);
 
-            int intNCoeff = nIDepen + 1;
+            int intNCoeff = matCoe.RowCount;
 
             //Store Data Table by R result
             for (int j = 0; j < intNCoeff; j++)
             {
                 DataRow pDataRow = tblRegResult.NewRow();
-                if (j == 0)
+                if (j == 0 && intInterceptModel != 1)
                 {
                     pDataRow["Name"] = "(Intercept)";
                 }
+                else if (intInterceptModel == 1)
+                    pDataRow["Name"] = independentNames[j];
                 else
                 {
-
                     pDataRow["Name"] = independentNames[j - 1];
                 }
                 pDataRow["Estimate"] = Math.Round(matCoe[j, 0], intDeciPlaces);
@@ -476,7 +526,10 @@ namespace VisUncertainty
             strResults[1] = "AIC: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
             strResults[2] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
             strResults[3] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
-            strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+            if (intInterceptModel != 1)
+                strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+            else
+                strResults[4] = "";
             if (chkResiAuto.Checked)
                 strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
             else
@@ -535,7 +588,7 @@ namespace VisUncertainty
             }
             pfrmRegResult.Show();
         }
-        private void BinomRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, int intDeciPlaces)
+        private void BinomRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, int intDeciPlaces, int intInterceptModel)
         {
             pfrmProgress.lblStatus.Text = "Calculate Regression Coefficients";
             m_pEngine.Evaluate("sample.glm <- glm(" + strLM + ", family='binomial')");
@@ -598,19 +651,20 @@ namespace VisUncertainty
             dColPvT.ColumnName = "Pr(>|z|)";
             tblRegResult.Columns.Add(dColPvT);
 
-            int intNCoeff = nIDepen + 1;
+            int intNCoeff = matCoe.RowCount;
 
             //Store Data Table by R result
             for (int j = 0; j < intNCoeff; j++)
             {
                 DataRow pDataRow = tblRegResult.NewRow();
-                if (j == 0)
+                if (j == 0 && intInterceptModel != 1)
                 {
                     pDataRow["Name"] = "(Intercept)";
                 }
+                else if (intInterceptModel == 1)
+                    pDataRow["Name"] = independentNames[j];
                 else
                 {
-
                     pDataRow["Name"] = independentNames[j - 1];
                 }
                 pDataRow["Estimate"] = Math.Round(matCoe[j, 0], intDeciPlaces);
@@ -631,7 +685,10 @@ namespace VisUncertainty
             strResults[1] = "AIC: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
             strResults[2] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
             strResults[3] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
-            strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+            if (intInterceptModel != 1)
+                strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+            else
+                strResults[4] = "";
             if (chkResiAuto.Checked)
                 strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
             else
@@ -869,22 +926,32 @@ namespace VisUncertainty
             }
         }
 
-        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        private void lstFields_DoubleClick(object sender, EventArgs e)
         {
-            if (chkIntercept.Checked == false)
-            {
-                lstFields.Enabled = true;
-                lstIndeVar.Enabled = true;
-                btnMoveLeft.Enabled = true;
-                btnMoveRight.Enabled = true;
-            }
-            else
-            {
-                lstFields.Enabled = false;
-                lstIndeVar.Enabled = false;
-                btnMoveLeft.Enabled = false;
-                btnMoveRight.Enabled = false;
-            }
+            m_pSnippet.MoveSelectedItemsinListBoxtoOtherListBox(lstFields, lstIndeVar);
         }
+
+        private void lstIndeVar_DoubleClick(object sender, EventArgs e)
+        {
+            m_pSnippet.MoveSelectedItemsinListBoxtoOtherListBox(lstIndeVar, lstFields);
+        }
+
+        //private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (chkIntercept.Checked == false)
+        //    {
+        //        lstFields.Enabled = true;
+        //        lstIndeVar.Enabled = true;
+        //        btnMoveLeft.Enabled = true;
+        //        btnMoveRight.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        lstFields.Enabled = false;
+        //        lstIndeVar.Enabled = false;
+        //        btnMoveLeft.Enabled = false;
+        //        btnMoveRight.Enabled = false;
+        //    }
+        //}
     }
 }

@@ -87,6 +87,8 @@ namespace VisUncertainty
                         lstFields.Items.Add(fields.get_Field(i).Name);
                     }
                 }
+                //Add intercept in the listview for independent variables
+                lstIndeVar.Items.Add("Intercept");
             }
             catch (Exception ex)
             {
@@ -125,7 +127,7 @@ namespace VisUncertainty
                     MessageBox.Show("Please select the dependent input variables to be used in the regression model.",
                         "Please choose at least one input variable");
                 }
-                if (lstIndeVar.Items.Count == 0 && chkIntercept.Checked == false)
+                if (lstIndeVar.Items.Count == 0)
                 {
                     MessageBox.Show("Please select independents input variables to be used in the regression model.",
                         "Please choose at least one input variable");
@@ -133,8 +135,24 @@ namespace VisUncertainty
                 //Decimal places
                 int intDeciPlaces = 5;
 
-                //Get number of Independent variables            
-                int nIDepen = lstIndeVar.Items.Count;
+                //Get number of Independent variables 
+                int nIndevarlistCnt = lstIndeVar.Items.Count;
+                //Indicate an intercept only model (2) or a non-intercept model (1) or not (0)
+                int intInterceptModel = 1;
+                for (int j = 0; j < nIndevarlistCnt; j++)
+                {
+                    if ((string)lstIndeVar.Items[j] == "Intercept")
+                        intInterceptModel = 0;
+                }
+                if (nIndevarlistCnt == 1 && intInterceptModel == 0)
+                    intInterceptModel = 2;
+
+                int nIDepen = 0;
+                if (intInterceptModel == 0)
+                    nIDepen = nIndevarlistCnt - 1;
+                else if (intInterceptModel == 1)
+                    nIDepen = nIndevarlistCnt;
+
                 // Gets the column of the dependent variable
                 String dependentName = (string)cboFieldName.SelectedItem;
                 //sourceTable.AcceptChanges();
@@ -142,26 +160,36 @@ namespace VisUncertainty
 
                 // Gets the columns of the independent variables
                 String[] independentNames = new string[nIDepen];
-                for (int j = 0; j < nIDepen; j++)
+                int intIdices = 0;
+                string strIndependentName = "";
+                for (int j = 0; j < nIndevarlistCnt; j++)
                 {
-                    independentNames[j] = (string)lstIndeVar.Items[j];
+                    strIndependentName = (string)lstIndeVar.Items[j];
+                    if (strIndependentName != "Intercept")
+                    {
+                        independentNames[intIdices] = strIndependentName;
+                        intIdices++;
+                    }
                 }
 
                 int nFeature = m_pFClass.FeatureCount(null);
 
                 //Warning for method
-                if (nFeature > m_pForm.intWarningCount)
+                if (rbtEigen.Checked)
                 {
-                    DialogResult dialogResult = MessageBox.Show("It might take a lot of time. Do you want to continue?", "Warning", MessageBoxButtons.YesNo);
-
-                    if (dialogResult == DialogResult.No)
+                    if (nFeature > m_pForm.intWarningCount)
                     {
-                        pfrmProgress.Close();
-                        return;
+
+                        DialogResult dialogResult = MessageBox.Show("It might take a lot of time. Do you want to continue?", "Warning", MessageBoxButtons.YesNo);
+
+                        if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return;
+                        }
                     }
                 }
-
-
+                
                 IFeatureCursor pFCursor = m_pFLayer.Search(null, true);
                 IFeature pFeature = pFCursor.NextFeature();
 
@@ -192,9 +220,7 @@ namespace VisUncertainty
 
                     for (int j = 0; j < nIDepen; j++)
                     {
-                        //arrInDepen[j] = new double[nFeature];
                         arrInDepen[j][i] = Convert.ToDouble(pFeature.get_Value(idxes[j]));
-                        //arrInDepen[i, j] = Convert.ToDouble(pFeature.get_Value(idxes[j]));
                     }
 
                     i++;
@@ -239,7 +265,11 @@ namespace VisUncertainty
                 else
                     plotCommmand.Append("spautolm(" + dependentName + "~");
 
-                if (chkIntercept.Checked == false)
+                if (intInterceptModel == 2)
+                {
+                    plotCommmand.Append("1");
+                }
+                else
                 {
                     for (int j = 0; j < nIDepen; j++)
                     {
@@ -249,9 +279,10 @@ namespace VisUncertainty
                         plotCommmand.Append(independentNames[j] + "+");
                     }
                     plotCommmand.Remove(plotCommmand.Length - 1, 1);
+
+                    if (intInterceptModel == 1)
+                        plotCommmand.Append("-1");
                 }
-                else
-                    plotCommmand.Append("1");
 
                 //Select Method
                 if (rbtEigen.Checked)
@@ -324,15 +355,11 @@ namespace VisUncertainty
                     dblAIC = (2 * dblParaCnt) - (2 * dblLRErrorModel);
                 }
                 
-                //int intNObser = pEngine.Evaluate("as.numeric(nrow(sum.lm$X))").AsInteger().First();
-                //int intNParmeter = pEngine.Evaluate(" as.numeric(sum.lm$parameters)").AsInteger().First();
-                
                 double dblLambda = 0;
                 double dblSELambda = 0;
                 double dblResiAuto = 0;
                 double dblResiAutoP = 0;
-
-
+                
                 if(rbtLag.Checked||rbtDurbin.Checked)
                 {
                     dblLambda = m_pEngine.Evaluate("as.numeric(sum.lm$rho)").AsNumeric().First();
@@ -345,8 +372,11 @@ namespace VisUncertainty
                     dblLambda = m_pEngine.Evaluate("as.numeric(sum.lm$lambda)").AsNumeric().First();
                     dblSELambda = m_pEngine.Evaluate("as.numeric(sum.lm$lambda.se)").AsNumeric().First();
                 }
-                double dblRsquared = m_pEngine.Evaluate("as.numeric(sum.lm$NK)").AsNumeric().First();
-                //Draw result form
+
+                double dblRsquared = 0;
+                if(intInterceptModel != 1)
+                    dblRsquared = m_pEngine.Evaluate("as.numeric(sum.lm$NK)").AsNumeric().First();
+
 
                 //Open Ouput form
                 frmRegResult pfrmRegResult = new frmRegResult();
@@ -392,25 +422,40 @@ namespace VisUncertainty
                 dColPvT.ColumnName = "Pr(>|z|)";
                 tblRegResult.Columns.Add(dColPvT);
 
-                if (rbtDurbin.Checked)
-                    nIDepen = nIDepen * 2;
+                //if (rbtDurbin.Checked)
+                //    nIDepen = nIDepen * 2;
+
+                int intNCoeff = matCoe.RowCount;
 
                 //Store Data Table by R result
-                for (int j = 0; j < nIDepen + 1; j++)
+                for (int j = 0; j < intNCoeff; j++)
                 {
                     DataRow pDataRow = tblRegResult.NewRow();
-                    if (j == 0)
+                    if (j == 0 && intInterceptModel != 1)
                     {
                         pDataRow["Name"] = "(Intercept)";
+                    }
+                    else if (intInterceptModel == 1)
+                    {
+                        if (rbtDurbin.Checked)
+                        {
+                            if (j < intNCoeff / 2)
+                                pDataRow["Name"] = independentNames[j];
+                            else
+                                pDataRow["Name"] = "lag." + independentNames[j - (intNCoeff / 2)];
+
+                        }
+                        else
+                            pDataRow["Name"] = independentNames[j];
                     }
                     else
                     {
                         if (rbtDurbin.Checked)
                         {
-                            if(j <= nIDepen /2)
+                            if(j < intNCoeff / 2)
                                 pDataRow["Name"] = independentNames[j - 1];
                             else
-                                pDataRow["Name"] = "lag." + independentNames[j - (nIDepen / 2) - 1];
+                                pDataRow["Name"] = "lag." + independentNames[j - (intNCoeff / 2) - 1];
 
                         }
                         else
@@ -460,7 +505,10 @@ namespace VisUncertainty
                         ", Sigma-squared: " + dblSigmasquared.ToString(strDecimalPlaces);
                     strResults[3] = "AIC: " + dblAIC.ToString(strDecimalPlaces);
                 }
-                strResults[4] = "Nagelkerke pseudo-R-squared: " + dblRsquared.ToString(strDecimalPlaces);
+                if (intInterceptModel != 1)
+                    strResults[4] = "Nagelkerke pseudo-R-squared: " + dblRsquared.ToString(strDecimalPlaces);
+                else
+                    strResults[4] = "";
 
                 pfrmRegResult.txtOutput.Lines = strResults;
 
@@ -867,22 +915,22 @@ namespace VisUncertainty
         }
         #endregion
 
-        private void chkIntercept_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkIntercept.Checked == false)
-            {
-                lstFields.Enabled = true;
-                lstIndeVar.Enabled = true;
-                btnMoveLeft.Enabled = true;
-                btnMoveRight.Enabled = true;
-            }
-            else
-            {
-                lstFields.Enabled = false;
-                lstIndeVar.Enabled = false;
-                btnMoveLeft.Enabled = false;
-                btnMoveRight.Enabled = false;
-            }
-        }
+        //private void chkIntercept_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (chkIntercept.Checked == false)
+        //    {
+        //        lstFields.Enabled = true;
+        //        lstIndeVar.Enabled = true;
+        //        btnMoveLeft.Enabled = true;
+        //        btnMoveRight.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        lstFields.Enabled = false;
+        //        lstIndeVar.Enabled = false;
+        //        btnMoveLeft.Enabled = false;
+        //        btnMoveRight.Enabled = false;
+        //    }
+        //}
     }
 }

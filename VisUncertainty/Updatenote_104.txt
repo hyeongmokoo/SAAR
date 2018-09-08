@@ -1,0 +1,21 @@
+1.0.4 Update (2018/09/07)
+
+Linear Regression tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+
+GLM Tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+: Added a logistic regression option
+: Added double click events for the fields and indepedent listviews
+
+Linear Regression tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+
+ESF Tool
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+: Added a logistic regression option
+: Modified the candidate eigenvector selection methods to calculate eigenvalues ratio based on negative extreme value for negative eigenvector selection

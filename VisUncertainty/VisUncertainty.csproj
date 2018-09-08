@@ -321,6 +321,12 @@
     <Compile Include="frmCreateFlowLines.Designer.cs">
       <DependentUpon>frmCreateFlowLines.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCreateSWM_inR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateSWM_inR.Designer.cs">
+      <DependentUpon>frmCreateSWM_inR.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDebug.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -824,6 +830,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCreateFlowLines.resx">
       <DependentUpon>frmCreateFlowLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateSWM_inR.resx">
+      <DependentUpon>frmCreateSWM_inR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDebug.resx">
       <DependentUpon>frmDebug.cs</DependentUpon>

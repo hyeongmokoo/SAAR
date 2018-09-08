@@ -756,7 +756,9 @@ namespace VisUncertainty
 
         private void createSpatialWeightMatrixToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmCreateWeightMatrix pfrmCreateSWM = new frmCreateWeightMatrix();
+            //frmCreateWeightMatrix pfrmCreateSWM = new frmCreateWeightMatrix();
+            //pfrmCreateSWM.Show();
+            frmCreateSWM_inR pfrmCreateSWM = new frmCreateSWM_inR();
             pfrmCreateSWM.Show();
         }
         #endregion

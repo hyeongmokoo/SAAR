@@ -44,7 +44,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkPlots = new System.Windows.Forms.CheckBox();
             this.chkResiAuto = new System.Windows.Forms.CheckBox();
             this.grbSave = new System.Windows.Forms.GroupBox();
             this.lstSave = new System.Windows.Forms.ListView();
@@ -55,7 +54,7 @@
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.lblSWM = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkIntercept = new System.Windows.Forms.CheckBox();
+            this.chkPlots = new System.Windows.Forms.CheckBox();
             this.grbSave.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -84,7 +83,7 @@
             this.lstIndeVar.Location = new System.Drawing.Point(166, 122);
             this.lstIndeVar.Name = "lstIndeVar";
             this.lstIndeVar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 134);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 160);
             this.lstIndeVar.TabIndex = 12;
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
@@ -94,7 +93,7 @@
             this.lstFields.Location = new System.Drawing.Point(13, 119);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 134);
+            this.lstFields.Size = new System.Drawing.Size(113, 160);
             this.lstFields.TabIndex = 13;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -172,16 +171,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // chkPlots
-            // 
-            this.chkPlots.AutoSize = true;
-            this.chkPlots.Location = new System.Drawing.Point(309, 27);
-            this.chkPlots.Name = "chkPlots";
-            this.chkPlots.Size = new System.Drawing.Size(137, 17);
-            this.chkPlots.TabIndex = 23;
-            this.chkPlots.Text = "Show Diagnostics Plots";
-            this.chkPlots.UseVisualStyleBackColor = true;
             // 
             // chkResiAuto
             // 
@@ -275,27 +264,27 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkPlots);
             this.groupBox1.Controls.Add(this.chkResiAuto);
             this.groupBox1.Controls.Add(this.btnOpenSWM);
             this.groupBox1.Controls.Add(this.txtSWM);
             this.groupBox1.Controls.Add(this.lblSWM);
-            this.groupBox1.Location = new System.Drawing.Point(310, 47);
+            this.groupBox1.Location = new System.Drawing.Point(310, 25);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 90);
+            this.groupBox1.Size = new System.Drawing.Size(261, 112);
             this.groupBox1.TabIndex = 90;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Residual analysis";
             // 
-            // chkIntercept
+            // chkPlots
             // 
-            this.chkIntercept.AutoSize = true;
-            this.chkIntercept.Location = new System.Drawing.Point(14, 269);
-            this.chkIntercept.Name = "chkIntercept";
-            this.chkIntercept.Size = new System.Drawing.Size(182, 17);
-            this.chkIntercept.TabIndex = 93;
-            this.chkIntercept.Text = "Regression with an intercept only";
-            this.chkIntercept.UseVisualStyleBackColor = true;
-            this.chkIntercept.CheckedChanged += new System.EventHandler(this.chkIntercept_CheckedChanged);
+            this.chkPlots.AutoSize = true;
+            this.chkPlots.Location = new System.Drawing.Point(11, 86);
+            this.chkPlots.Name = "chkPlots";
+            this.chkPlots.Size = new System.Drawing.Size(137, 17);
+            this.chkPlots.TabIndex = 90;
+            this.chkPlots.Text = "Show Diagnostics Plots";
+            this.chkPlots.UseVisualStyleBackColor = true;
             // 
             // frmRegression
             // 
@@ -303,10 +292,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(596, 298);
-            this.Controls.Add(this.chkIntercept);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grbSave);
-            this.Controls.Add(this.chkPlots);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.label4);
@@ -347,7 +334,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox chkPlots;
         private System.Windows.Forms.CheckBox chkResiAuto;
         private System.Windows.Forms.GroupBox grbSave;
         private System.Windows.Forms.ListView lstSave;
@@ -358,6 +344,6 @@
         private System.Windows.Forms.TextBox txtSWM;
         private System.Windows.Forms.Label lblSWM;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox chkIntercept;
+        private System.Windows.Forms.CheckBox chkPlots;
     }
 }

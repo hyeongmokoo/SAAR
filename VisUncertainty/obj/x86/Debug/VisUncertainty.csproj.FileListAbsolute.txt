@@ -987,3 +987,4 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.MainForm.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.Properties.Resources.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.csproj.GenerateResource.Cache
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVaryingCoefficients.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCreateSWM_inR.resources

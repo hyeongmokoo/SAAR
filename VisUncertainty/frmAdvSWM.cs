@@ -157,7 +157,7 @@ namespace VisUncertainty
             }
             else if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolyline)
             {
-                MessageBox.Show("Spatial weight matrix for polyline is not supported.");
+                MessageBox.Show("Spatial weights matrix for polyline is not supported.");
                 btnSubset.Enabled = false;
             }
         }

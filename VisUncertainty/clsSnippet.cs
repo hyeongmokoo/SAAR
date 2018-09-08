@@ -172,6 +172,19 @@ namespace VisUncertainty
                 return null;
             }
         }
+        public string FilePathinRfromText(string strOutputPath)
+        {
+            try
+            {
+                string strNameR = strOutputPath.Replace(@"\", @"/");
+                return strNameR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception:" + ex.Message);
+                return null;
+            }
+        }
         public ESRI.ArcGIS.Display.IRgbColor getRGB(int R, int G, int B)
         {
             try
@@ -2093,7 +2106,16 @@ namespace VisUncertainty
                 {
                     pEngine.Evaluate("sample.nb <- poly2nb(sample.shp, queen=F)");
                 }
-                
+                else
+                {
+                    int intResult = SWMusingGAL(pEngine, pFClass, strSWMtype);
+                    if (intResult == -1)
+                    {
+                        pfrmProgress.Close();
+                        return 0;
+                    }
+                }
+
                 if(dblAdvancedValue > 1)
                 {
                     try
@@ -2236,7 +2258,165 @@ namespace VisUncertainty
             }
             return 1;
         }//For only polygons
+        public int CreateSpatialWeightMatrixPolywithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
+        {
+            //Return 0, means fails to create spatial weight matrix, 1 means success.
 
+            SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
+
+            if (pFClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon)
+            {
+                if (strSWMtype == pSWMType.strPolyDefs[0])
+                {
+                    pEngine.Evaluate("sample.nb <- poly2nb(sample.shp, queen=T, row.names = sample.ids)");
+                }
+                else if (strSWMtype == pSWMType.strPolyDefs[1])
+                {
+                    pEngine.Evaluate("sample.nb <- poly2nb(sample.shp, queen=F, row.names = sample.ids)");
+                }
+
+                if (dblAdvancedValue > 1)
+                {
+                    try
+                    {
+                        pEngine.Evaluate("sample.nblags <- nblag(sample.nb, maxlag = " + dblAdvancedValue.ToString() + ")");
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Please reduce the maximum lag order");
+                    }
+
+                    if (blnCumul)
+                        pEngine.Evaluate("sample.nb <- nblag_cumul(sample.nblags)");
+                    else
+                        pEngine.Evaluate("sample.nb <- sample.nblags[[" + dblAdvancedValue.ToString() + "]]");
+
+                }
+
+                //For dealing empty neighbors
+                try
+                {
+                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                }
+                catch
+                {
+                    DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        pfrmProgress.Close();
+                        return 0;
+                    }
+                }
+            }
+            else if (pFClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint)
+            {
+                #region Delaunay
+                if (strSWMtype == pSWMType.strPointDef[0])
+                {
+
+                    if (blnCumul == false)
+                    {
+                        pEngine.Evaluate("sample.nb <- tri2nb(coordinates(sample.shp))");
+                        //For dealing empty neighbors
+
+                        try
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        }
+                        catch
+                        {
+                            DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            }
+                            else if (dialogResult == DialogResult.No)
+                            {
+                                pfrmProgress.Close();
+                                return 0;
+                            }
+                        }
+                    }
+                }
+                #endregion
+                else if (strSWMtype == pSWMType.strPointDef[1])
+                {
+                    pEngine.Evaluate("sample.nb <- dnearneigh(coordinates(sample.shp), 0, " + dblAdvancedValue.ToString() + ")");
+                    //For dealing empty neighbors
+
+                    try
+                    {
+                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                    }
+                    catch
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return 0;
+                        }
+                    }
+                    finally
+                    {
+                        pfrmProgress.Close();
+                        MessageBox.Show("Fail to create spatial weights matrix");
+                    }
+                }
+                else if (strSWMtype == pSWMType.strPointDef[2])
+                {
+                    pEngine.Evaluate("col.knn <- knearneigh(coordinates(sample.shp), k=" + dblAdvancedValue.ToString() + ")");
+                    pEngine.Evaluate("sample.nb <- knn2nb(col.knn)");
+                    //For dealing empty neighbors
+
+                    try
+                    {
+                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                    }
+                    catch
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return 0;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                int intResult = SWMusingGAL(pEngine, pFClass, strSWMtype);
+                if (intResult == -1)
+                {
+                    pfrmProgress.Close();
+                    return 0;
+                }
+
+            }
+            return 1;
+        }//For only polygons
         public int CreateSpatialWeightMatrixPts(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
         {
             //Return 0, means fails to create spatial weight matrix, 1 means success.
@@ -2406,6 +2586,15 @@ namespace VisUncertainty
                         }
                     }
                 }
+                else
+                {
+                    int intResult = SWMusingGAL(pEngine, pFClass, strSWMtype);
+                    if (intResult == -1)
+                    {
+                        pfrmProgress.Close();
+                        return 0;
+                    }
+                }
 
             }
             else
@@ -2420,7 +2609,189 @@ namespace VisUncertainty
             }
             return 1;
         }
+        public int CreateSpatialWeightMatrixPtswithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
+        {
+            //Return 0, means fails to create spatial weight matrix, 1 means success.
 
+            SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
+
+            if (pFClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint)
+            {
+                #region Delaunay
+                if (strSWMtype == pSWMType.strPointDef[0])
+                {
+
+                    if (blnCumul == false)
+                    {
+                        pEngine.Evaluate("sample.nb <- tri2nb(coordinates(sample.shp), row.names = sample.ids)");
+                        //For dealing empty neighbors
+
+                        try
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        }
+                        catch
+                        {
+                            DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            }
+                            else if (dialogResult == DialogResult.No)
+                            {
+                                pfrmProgress.Close();
+                                return 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (pFLayer == null)
+                            return 0;
+
+                        MainForm pForm = System.Windows.Forms.Application.OpenForms["MainForm"] as MainForm;
+
+                        string strStartPath = pForm.strPath;
+                        string pathr = strStartPath.Replace(@"\", @"/");
+                        pEngine.Evaluate("source('" + pathr + "/del.subset.R')");
+
+                        try
+                        {
+                            pEngine.Evaluate("library(deldir); library(rgeos)");
+
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Please checked R packages installed in your local computer.");
+                            return 0;
+                        }
+
+
+                        string strPolypathR = FilePathinRfromLayer(pFLayer);
+
+                        pEngine.Evaluate("sample.sub.shp <- readShapePoly('" + strPolypathR + "')");
+
+                        pEngine.Evaluate("sample.nb <- del.subsetwithID(sample.shp, sample.sub.shp, sample.ids)");
+                        bool blnError = pEngine.Evaluate("nrow(sample.shp) == length(sample.nb)").AsLogical().First();
+
+                        if (blnError == false)
+                        {
+                            MessageBox.Show("The number of features in points and the rows of neighbors is not matched.", "Error");
+                            return 0;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            }
+                            catch
+                            {
+                                DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                                if (dialogResult == DialogResult.Yes)
+                                {
+                                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                }
+                                else if (dialogResult == DialogResult.No)
+                                {
+                                    return 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
+                else if (strSWMtype == pSWMType.strPointDef[1])
+                {
+                    pEngine.Evaluate("sample.nb <- dnearneigh(coordinates(sample.shp), 0, " + dblAdvancedValue.ToString() + ", row.names = sample.ids)");
+                    //For dealing empty neighbors
+                    if (pEngine.Evaluate("sum(card(sample.nb)) < 1").AsLogical().First())
+                    {
+                        MessageBox.Show("There are too many empty neighbors");
+                        pfrmProgress.Close();
+                        return 0;
+                    }
+
+                    try
+                    {
+                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                    }
+                    catch
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return 0;
+                        }
+                    }
+                    //finally
+                    //{
+                    //    pfrmProgress.Close();
+                    //    MessageBox.Show("Fail to create spatial weights matrix");
+                    //}
+                }
+                else if (strSWMtype == pSWMType.strPointDef[2])
+                {
+                    pEngine.Evaluate("col.knn <- knearneigh(coordinates(sample.shp), k=" + dblAdvancedValue.ToString() + ")");
+                    pEngine.Evaluate("sample.nb <- knn2nb(col.knn, row.names = sample.ids)");
+                    //For dealing empty neighbors
+
+                    bool blnSymmetric = pEngine.Evaluate("is.symmetric.nb(sample.nb)").AsLogical().First();
+                    if (blnSymmetric == false)
+                    {
+                        DialogResult dialogResult = MessageBox.Show("This spatial weight matrix is asymmetric. Some functions are restricted in an asymmetric matrix. Do you want to continue?", "Asymmetric spatial weight matrix", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return 0;
+                        }
+                    }
+
+                    try
+                    {
+                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                    }
+                    catch
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Empty neighbor sets are founded. Do you want to continue?", "Empty neighbor", MessageBoxButtons.YesNo);
+
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            pfrmProgress.Close();
+                            return 0;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                int intResult = SWMusingGAL(pEngine, pFClass, strSWMtype);
+                if (intResult == -1)
+                {
+                    pfrmProgress.Close();
+                    return 0;
+                }
+
+            }
+            return 1;
+        }
         public int ExploreSpatialWeightMatrix1(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
         {
             //Return 0, means fails to create spatial weight matrix, 1 means success.
