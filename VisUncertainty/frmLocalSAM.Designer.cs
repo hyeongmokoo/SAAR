@@ -55,13 +55,13 @@
             this.colTypes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nudConfLevel = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.btnOpenSWM = new System.Windows.Forms.Button();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
             this.chkMap = new System.Windows.Forms.CheckBox();
-            this.nudConfLevel = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudConfLevel)).BeginInit();
             this.SuspendLayout();
@@ -206,14 +206,36 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Save Results";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 21);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 13);
+            this.label6.TabIndex = 58;
+            this.label6.Text = "Confidence level: ";
+            // 
+            // nudConfLevel
+            // 
+            this.nudConfLevel.DecimalPlaces = 3;
+            this.nudConfLevel.Location = new System.Drawing.Point(108, 19);
+            this.nudConfLevel.Name = "nudConfLevel";
+            this.nudConfLevel.Size = new System.Drawing.Size(88, 20);
+            this.nudConfLevel.TabIndex = 57;
+            this.nudConfLevel.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(15, 139);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.Size = new System.Drawing.Size(112, 13);
             this.label5.TabIndex = 58;
-            this.label5.Text = "Spatial Weight Matrix";
+            this.label5.Text = "Spatial Weights Matrix";
             // 
             // txtSWM
             // 
@@ -249,28 +271,6 @@
             this.chkMap.TabIndex = 61;
             this.chkMap.Text = "Add a map";
             this.chkMap.UseVisualStyleBackColor = true;
-            // 
-            // nudConfLevel
-            // 
-            this.nudConfLevel.DecimalPlaces = 3;
-            this.nudConfLevel.Location = new System.Drawing.Point(108, 19);
-            this.nudConfLevel.Name = "nudConfLevel";
-            this.nudConfLevel.Size = new System.Drawing.Size(88, 20);
-            this.nudConfLevel.TabIndex = 57;
-            this.nudConfLevel.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 21);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(92, 13);
-            this.label6.TabIndex = 58;
-            this.label6.Text = "Confidence level: ";
             // 
             // frmLocalSAM
             // 

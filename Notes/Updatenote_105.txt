@@ -1,0 +1,27 @@
+1.0.5 Update (09/28/2018)
+
+Linear Regression tool
+: Added an option to specify the alternative hypothesis for residual spatial autocorrelation, which must be one of greater (default), less or two sided.
+
+GLM Tool
+: Added an option to specify the alternative hypothesis for residual spatial autocorrelation, which must be one of greater (default) or less.
+: Modified pseduo R squared calculation from Nagelkerke R squred to R squared value of linear regression between observed and fitted values
+
+Spatial Autoregression
+: Modified pseduo R squared calculation from Nagelkerke R squred to R squared value of linear regression between observed and fitted values
+
+ESF Tool
+: Added an option to specify the alternative hypothesis for residual spatial autocorrelation, which must be one of greater (default), less or two sided.
+: Modified pseduo R squared calculation of GLM based ESF from Nagelkerke R squred to R squared value of linear regression between observed and fitted values
+
+Spatially varying coefficients
+: Modified the interface for an only-intercept model
+: Added a non-intercept model option
+: Added a logistic regression option
+: Modified the candidate eigenvector selection methods to calculate eigenvalues ratio based on negative extreme value for negative eigenvector selection
+: Modified pseduo R squared calculation of GLM based ESF from Nagelkerke R squred to R squared value of linear regression between observed and fitted values
+: Added an option to specify the alternative hypothesis for residual spatial autocorrelation, which must be one of greater (default), less or two sided.
+
+Misc.
+: Revised the texts of lables
+: Added a warning sign when a ArcGIS license is not valid

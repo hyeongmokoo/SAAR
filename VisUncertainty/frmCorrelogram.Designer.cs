@@ -127,11 +127,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 212);
+            this.label5.Location = new System.Drawing.Point(10, 211);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.Size = new System.Drawing.Size(112, 13);
             this.label5.TabIndex = 79;
-            this.label5.Text = "Spatial Weight Matrix";
+            this.label5.Text = "Spatial Weights Matrix";
             // 
             // nudLagOrder
             // 

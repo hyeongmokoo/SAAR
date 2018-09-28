@@ -1,4 +1,6 @@
-﻿namespace VisUncertainty
+﻿using System;
+
+namespace VisUncertainty
 {
     partial class MainForm
     {
@@ -875,10 +877,25 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
+            try
+            {
+                ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog();
+                pfrmErrorLog.ex = ex;
+                if (ex.Message == "You must have a license to use this ActiveX control.")
+                    pfrmErrorLog.strAdditionalMessage = "You must have a license to use SAAR.";
+
+                pfrmErrorLog.ShowDialog();
+
+                this.Close();
+            }
+
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -224,11 +224,6 @@ namespace VisUncertainty
                         "Please choose at least one input variable");
                     return;
                 }
-                //if (cboFamily.Text == "Binomial" && cboNormalization.Text == "")
-                //{
-                //    MessageBox.Show("Please select a variable for normailization");
-                //    return;
-                //}
 
                 frmProgress pfrmProgress = new frmProgress();
                 pfrmProgress.lblStatus.Text = "Pre-Processing:";
@@ -260,9 +255,7 @@ namespace VisUncertainty
                 // Gets the column of the dependent variable
                 String dependentName = (string)cboFieldName.SelectedItem;
                 string strNoramlName = cboNormalization.Text;
-                //sourceTable.AcceptChanges();
-                //DataTable dependent = sourceTable.DefaultView.ToTable(false, dependentName);
-
+                
                 // Gets the columns of the independent variables
                 String[] independentNames = new string[nIDepen];
                 int intIdices = 0;
@@ -442,14 +435,23 @@ namespace VisUncertainty
             double dblResiDevi = m_pEngine.Evaluate("sum.glm$deviance").AsNumeric().First();
             double dblResiDF = m_pEngine.Evaluate("sum.glm$df.residual").AsNumeric().First();
 
-            //Nagelkerke r squared
-            double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.glm$dev - sample.glm$null)/sample.n))/(1 - exp(-sample.glm$null/sample.n))").AsNumeric().First();
+            //Nagelkerke r squared //Previous
+            //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.glm$dev - sample.glm$null)/sample.n))/(1 - exp(-sample.glm$null/sample.n))").AsNumeric().First(); 
+            //New pseduo R squared calculation
+            double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.glm$y~sample.glm$fitted.values))$r.squared").AsNumeric().First();
 
             double dblResiLMMC = 0;
             double dblResiLMpVal = 0;
             if (chkResiAuto.Checked)
             {
-                m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
+
                 dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
                 dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
             }
@@ -527,11 +529,18 @@ namespace VisUncertainty
             strResults[2] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
             strResults[3] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
             if (intInterceptModel != 1)
-                strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+                strResults[4] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
             else
                 strResults[4] = "";
             if (chkResiAuto.Checked)
-                strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+            {
+                if (dblResiLMpVal < 0.001)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+            }
             else
                 strResults[5] = "";
 
@@ -604,14 +613,22 @@ namespace VisUncertainty
             double dblResiDevi = m_pEngine.Evaluate("sum.glm$deviance").AsNumeric().First();
             double dblResiDF = m_pEngine.Evaluate("sum.glm$df.residual").AsNumeric().First();
 
-            //Nagelkerke r squared
-            double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.glm$dev - sample.glm$null)/sample.n))/(1 - exp(-sample.glm$null/sample.n))").AsNumeric().First();
+            //Nagelkerke r squared //Previous
+            //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.glm$dev - sample.glm$null)/sample.n))/(1 - exp(-sample.glm$null/sample.n))").AsNumeric().First(); 
+            //New pseduo R squared calculation
+            double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.glm$y~sample.glm$fitted.values))$r.squared").AsNumeric().First();
 
             double dblResiLMMC = 0;
             double dblResiLMpVal = 0;
             if (chkResiAuto.Checked)
             {
-                m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
                 dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
                 dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
             }
@@ -686,11 +703,18 @@ namespace VisUncertainty
             strResults[2] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
             strResults[3] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
             if (intInterceptModel != 1)
-                strResults[4] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+                strResults[4] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
             else
                 strResults[4] = "";
             if (chkResiAuto.Checked)
-                strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+            {
+                if (dblResiLMpVal < 0.001)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+            }
             else
                 strResults[5] = "";
 
@@ -917,12 +941,16 @@ namespace VisUncertainty
                 lblSWM.Enabled = true;
                 txtSWM.Enabled = true;
                 btnOpenSWM.Enabled = true;
+                lblAlternative.Enabled = true;
+                cboAlternative.Enabled = true;
             }
             else
             {
                 lblSWM.Enabled = false;
                 txtSWM.Enabled = false;
                 btnOpenSWM.Enabled = false;
+                lblAlternative.Enabled = false;
+                cboAlternative.Enabled = false;
             }
         }
 

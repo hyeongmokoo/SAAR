@@ -372,10 +372,17 @@ namespace VisUncertainty
                     dblLambda = m_pEngine.Evaluate("as.numeric(sum.lm$lambda)").AsNumeric().First();
                     dblSELambda = m_pEngine.Evaluate("as.numeric(sum.lm$lambda.se)").AsNumeric().First();
                 }
-
+                
                 double dblRsquared = 0;
-                if(intInterceptModel != 1)
-                    dblRsquared = m_pEngine.Evaluate("as.numeric(sum.lm$NK)").AsNumeric().First();
+                //Previous method
+                //if(intInterceptModel != 1)
+                //    dblRsquared = m_pEngine.Evaluate("as.numeric(sum.lm$NK)").AsNumeric().First();
+
+                //New pseduo R squared calculation
+                if (rbtError.Checked || rbtLag.Checked || rbtDurbin.Checked)
+                    dblRsquared = m_pEngine.Evaluate("summary(lm(sum.lm$y~sum.lm$fitted.values))$r.squared").AsNumeric().First();
+                else
+                    dblRsquared = m_pEngine.Evaluate("summary(lm(sum.lm$Y~sum.lm$fit$fitted.values))$r.squared").AsNumeric().First();
 
 
                 //Open Ouput form
@@ -439,7 +446,7 @@ namespace VisUncertainty
                     {
                         if (rbtDurbin.Checked)
                         {
-                            if (j < intNCoeff / 2)
+                            if (j <= intNCoeff / 2)
                                 pDataRow["Name"] = independentNames[j];
                             else
                                 pDataRow["Name"] = "lag." + independentNames[j - (intNCoeff / 2)];
@@ -452,7 +459,7 @@ namespace VisUncertainty
                     {
                         if (rbtDurbin.Checked)
                         {
-                            if(j < intNCoeff / 2)
+                            if(j <= intNCoeff / 2)
                                 pDataRow["Name"] = independentNames[j - 1];
                             else
                                 pDataRow["Name"] = "lag." + independentNames[j - (intNCoeff / 2) - 1];
@@ -478,37 +485,84 @@ namespace VisUncertainty
                 string[] strResults = new string[5];
                 if (rbtLag.Checked||rbtDurbin.Checked)
                 {
-                    strResults[0] = "rho: " + dblLambda.ToString(strDecimalPlaces) +
-                        ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
-                    strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                    if (dblpLambda < 0.001)
+                        strResults[0] = "rho: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblpLambda > 0.999)
+                        strResults[0] = "rho: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[0] = "rho: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
+
+                    if (dblpWald < 0.001)
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                         ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblpWald > 0.999)
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                        ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
                         ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value: " + dblpWald.ToString(strDecimalPlaces);
+
+
                     strResults[2] = "Log likelihood: " + dblLRErrorModel.ToString(strDecimalPlaces) +
                         ", Sigma-squared: " + dblSigmasquared.ToString(strDecimalPlaces);
                     strResults[3] = "AIC: " + dblAIC.ToString(strDecimalPlaces) + ", LM test for residuals autocorrelation: " + dblResiAuto.ToString(strDecimalPlaces);
                 }
                 else if(rbtError.Checked)
                 {
-                    strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
-                        ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
-                    strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                    if (dblpLambda < 0.001)
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblpLambda > 0.999)
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
+
+                    if (dblpWald < 0.001)
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                         ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblpWald > 0.999)
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                        ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
                         ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value: " + dblpWald.ToString(strDecimalPlaces);
+
+                    //strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                    //    ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
+                    //strResults[1] = "Asymptotic S.E: " + dblSELambda.ToString(strDecimalPlaces) +
+                    //    ", Wald: " + dblWald.ToString(strDecimalPlaces) + ", p-value: " + dblpWald.ToString(strDecimalPlaces);
                     strResults[2] = "Log likelihood: " + dblLRErrorModel.ToString(strDecimalPlaces) +
                         ", Sigma-squared: " + dblSigmasquared.ToString(strDecimalPlaces);
                     strResults[3] = "AIC: " + dblAIC.ToString(strDecimalPlaces);
                 }
                 else
                 {
-                    strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
-                        ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
+                    if (dblpLambda < 0.001)
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblpLambda > 0.999)
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[0] = "Lambda: " + dblLambda.ToString(strDecimalPlaces) +
+                                                ", LR Test Value: " + dblLRLambda.ToString(strDecimalPlaces) + ", p-value: " + dblpLambda.ToString(strDecimalPlaces);
+
                     strResults[1] = "Numerical Hessian S.E of lambda: " + dblSELambda.ToString(strDecimalPlaces);
                     strResults[2] = "Log likelihood: " + dblLRErrorModel.ToString(strDecimalPlaces) +
                         ", Sigma-squared: " + dblSigmasquared.ToString(strDecimalPlaces);
                     strResults[3] = "AIC: " + dblAIC.ToString(strDecimalPlaces);
                 }
-                if (intInterceptModel != 1)
-                    strResults[4] = "Nagelkerke pseudo-R-squared: " + dblRsquared.ToString(strDecimalPlaces);
-                else
-                    strResults[4] = "";
+                //if (intInterceptModel != 1)
+                //    strResults[4] = "Pseudo-R-squared: " + dblRsquared.ToString(strDecimalPlaces);
+                //else
+                //    strResults[4] = "";
+
+                strResults[4] = "Pseudo-R-squared: " + dblRsquared.ToString(strDecimalPlaces);
 
                 pfrmRegResult.txtOutput.Lines = strResults;
 

@@ -432,7 +432,8 @@ namespace VisUncertainty
                 double dblResiDF = m_pEngine.Evaluate("sum.esf$df.residual").AsNumeric().First();
 
                 //Nagelkerke r squared
-                double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.esf$dev - sample.esf$null)/sample.n))/(1 - exp(-sample.esf$null/sample.n))").AsNumeric().First();
+                //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.esf$dev - sample.esf$null)/sample.n))/(1 - exp(-sample.esf$null/sample.n))").AsNumeric().First();
+                double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.esf$y~sample.esf$fitted.values))$r.squared").AsNumeric().First();
 
                 //double dblResiMC = m_pEngine.Evaluate("moran.test(sample.esf$residuals, sample.listw)$estimate").AsNumeric().First();
                 //double dblResiMCpVal = m_pEngine.Evaluate("moran.test(sample.esf$residuals, sample.listw)$p.value").AsNumeric().First();
@@ -440,11 +441,23 @@ namespace VisUncertainty
                 //double dblResiLMpVal = m_pEngine.Evaluate("moran.test(esf.org$residuals, sample.listw)$p.value").AsNumeric().First();
 
                 //MC Using Pearson residual (Lin and Zhang 2007, GA) 
-                m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
                 double dblResiMC = m_pEngine.Evaluate("sampleresi.mc$statistic").AsNumeric().First();
                 double dblResiMCpVal = m_pEngine.Evaluate("sampleresi.mc$p.value").AsNumeric().First();
 
-                m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
                 double dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
                 double dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
 
@@ -567,7 +580,15 @@ namespace VisUncertainty
                 {
                     vecFilter = m_pEngine.CreateNumericVector(arrFilter);
                     m_pEngine.SetSymbol("samplefilter", vecFilter);
-                    m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, zero.policy=TRUE)");
+
+                    if (cboAlternative.Text == "Greater")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                    else if (cboAlternative.Text == "Less")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'less', zero.policy=TRUE)");
+                    else
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
+                    //m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, zero.policy=TRUE)");
                     dblSfilterMC = m_pEngine.Evaluate("sfilter.mc$estimate").AsNumeric().First();
                     dblSfilterpVal = m_pEngine.Evaluate("sfilter.mc$p.value").AsNumeric().First();
                 }
@@ -576,18 +597,39 @@ namespace VisUncertainty
                 string strDecimalPlaces = "N" + intDeciPlaces.ToString();
                 string[] strResults = new string[8];
                 strResults[0] = "Number of rows: " + nFeature.ToString() + ", Number of candidate EVs: " + dblNCandidateEvs.ToString() + ", Selected EVs: " + intNSelectedEVs.ToString();
-                strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+                if (dblResiLMpVal < 0.001)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+
                 strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
                 strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
                 strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
 
-                if (intInterceptModel != 1)
-                    strResults[5] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+                //if (intInterceptModel != 1)
+                //    strResults[5] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+                //else
+                //    strResults[5] = "";
+                strResults[5] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+
+                if (dblResiMCpVal < 0.001)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiMCpVal > 0.999)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value > 0.999";
                 else
-                    strResults[5] = "";
-                strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+
                 if (intNSelectedEVs > 0)
-                    strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                {
+                    if (dblSfilterpVal < 0.001)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblSfilterpVal > 0.999)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                }
                 else
                     strResults[7] = "";
 
@@ -717,17 +759,31 @@ namespace VisUncertainty
                 double dblNullDF = m_pEngine.Evaluate("sum.esf$df.null").AsNumeric().First();
                 double dblResiDevi = m_pEngine.Evaluate("sum.esf$deviance").AsNumeric().First();
                 double dblResiDF = m_pEngine.Evaluate("sum.esf$df.residual").AsNumeric().First();
-                
+
                 //MC Using Pearson residual (Lin and Zhang 2007, GA) 
-                m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
                 double dblResiMC = m_pEngine.Evaluate("sampleresi.mc$statistic").AsNumeric().First();
                 double dblResiMCpVal = m_pEngine.Evaluate("sampleresi.mc$p.value").AsNumeric().First();
 
-                m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
                 double dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
                 double dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
                 //Nagelkerke r squared
-                double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.esf$deviance - sample.esf$null.deviance)/sample.n))/(1 - exp(-sample.esf$null.deviance/sample.n))").AsNumeric().First();
+                //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.esf$deviance - sample.esf$null.deviance)/sample.n))/(1 - exp(-sample.esf$null.deviance/sample.n))").AsNumeric().First();
+                double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.esf$y~sample.esf$fitted.values))$r.squared").AsNumeric().First();
+
                 NumericVector nvecNonAIC = m_pEngine.Evaluate("sample.esf$aic").AsNumeric();
 
                 //Open Ouput form
@@ -849,7 +905,15 @@ namespace VisUncertainty
                 {
                     vecFilter = m_pEngine.CreateNumericVector(arrFilter);
                     m_pEngine.SetSymbol("samplefilter", vecFilter);
-                    m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, zero.policy=TRUE)");
+
+                    if (cboAlternative.Text == "Greater")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                    else if (cboAlternative.Text == "Less")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'less', zero.policy=TRUE)");
+                    else
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
+                    //m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, zero.policy=TRUE)");
                     dblSfilterMC = m_pEngine.Evaluate("sfilter.mc$estimate").AsNumeric().First();
                     dblSfilterpVal = m_pEngine.Evaluate("sfilter.mc$p.value").AsNumeric().First();
                 }
@@ -858,17 +922,40 @@ namespace VisUncertainty
                 string strDecimalPlaces = "N" + intDeciPlaces.ToString();
                 string[] strResults = new string[8];
                 strResults[0] = "Number of rows: " + nFeature.ToString() + ", Number of candidate EVs: " + dblNCandidateEvs.ToString() + ", Selected EVs: " + intNSelectedEVs.ToString();
-                strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+
+                if (dblResiLMpVal < 0.001)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+
                 strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
                 strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
                 strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
-                if (intInterceptModel != 1)
-                    strResults[5] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+
+                //if (intInterceptModel != 1)
+                //    strResults[5] = "Nagelkerke pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+                //else
+                //    strResults[5] = "";
+                strResults[5] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+
+                if (dblResiMCpVal < 0.001)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiMCpVal > 0.999)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value > 0.999";
                 else
-                    strResults[5] = "";
-                strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+
                 if (intNSelectedEVs > 0)
-                    strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                {
+                    if (dblSfilterpVal < 0.001)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblSfilterpVal > 0.999)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                }
                 else
                     strResults[7] = "";
 
@@ -983,10 +1070,28 @@ namespace VisUncertainty
                 double dblResiSE = m_pEngine.Evaluate("sum.esf$sigma").AsNumeric().First();
                 NumericVector vecResiDF = m_pEngine.Evaluate("sum.esf$df").AsNumeric();
 
-                m_pEngine.Evaluate("sample.esf.resi.mc <- lm.morantest(sample.esf, sample.listw, zero.policy=TRUE)");
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("sample.esf.resi.mc <- lm.morantest(sample.esf, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("sample.esf.resi.mc <- lm.morantest(sample.esf, sample.listw, alternative = 'less', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Two Sided")
+                    m_pEngine.Evaluate("sample.esf.resi.mc <- lm.morantest(sample.esf, sample.listw, alternative = 'two.sided', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("sample.esf.resi.mc <- lm.morantest(sample.esf, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
+
                 double dblResiMC = m_pEngine.Evaluate("sample.esf.resi.mc$estimate").AsNumeric().First();
                 double dblResiMCpVal = m_pEngine.Evaluate("sample.esf.resi.mc$p.value").AsNumeric().First();
-                m_pEngine.Evaluate("sample.lm.resi.mc <- lm.morantest(sample.lm, sample.listw, zero.policy=TRUE)");
+
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("sample.lm.resi.mc <- lm.morantest(sample.lm, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("sample.lm.resi.mc <- lm.morantest(sample.lm, sample.listw, alternative = 'less', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Two Sided")
+                    m_pEngine.Evaluate("sample.lm.resi.mc <- lm.morantest(sample.lm, sample.listw, alternative = 'two.sided', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("sample.lm.resi.mc <- lm.morantest(sample.lm, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
                 double dblResiLMMC = m_pEngine.Evaluate("sample.lm.resi.mc$estimate").AsNumeric().First();
                 double dblResiLMpVal = m_pEngine.Evaluate("sample.lm.resi.mc$p.value").AsNumeric().First();
 
@@ -1108,7 +1213,16 @@ namespace VisUncertainty
                 {
                     vecFilter = m_pEngine.CreateNumericVector(arrFilter);
                     m_pEngine.SetSymbol("samplefilter", vecFilter);
-                    m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, zero.policy=TRUE)");
+
+                    if (cboAlternative.Text == "Greater")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                    else if (cboAlternative.Text == "Less")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'less', zero.policy=TRUE)");
+                    else if (cboAlternative.Text == "Two Sided")
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'two.sided', zero.policy=TRUE)");
+                    else
+                        m_pEngine.Evaluate("sfilter.mc <- moran.test(samplefilter, sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
                     dblSfilterMC = m_pEngine.Evaluate("sfilter.mc$estimate").AsNumeric().First();
                     dblSfilterpVal = m_pEngine.Evaluate("sfilter.mc$p.value").AsNumeric().First();
                 }
@@ -1117,17 +1231,45 @@ namespace VisUncertainty
                 string strDecimalPlaces = "N" + intDeciPlaces.ToString();
                 string[] strResults = new string[8];
                 strResults[0] = "Number of rows: " + nFeature.ToString() + ", Number of candidate EVs: " + dblNCandidateEvs.ToString() + ", Selected EVs: " + intNSelectedEVs.ToString();
-                strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString(strDecimalPlaces) + ", p-value: " + dblResiLMpVal.ToString(strDecimalPlaces);
+
+                if (dblResiLMpVal < 0.001)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+
                 strResults[2] = "AIC of non-ESF: " + nvecNonAIC.First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
                 strResults[3] = "Residual standard error: " + dblResiSE.ToString(strDecimalPlaces) +
                     " on " + vecResiDF[1].ToString() + " degrees of freedom";
                 strResults[4] = "Multiple R-squared: " + dblRsqaure.ToString(strDecimalPlaces) +
                     ", Adjusted R-squared: " + dblAdjRsqaure.ToString(strDecimalPlaces);
-                strResults[5] = "F-Statistic: " + vecF[0].ToString(strDecimalPlaces) +
-                    " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value: " + dblPValueF.ToString(strDecimalPlaces);
-                strResults[6] = "MC of residuals: " + dblResiMC.ToString(strDecimalPlaces) + ", p-value: " + dblResiMCpVal.ToString(strDecimalPlaces);
+                if (dblPValueF < 0.001)
+                    strResults[5] = "F-Statistic: " + vecF[0].ToString(strDecimalPlaces) +
+                    " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value < 0.001";
+                else if (dblPValueF > 0.999)
+                    strResults[5] = "F-Statistic: " + vecF[0].ToString(strDecimalPlaces) +
+                    " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value > 0.999";
+                else
+                    strResults[5] = "F-Statistic: " + vecF[0].ToString(strDecimalPlaces) +
+                     " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value: " + dblPValueF.ToString(strDecimalPlaces);
+
+                if (dblResiMCpVal < 0.001)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiMCpVal > 0.999)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+
                 if (intNSelectedEVs > 0)
-                    strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                {
+                    if (dblSfilterpVal < 0.001)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value < 0.001";
+                    else if (dblSfilterpVal > 0.999)
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value > 0.999";
+                    else
+                        strResults[7] = "MC for the constructed ESF: " + dblSfilterMC.ToString(strDecimalPlaces) + ", p-value: " + dblSfilterpVal.ToString(strDecimalPlaces);
+                }
                 else
                     strResults[7] = "";
 
@@ -1388,6 +1530,21 @@ namespace VisUncertainty
                             lblNorm.Text = "Offset";
                     }
 
+                    cboAlternative.Items.Clear();
+
+                    if(cboFamily.Text == "Linear (Gaussian)")
+                    {
+                        cboAlternative.Items.Add("Greater");
+                        cboAlternative.Items.Add("Less");
+                        cboAlternative.Items.Add("Two Sided");
+                    }
+                    else
+                    {
+                        cboAlternative.Items.Add("Greater");
+                        cboAlternative.Items.Add("Less");
+                        cboAlternative.Text = "Greater";
+                    }
+                        
                     string strLayerName = cboTargetLayer.Text;
 
                     int intLIndex = m_pSnippet.GetIndexNumberFromLayerName(m_pActiveView, strLayerName);

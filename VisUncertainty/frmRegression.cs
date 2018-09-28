@@ -299,7 +299,15 @@ namespace VisUncertainty
                     m_pEngine.Evaluate("sample.n <- length(sample.nb)");
 
                     //Calculate MC
-                    m_pEngine.Evaluate("zmc <- lm.morantest(" + plotCommmand.ToString() + ", listw=sample.listw, zero.policy=TRUE)");
+                    if (cboAlternative.Text == "Greater")
+                        m_pEngine.Evaluate("zmc <- lm.morantest(" + plotCommmand.ToString() + ", listw=sample.listw, alternative = 'greater', zero.policy=TRUE)");
+                    else if(cboAlternative.Text == "Less")
+                        m_pEngine.Evaluate("zmc <- lm.morantest(" + plotCommmand.ToString() + ", listw=sample.listw, alternative = 'less', zero.policy=TRUE)");
+                    else if(cboAlternative.Text == "Two Sided")
+                        m_pEngine.Evaluate("zmc <- lm.morantest(" + plotCommmand.ToString() + ", listw=sample.listw, alternative = 'two.sided', zero.policy=TRUE)");
+                    else
+                        m_pEngine.Evaluate("zmc <- lm.morantest(" + plotCommmand.ToString() + ", listw=sample.listw, alternative = 'greater', zero.policy=TRUE)");
+
                     dblResiMC = m_pEngine.Evaluate("zmc$estimate[1]").AsNumeric().First();
                     dblResiMCpVal = m_pEngine.Evaluate("zmc$p.value").AsNumeric().First();
                 }
@@ -369,7 +377,13 @@ namespace VisUncertainty
                 if (chkResiAuto.Checked)
                 {
                     strResults = new string[4];
-                    strResults[3] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+                    if (dblResiMCpVal < 0.001)
+                        strResults[3] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value < 0.001";
+                    else if(dblResiMCpVal > 0.999)
+                        strResults[3] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value > 0.999";
+                    else
+                        strResults[3] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+
                 }
                 else
                     strResults = new string[3];
@@ -381,9 +395,15 @@ namespace VisUncertainty
 
                 if (intInterceptModel != 2)
                 {
-                    strResults[2] = "F-Statistic: " + vecF[0].ToString("N" + intDeciPlaces.ToString()) +
-                    " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value: " + dblPValueF.ToString("N" + intDeciPlaces.ToString());
-
+                    if (dblPValueF < 0.001)
+                        strResults[2] = "F-Statistic: " + vecF[0].ToString("N" + intDeciPlaces.ToString()) +
+                   " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value < 0.001";
+                    else if (dblPValueF > 0.999)
+                        strResults[2] = "F-Statistic: " + vecF[0].ToString("N" + intDeciPlaces.ToString()) +
+                   " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value > 0.999";
+                    else
+                        strResults[2] = "F-Statistic: " + vecF[0].ToString("N" + intDeciPlaces.ToString()) +
+                   " on " + vecF[1].ToString() + " and " + vecF[2].ToString() + " DF, p-value: " + dblPValueF.ToString("N" + intDeciPlaces.ToString());
                 }
                 else
                     strResults[2] = "";
@@ -638,12 +658,16 @@ namespace VisUncertainty
                 lblSWM.Enabled = true;
                 txtSWM.Enabled = true;
                 btnOpenSWM.Enabled = true;
+                lblAlternative.Enabled = true;
+                cboAlternative.Enabled = true;
             }
             else
             {
                 lblSWM.Enabled = false;
                 txtSWM.Enabled = false;
                 btnOpenSWM.Enabled = false;
+                lblAlternative.Enabled = false;
+                cboAlternative.Enabled = false;
             }
         }
 

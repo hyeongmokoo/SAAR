@@ -60,16 +60,21 @@
             this.grbSave = new System.Windows.Forms.GroupBox();
             this.grbEV = new System.Windows.Forms.GroupBox();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cboAlternative = new System.Windows.Forms.ComboBox();
+            this.lblAlternative = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudEValue)).BeginInit();
             this.grbSave.SuspendLayout();
             this.grbEV.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(136, 364);
+            this.textBox1.Location = new System.Drawing.Point(137, 394);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(144, 34);
@@ -78,18 +83,20 @@
             // 
             // lstIndeVar
             // 
+            this.lstIndeVar.CheckOnClick = true;
             this.lstIndeVar.FormattingEnabled = true;
             this.lstIndeVar.Location = new System.Drawing.Point(167, 204);
             this.lstIndeVar.Name = "lstIndeVar";
-            this.lstIndeVar.Size = new System.Drawing.Size(113, 154);
+            this.lstIndeVar.Size = new System.Drawing.Size(113, 184);
             this.lstIndeVar.TabIndex = 132;
+            this.lstIndeVar.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstIndeVar_ItemCheck);
             this.lstIndeVar.SelectedIndexChanged += new System.EventHandler(this.lstIndeVar_SelectedIndexChanged);
             this.lstIndeVar.SelectedValueChanged += new System.EventHandler(this.lstIndeVar_SelectedValueChanged);
             this.lstIndeVar.DoubleClick += new System.EventHandler(this.lstIndeVar_DoubleClick);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(449, 373);
+            this.btnCancel.Location = new System.Drawing.Point(449, 400);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(115, 23);
             this.btnCancel.TabIndex = 121;
@@ -99,7 +106,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(300, 373);
+            this.btnRun.Location = new System.Drawing.Point(299, 400);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(115, 23);
             this.btnRun.TabIndex = 120;
@@ -144,7 +151,7 @@
             // 
             // btnMoveLeft
             // 
-            this.btnMoveLeft.Location = new System.Drawing.Point(134, 276);
+            this.btnMoveLeft.Location = new System.Drawing.Point(134, 294);
             this.btnMoveLeft.Name = "btnMoveLeft";
             this.btnMoveLeft.Size = new System.Drawing.Size(28, 23);
             this.btnMoveLeft.TabIndex = 115;
@@ -154,7 +161,7 @@
             // 
             // btnMoveRight
             // 
-            this.btnMoveRight.Location = new System.Drawing.Point(134, 247);
+            this.btnMoveRight.Location = new System.Drawing.Point(134, 265);
             this.btnMoveRight.Name = "btnMoveRight";
             this.btnMoveRight.Size = new System.Drawing.Size(28, 23);
             this.btnMoveRight.TabIndex = 114;
@@ -165,10 +172,10 @@
             // lstFields
             // 
             this.lstFields.FormattingEnabled = true;
-            this.lstFields.Location = new System.Drawing.Point(15, 206);
+            this.lstFields.Location = new System.Drawing.Point(15, 204);
             this.lstFields.Name = "lstFields";
             this.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstFields.Size = new System.Drawing.Size(113, 147);
+            this.lstFields.Size = new System.Drawing.Size(113, 186);
             this.lstFields.TabIndex = 113;
             this.lstFields.DoubleClick += new System.EventHandler(this.lstFields_DoubleClick);
             // 
@@ -193,7 +200,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 25);
+            this.label7.Location = new System.Drawing.Point(14, 67);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(158, 13);
             this.label7.TabIndex = 5;
@@ -202,7 +209,7 @@
             // lblDirection
             // 
             this.lblDirection.AutoSize = true;
-            this.lblDirection.Location = new System.Drawing.Point(74, 50);
+            this.lblDirection.Location = new System.Drawing.Point(74, 92);
             this.lblDirection.Name = "lblDirection";
             this.lblDirection.Size = new System.Drawing.Size(52, 13);
             this.lblDirection.TabIndex = 4;
@@ -211,7 +218,7 @@
             // chkCoeEVs
             // 
             this.chkCoeEVs.AutoSize = true;
-            this.chkCoeEVs.Location = new System.Drawing.Point(308, 176);
+            this.chkCoeEVs.Location = new System.Drawing.Point(15, 22);
             this.chkCoeEVs.Name = "chkCoeEVs";
             this.chkCoeEVs.Size = new System.Drawing.Size(229, 17);
             this.chkCoeEVs.TabIndex = 123;
@@ -225,7 +232,7 @@
             "Positive Only",
             "Negative Only",
             "Both"});
-            this.cboDirection.Location = new System.Drawing.Point(132, 47);
+            this.cboDirection.Location = new System.Drawing.Point(132, 89);
             this.cboDirection.Name = "cboDirection";
             this.cboDirection.Size = new System.Drawing.Size(125, 21);
             this.cboDirection.TabIndex = 3;
@@ -239,7 +246,7 @@
             0,
             0,
             131072});
-            this.nudEValue.Location = new System.Drawing.Point(178, 22);
+            this.nudEValue.Location = new System.Drawing.Point(178, 64);
             this.nudEValue.Maximum = new decimal(new int[] {
             1,
             0,
@@ -276,9 +283,9 @@
             this.colNames});
             this.lstSave.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstSave.LabelEdit = true;
-            this.lstSave.Location = new System.Drawing.Point(12, 19);
+            this.lstSave.Location = new System.Drawing.Point(12, 22);
             this.lstSave.Name = "lstSave";
-            this.lstSave.Size = new System.Drawing.Size(244, 129);
+            this.lstSave.Size = new System.Drawing.Size(244, 123);
             this.lstSave.TabIndex = 57;
             this.lstSave.UseCompatibleStateImageBehavior = false;
             this.lstSave.View = System.Windows.Forms.View.Details;
@@ -286,7 +293,7 @@
             // 
             // btnOpenSWM
             // 
-            this.btnOpenSWM.Location = new System.Drawing.Point(517, 39);
+            this.btnOpenSWM.Location = new System.Drawing.Point(218, 34);
             this.btnOpenSWM.Name = "btnOpenSWM";
             this.btnOpenSWM.Size = new System.Drawing.Size(39, 23);
             this.btnOpenSWM.TabIndex = 131;
@@ -296,7 +303,7 @@
             // 
             // txtSWM
             // 
-            this.txtSWM.Location = new System.Drawing.Point(308, 42);
+            this.txtSWM.Location = new System.Drawing.Point(14, 36);
             this.txtSWM.Name = "txtSWM";
             this.txtSWM.Size = new System.Drawing.Size(199, 20);
             this.txtSWM.TabIndex = 130;
@@ -305,7 +312,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(305, 24);
+            this.label6.Location = new System.Drawing.Point(14, 18);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(110, 13);
             this.label6.TabIndex = 129;
@@ -336,7 +343,8 @@
             this.cboFamily.Items.AddRange(new object[] {
             "Linear (Gaussian)",
             "Poisson",
-            "Binomial"});
+            "Binomial",
+            "Logistic"});
             this.cboFamily.Location = new System.Drawing.Point(15, 71);
             this.cboFamily.Name = "cboFamily";
             this.cboFamily.Size = new System.Drawing.Size(265, 21);
@@ -356,9 +364,9 @@
             // grbSave
             // 
             this.grbSave.Controls.Add(this.lstSave);
-            this.grbSave.Location = new System.Drawing.Point(300, 202);
+            this.grbSave.Location = new System.Drawing.Point(300, 237);
             this.grbSave.Name = "grbSave";
-            this.grbSave.Size = new System.Drawing.Size(264, 161);
+            this.grbSave.Size = new System.Drawing.Size(264, 151);
             this.grbSave.TabIndex = 124;
             this.grbSave.TabStop = false;
             this.grbSave.Text = "Result";
@@ -369,9 +377,12 @@
             this.grbEV.Controls.Add(this.lblDirection);
             this.grbEV.Controls.Add(this.cboDirection);
             this.grbEV.Controls.Add(this.nudEValue);
-            this.grbEV.Location = new System.Drawing.Point(299, 83);
+            this.grbEV.Controls.Add(this.btnOpenSWM);
+            this.grbEV.Controls.Add(this.label6);
+            this.grbEV.Controls.Add(this.txtSWM);
+            this.grbEV.Location = new System.Drawing.Point(299, 12);
             this.grbEV.Name = "grbEV";
-            this.grbEV.Size = new System.Drawing.Size(265, 79);
+            this.grbEV.Size = new System.Drawing.Size(265, 123);
             this.grbEV.TabIndex = 122;
             this.grbEV.TabStop = false;
             this.grbEV.Text = "Candidate Eigenvector Selection";
@@ -381,12 +392,57 @@
             this.ofdOpenSWM.Filter = "GAL files|*.gal|GWT files|*.gwt";
             this.ofdOpenSWM.Title = "Open GAL files";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.cboAlternative);
+            this.groupBox1.Controls.Add(this.lblAlternative);
+            this.groupBox1.Controls.Add(this.chkCoeEVs);
+            this.groupBox1.Location = new System.Drawing.Point(300, 141);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(264, 90);
+            this.groupBox1.TabIndex = 134;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Output";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 43);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(145, 13);
+            this.label8.TabIndex = 96;
+            this.label8.Text = "Moran Coefficient Calculation";
+            // 
+            // cboAlternative
+            // 
+            this.cboAlternative.FormattingEnabled = true;
+            this.cboAlternative.Items.AddRange(new object[] {
+            "Greater",
+            "Less",
+            "Two Sided"});
+            this.cboAlternative.Location = new System.Drawing.Point(166, 60);
+            this.cboAlternative.Name = "cboAlternative";
+            this.cboAlternative.Size = new System.Drawing.Size(90, 21);
+            this.cboAlternative.TabIndex = 95;
+            this.cboAlternative.Text = "Greater";
+            // 
+            // lblAlternative
+            // 
+            this.lblAlternative.AutoSize = true;
+            this.lblAlternative.Location = new System.Drawing.Point(47, 64);
+            this.lblAlternative.Name = "lblAlternative";
+            this.lblAlternative.Size = new System.Drawing.Size(115, 13);
+            this.lblAlternative.TabIndex = 94;
+            this.lblAlternative.Text = "Alternative Hypothesis:";
+            // 
             // frmVaryingCoefficients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(579, 411);
+            this.ClientSize = new System.Drawing.Size(579, 435);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lstIndeVar);
             this.Controls.Add(this.btnCancel);
@@ -400,10 +456,6 @@
             this.Controls.Add(this.lstFields);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboTargetLayer);
-            this.Controls.Add(this.chkCoeEVs);
-            this.Controls.Add(this.btnOpenSWM);
-            this.Controls.Add(this.txtSWM);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.cboNormalization);
             this.Controls.Add(this.lblNorm);
             this.Controls.Add(this.cboFamily);
@@ -419,6 +471,8 @@
             this.grbSave.ResumeLayout(false);
             this.grbEV.ResumeLayout(false);
             this.grbEV.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -457,5 +511,9 @@
         private System.Windows.Forms.GroupBox grbSave;
         private System.Windows.Forms.GroupBox grbEV;
         private System.Windows.Forms.OpenFileDialog ofdOpenSWM;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cboAlternative;
+        private System.Windows.Forms.Label lblAlternative;
     }
 }

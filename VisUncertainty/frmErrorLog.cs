@@ -13,10 +13,12 @@ namespace VisUncertainty
     public partial class frmErrorLog : Form
     {
         public Exception ex;
+        public string strAdditionalMessage;
 
         public frmErrorLog()
         {
             InitializeComponent();
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -29,6 +31,8 @@ namespace VisUncertainty
             this.Text = ex.Source + " Error";
             this.txtMessages.Text = ex.Message;
             this.txtStackTrace.Text = ex.StackTrace;
+            if (strAdditionalMessage != null)
+                this.txtMessages.Text = strAdditionalMessage;
         }
     }
 }

@@ -47,14 +47,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
-            this.cboAssumption = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.cboSAM = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cboFieldName = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cboTargetLayer = new System.Windows.Forms.ComboBox();
+            this.cboAssumption = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.conMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportToImageFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
@@ -137,9 +137,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(11, 141);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.Size = new System.Drawing.Size(112, 13);
             this.label5.TabIndex = 84;
-            this.label5.Text = "Spatial Weight Matrix";
+            this.label5.Text = "Spatial Weights Matrix";
             // 
             // chkNonDiag
             // 
@@ -239,29 +239,6 @@
             this.btnRun.UseVisualStyleBackColor = true;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
-            // cboAssumption
-            // 
-            this.cboAssumption.FormattingEnabled = true;
-            this.cboAssumption.Items.AddRange(new object[] {
-            "Normality",
-            "Randomization"});
-            this.cboAssumption.Location = new System.Drawing.Point(198, 298);
-            this.cboAssumption.Name = "cboAssumption";
-            this.cboAssumption.Size = new System.Drawing.Size(208, 21);
-            this.cboAssumption.TabIndex = 71;
-            this.cboAssumption.Text = "Normality";
-            this.cboAssumption.Visible = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(200, 280);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 13);
-            this.label4.TabIndex = 70;
-            this.label4.Text = "Inference Assumption:";
-            this.label4.Visible = false;
-            // 
             // cboSAM
             // 
             this.cboSAM.FormattingEnabled = true;
@@ -319,6 +296,29 @@
             this.cboTargetLayer.Size = new System.Drawing.Size(210, 21);
             this.cboTargetLayer.TabIndex = 64;
             this.cboTargetLayer.SelectedIndexChanged += new System.EventHandler(this.cboTargetLayer_SelectedIndexChanged);
+            // 
+            // cboAssumption
+            // 
+            this.cboAssumption.FormattingEnabled = true;
+            this.cboAssumption.Items.AddRange(new object[] {
+            "Normality",
+            "Randomization"});
+            this.cboAssumption.Location = new System.Drawing.Point(198, 298);
+            this.cboAssumption.Name = "cboAssumption";
+            this.cboAssumption.Size = new System.Drawing.Size(208, 21);
+            this.cboAssumption.TabIndex = 71;
+            this.cboAssumption.Text = "Normality";
+            this.cboAssumption.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(200, 280);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(112, 13);
+            this.label4.TabIndex = 70;
+            this.label4.Text = "Inference Assumption:";
+            this.label4.Visible = false;
             // 
             // conMenu
             // 
