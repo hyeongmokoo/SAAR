@@ -37,17 +37,17 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(16, 6);
+            this.lblStatus.Location = new System.Drawing.Point(14, 7);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(38, 12);
+            this.lblStatus.Size = new System.Drawing.Size(35, 13);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "label1";
             // 
             // pgbProgress
             // 
-            this.pgbProgress.Location = new System.Drawing.Point(14, 21);
+            this.pgbProgress.Location = new System.Drawing.Point(12, 23);
             this.pgbProgress.Name = "pgbProgress";
-            this.pgbProgress.Size = new System.Drawing.Size(299, 21);
+            this.pgbProgress.Size = new System.Drawing.Size(256, 23);
             this.pgbProgress.TabIndex = 1;
             // 
             // bgWorker
@@ -58,16 +58,17 @@
             // 
             // frmProgress
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(331, 53);
+            this.ClientSize = new System.Drawing.Size(284, 57);
             this.Controls.Add(this.pgbProgress);
             this.Controls.Add(this.lblStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmProgress";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Processing";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -44,6 +44,7 @@ namespace VisUncertainty
             this.menuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.programPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutSAARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addFieldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,6 +163,7 @@ namespace VisUncertainty
             this.menuSaveAs,
             this.menuSeparator,
             this.programPropertiesToolStripMenuItem,
+            this.aboutSAARToolStripMenuItem,
             this.menuExitApp});
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(37, 20);
@@ -172,7 +174,7 @@ namespace VisUncertainty
             this.menuNewDoc.Image = ((System.Drawing.Image)(resources.GetObject("menuNewDoc.Image")));
             this.menuNewDoc.ImageTransparentColor = System.Drawing.Color.White;
             this.menuNewDoc.Name = "menuNewDoc";
-            this.menuNewDoc.Size = new System.Drawing.Size(176, 22);
+            this.menuNewDoc.Size = new System.Drawing.Size(177, 22);
             this.menuNewDoc.Text = "New Document";
             this.menuNewDoc.Click += new System.EventHandler(this.menuNewDoc_Click);
             // 
@@ -181,7 +183,7 @@ namespace VisUncertainty
             this.menuOpenDoc.Image = ((System.Drawing.Image)(resources.GetObject("menuOpenDoc.Image")));
             this.menuOpenDoc.ImageTransparentColor = System.Drawing.Color.White;
             this.menuOpenDoc.Name = "menuOpenDoc";
-            this.menuOpenDoc.Size = new System.Drawing.Size(176, 22);
+            this.menuOpenDoc.Size = new System.Drawing.Size(177, 22);
             this.menuOpenDoc.Text = "Open Document...";
             this.menuOpenDoc.Click += new System.EventHandler(this.menuOpenDoc_Click);
             // 
@@ -190,33 +192,40 @@ namespace VisUncertainty
             this.menuSaveDoc.Image = ((System.Drawing.Image)(resources.GetObject("menuSaveDoc.Image")));
             this.menuSaveDoc.ImageTransparentColor = System.Drawing.Color.White;
             this.menuSaveDoc.Name = "menuSaveDoc";
-            this.menuSaveDoc.Size = new System.Drawing.Size(176, 22);
+            this.menuSaveDoc.Size = new System.Drawing.Size(177, 22);
             this.menuSaveDoc.Text = "SaveDocument";
             this.menuSaveDoc.Click += new System.EventHandler(this.menuSaveDoc_Click);
             // 
             // menuSaveAs
             // 
             this.menuSaveAs.Name = "menuSaveAs";
-            this.menuSaveAs.Size = new System.Drawing.Size(176, 22);
+            this.menuSaveAs.Size = new System.Drawing.Size(177, 22);
             this.menuSaveAs.Text = "Save As...";
             this.menuSaveAs.Click += new System.EventHandler(this.menuSaveAs_Click);
             // 
             // menuSeparator
             // 
             this.menuSeparator.Name = "menuSeparator";
-            this.menuSeparator.Size = new System.Drawing.Size(173, 6);
+            this.menuSeparator.Size = new System.Drawing.Size(174, 6);
             // 
             // programPropertiesToolStripMenuItem
             // 
             this.programPropertiesToolStripMenuItem.Name = "programPropertiesToolStripMenuItem";
-            this.programPropertiesToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.programPropertiesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.programPropertiesToolStripMenuItem.Text = "Program Properties";
             this.programPropertiesToolStripMenuItem.Click += new System.EventHandler(this.programPropertiesToolStripMenuItem_Click);
+            // 
+            // aboutSAARToolStripMenuItem
+            // 
+            this.aboutSAARToolStripMenuItem.Name = "aboutSAARToolStripMenuItem";
+            this.aboutSAARToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.aboutSAARToolStripMenuItem.Text = "About SAAR";
+            this.aboutSAARToolStripMenuItem.Click += new System.EventHandler(this.aboutSAARToolStripMenuItem_Click);
             // 
             // menuExitApp
             // 
             this.menuExitApp.Name = "menuExitApp";
-            this.menuExitApp.Size = new System.Drawing.Size(176, 22);
+            this.menuExitApp.Size = new System.Drawing.Size(177, 22);
             this.menuExitApp.Text = "Exit";
             this.menuExitApp.Click += new System.EventHandler(this.menuExitApp_Click);
             // 
@@ -228,34 +237,34 @@ namespace VisUncertainty
             this.fieldCalculatorToolStripMenuItem,
             this.dataTransformationToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
-            this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.dataToolStripMenuItem.Text = "Data";
             // 
             // addFieldToolStripMenuItem
             // 
             this.addFieldToolStripMenuItem.Name = "addFieldToolStripMenuItem";
-            this.addFieldToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.addFieldToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.addFieldToolStripMenuItem.Text = "Add Field";
             this.addFieldToolStripMenuItem.Click += new System.EventHandler(this.addFieldToolStripMenuItem_Click);
             // 
             // deleteFieldsToolStripMenuItem
             // 
             this.deleteFieldsToolStripMenuItem.Name = "deleteFieldsToolStripMenuItem";
-            this.deleteFieldsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.deleteFieldsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.deleteFieldsToolStripMenuItem.Text = "Delete Fields";
             this.deleteFieldsToolStripMenuItem.Click += new System.EventHandler(this.deleteFieldsToolStripMenuItem_Click);
             // 
             // fieldCalculatorToolStripMenuItem
             // 
             this.fieldCalculatorToolStripMenuItem.Name = "fieldCalculatorToolStripMenuItem";
-            this.fieldCalculatorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.fieldCalculatorToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.fieldCalculatorToolStripMenuItem.Text = "Field Calculator";
             this.fieldCalculatorToolStripMenuItem.Click += new System.EventHandler(this.fieldCalculatorToolStripMenuItem_Click);
             // 
             // dataTransformationToolStripMenuItem
             // 
             this.dataTransformationToolStripMenuItem.Name = "dataTransformationToolStripMenuItem";
-            this.dataTransformationToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.dataTransformationToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.dataTransformationToolStripMenuItem.Text = "Data Transformation";
             this.dataTransformationToolStripMenuItem.Click += new System.EventHandler(this.dataTransformationToolStripMenuItem_Click);
             // 
@@ -273,73 +282,73 @@ namespace VisUncertainty
             this.conditionedMapToolStripMenuItem,
             this.spatialWeightsMatrixToolStripMenuItem});
             this.graphsToolStripMenuItem.Name = "graphsToolStripMenuItem";
-            this.graphsToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.graphsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.graphsToolStripMenuItem.Text = "Explore";
             // 
             // tsmHistogram
             // 
             this.tsmHistogram.Name = "tsmHistogram";
-            this.tsmHistogram.Size = new System.Drawing.Size(235, 22);
+            this.tsmHistogram.Size = new System.Drawing.Size(237, 22);
             this.tsmHistogram.Text = "Histogram";
             this.tsmHistogram.Click += new System.EventHandler(this.tsmHistogram_Click);
             // 
             // tsmBoxplot
             // 
             this.tsmBoxplot.Name = "tsmBoxplot";
-            this.tsmBoxplot.Size = new System.Drawing.Size(235, 22);
+            this.tsmBoxplot.Size = new System.Drawing.Size(237, 22);
             this.tsmBoxplot.Text = "Boxplot";
             this.tsmBoxplot.Click += new System.EventHandler(this.tsmBoxplot_Click);
             // 
             // violinPlotToolStripMenuItem
             // 
             this.violinPlotToolStripMenuItem.Name = "violinPlotToolStripMenuItem";
-            this.violinPlotToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.violinPlotToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.violinPlotToolStripMenuItem.Text = "Violin plot";
             this.violinPlotToolStripMenuItem.Click += new System.EventHandler(this.violinPlotToolStripMenuItem_Click);
             // 
             // tsmQQplot
             // 
             this.tsmQQplot.Name = "tsmQQplot";
-            this.tsmQQplot.Size = new System.Drawing.Size(235, 22);
+            this.tsmQQplot.Size = new System.Drawing.Size(237, 22);
             this.tsmQQplot.Text = "Quantile-comparison plot";
             this.tsmQQplot.Click += new System.EventHandler(this.tsmQQplot_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(234, 6);
             // 
             // tsmScatterplot
             // 
             this.tsmScatterplot.Name = "tsmScatterplot";
-            this.tsmScatterplot.Size = new System.Drawing.Size(235, 22);
+            this.tsmScatterplot.Size = new System.Drawing.Size(237, 22);
             this.tsmScatterplot.Text = "Scatterplot";
             this.tsmScatterplot.Click += new System.EventHandler(this.tsmScatterplot_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(234, 6);
             // 
             // moranScatterplotToolStripMenuItem
             // 
             this.moranScatterplotToolStripMenuItem.Name = "moranScatterplotToolStripMenuItem";
-            this.moranScatterplotToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moranScatterplotToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.moranScatterplotToolStripMenuItem.Text = "Moran Scatterplot";
             this.moranScatterplotToolStripMenuItem.Click += new System.EventHandler(this.moranScatterplotToolStripMenuItem_Click);
             // 
             // conditionedMapToolStripMenuItem
             // 
             this.conditionedMapToolStripMenuItem.Name = "conditionedMapToolStripMenuItem";
-            this.conditionedMapToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.conditionedMapToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.conditionedMapToolStripMenuItem.Text = "Conditioned Choropleth Maps";
             this.conditionedMapToolStripMenuItem.Click += new System.EventHandler(this.conditionedMapToolStripMenuItem_Click);
             // 
             // spatialWeightsMatrixToolStripMenuItem
             // 
             this.spatialWeightsMatrixToolStripMenuItem.Name = "spatialWeightsMatrixToolStripMenuItem";
-            this.spatialWeightsMatrixToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.spatialWeightsMatrixToolStripMenuItem.Text = "Exploring Spatial Weights";
+            this.spatialWeightsMatrixToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.spatialWeightsMatrixToolStripMenuItem.Text = "Spatial Composition";
             this.spatialWeightsMatrixToolStripMenuItem.Click += new System.EventHandler(this.spatialWeightsMatrixToolStripMenuItem_Click);
             // 
             // stmenuSample
@@ -365,38 +374,38 @@ namespace VisUncertainty
             // tsmDescriptiveStatistics
             // 
             this.tsmDescriptiveStatistics.Name = "tsmDescriptiveStatistics";
-            this.tsmDescriptiveStatistics.Size = new System.Drawing.Size(290, 22);
+            this.tsmDescriptiveStatistics.Size = new System.Drawing.Size(294, 22);
             this.tsmDescriptiveStatistics.Text = "Descriptive Statistics";
             this.tsmDescriptiveStatistics.Click += new System.EventHandler(this.tsmDescriptiveStatistics_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(287, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(291, 6);
             // 
             // spatialAutocorrelationToolStripMenuItem
             // 
             this.spatialAutocorrelationToolStripMenuItem.Name = "spatialAutocorrelationToolStripMenuItem";
-            this.spatialAutocorrelationToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.spatialAutocorrelationToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.spatialAutocorrelationToolStripMenuItem.Text = "Global Spatial Autocorrelation";
             this.spatialAutocorrelationToolStripMenuItem.Click += new System.EventHandler(this.spatialAutocorrelationToolStripMenuItem_Click);
             // 
             // localSpatialAutocorrelationToolStripMenuItem
             // 
             this.localSpatialAutocorrelationToolStripMenuItem.Name = "localSpatialAutocorrelationToolStripMenuItem";
-            this.localSpatialAutocorrelationToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.localSpatialAutocorrelationToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.localSpatialAutocorrelationToolStripMenuItem.Text = "Local Spatial Autocorrelation (Univariate)";
             this.localSpatialAutocorrelationToolStripMenuItem.Click += new System.EventHandler(this.localSpatialAutocorrelationToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(291, 6);
             // 
             // reducedSecondMomentMeasureToolStripMenuItem
             // 
             this.reducedSecondMomentMeasureToolStripMenuItem.Name = "reducedSecondMomentMeasureToolStripMenuItem";
-            this.reducedSecondMomentMeasureToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.reducedSecondMomentMeasureToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.reducedSecondMomentMeasureToolStripMenuItem.Text = "Reduced Second Moment Measure";
             this.reducedSecondMomentMeasureToolStripMenuItem.Visible = false;
             this.reducedSecondMomentMeasureToolStripMenuItem.Click += new System.EventHandler(this.reducedSecondMomentMeasureToolStripMenuItem_Click);
@@ -404,14 +413,14 @@ namespace VisUncertainty
             // variogramCloudToolStripMenuItem
             // 
             this.variogramCloudToolStripMenuItem.Name = "variogramCloudToolStripMenuItem";
-            this.variogramCloudToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.variogramCloudToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.variogramCloudToolStripMenuItem.Text = "Variogram Cloud";
             this.variogramCloudToolStripMenuItem.Click += new System.EventHandler(this.variogramCloudToolStripMenuItem_Click);
             // 
             // clustogramToolStripMenuItem
             // 
             this.clustogramToolStripMenuItem.Name = "clustogramToolStripMenuItem";
-            this.clustogramToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.clustogramToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.clustogramToolStripMenuItem.Text = "Co/Clustogram";
             this.clustogramToolStripMenuItem.Visible = false;
             this.clustogramToolStripMenuItem.Click += new System.EventHandler(this.clustogramToolStripMenuItem_Click);
@@ -419,7 +428,7 @@ namespace VisUncertainty
             // spatialCorrelogramToolStripMenuItem
             // 
             this.spatialCorrelogramToolStripMenuItem.Name = "spatialCorrelogramToolStripMenuItem";
-            this.spatialCorrelogramToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.spatialCorrelogramToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.spatialCorrelogramToolStripMenuItem.Text = "Spatial Correlogram (Global)";
             this.spatialCorrelogramToolStripMenuItem.Visible = false;
             this.spatialCorrelogramToolStripMenuItem.Click += new System.EventHandler(this.spatialCorrelogramToolStripMenuItem_Click);
@@ -427,26 +436,26 @@ namespace VisUncertainty
             // spatialCorrelogramLocalVerToolStripMenuItem
             // 
             this.spatialCorrelogramLocalVerToolStripMenuItem.Name = "spatialCorrelogramLocalVerToolStripMenuItem";
-            this.spatialCorrelogramLocalVerToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.spatialCorrelogramLocalVerToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.spatialCorrelogramLocalVerToolStripMenuItem.Text = "Spatial Correlogram";
             this.spatialCorrelogramLocalVerToolStripMenuItem.Click += new System.EventHandler(this.spatialCorrelogramLocalVerToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(287, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(291, 6);
             // 
             // globalBivariateSpatialAssociationToolStripMenuItem
             // 
             this.globalBivariateSpatialAssociationToolStripMenuItem.Name = "globalBivariateSpatialAssociationToolStripMenuItem";
-            this.globalBivariateSpatialAssociationToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.globalBivariateSpatialAssociationToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.globalBivariateSpatialAssociationToolStripMenuItem.Text = "Global Bivariate Spatial Association";
             this.globalBivariateSpatialAssociationToolStripMenuItem.Click += new System.EventHandler(this.globalBivariateSpatialAssociationToolStripMenuItem_Click);
             // 
             // bivariateSpatialAssociationToolStripMenuItem
             // 
             this.bivariateSpatialAssociationToolStripMenuItem.Name = "bivariateSpatialAssociationToolStripMenuItem";
-            this.bivariateSpatialAssociationToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.bivariateSpatialAssociationToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.bivariateSpatialAssociationToolStripMenuItem.Text = "Local Bivariate Spatial Association";
             this.bivariateSpatialAssociationToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialAssociationToolStripMenuItem_Click);
             // 
@@ -465,35 +474,35 @@ namespace VisUncertainty
             // linearRegressionToolStripMenuItem
             // 
             this.linearRegressionToolStripMenuItem.Name = "linearRegressionToolStripMenuItem";
-            this.linearRegressionToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.linearRegressionToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.linearRegressionToolStripMenuItem.Text = "Linear Regression";
             this.linearRegressionToolStripMenuItem.Click += new System.EventHandler(this.linearRegressionToolStripMenuItem_Click);
             // 
             // generalizedLinearModelsToolStripMenuItem
             // 
             this.generalizedLinearModelsToolStripMenuItem.Name = "generalizedLinearModelsToolStripMenuItem";
-            this.generalizedLinearModelsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.generalizedLinearModelsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.generalizedLinearModelsToolStripMenuItem.Text = "Generalized Linear Models";
             this.generalizedLinearModelsToolStripMenuItem.Click += new System.EventHandler(this.generalizedLinearModelsToolStripMenuItem_Click);
             // 
             // spatialRegressionToolStripMenuItem1
             // 
             this.spatialRegressionToolStripMenuItem1.Name = "spatialRegressionToolStripMenuItem1";
-            this.spatialRegressionToolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
+            this.spatialRegressionToolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
             this.spatialRegressionToolStripMenuItem1.Text = "Spatial Autoregression";
             this.spatialRegressionToolStripMenuItem1.Click += new System.EventHandler(this.spatialRegressionToolStripMenuItem1_Click);
             // 
             // eigenvectorSpatialFilteringToolStripMenuItem1
             // 
             this.eigenvectorSpatialFilteringToolStripMenuItem1.Name = "eigenvectorSpatialFilteringToolStripMenuItem1";
-            this.eigenvectorSpatialFilteringToolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
+            this.eigenvectorSpatialFilteringToolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
             this.eigenvectorSpatialFilteringToolStripMenuItem1.Text = "Eigenvector Spatial Filtering";
             this.eigenvectorSpatialFilteringToolStripMenuItem1.Click += new System.EventHandler(this.eigenvectorSpatialFilteringToolStripMenuItem1_Click);
             // 
             // spatiallyVaryingCoefficientsToolStripMenuItem
             // 
             this.spatiallyVaryingCoefficientsToolStripMenuItem.Name = "spatiallyVaryingCoefficientsToolStripMenuItem";
-            this.spatiallyVaryingCoefficientsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.spatiallyVaryingCoefficientsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.spatiallyVaryingCoefficientsToolStripMenuItem.Text = "Spatially Varying Coefficients";
             this.spatiallyVaryingCoefficientsToolStripMenuItem.Click += new System.EventHandler(this.spatiallyVaryingCoefficientsToolStripMenuItem_Click);
             // 
@@ -516,27 +525,27 @@ namespace VisUncertainty
             this.choroplethMapWithGraduatedColorToolStripMenuItem,
             this.graduatedSymbolToolStripMenuItem});
             this.visualizationToolStripMenuItem.Name = "visualizationToolStripMenuItem";
-            this.visualizationToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.visualizationToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.visualizationToolStripMenuItem.Text = "Visualization (Static)";
             // 
             // proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem
             // 
             this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem.Name = "proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem";
-            this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem.Size = new System.Drawing.Size(312, 22);
+            this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem.Size = new System.Drawing.Size(317, 22);
             this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem.Text = "Proportional Symbol with Color combination";
             this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem.Click += new System.EventHandler(this.proportionalSymbolWithSaturateAndTransparencyToolStripMenuItem_Click);
             // 
             // choroplethMapWithGraduatedColorToolStripMenuItem
             // 
             this.choroplethMapWithGraduatedColorToolStripMenuItem.Name = "choroplethMapWithGraduatedColorToolStripMenuItem";
-            this.choroplethMapWithGraduatedColorToolStripMenuItem.Size = new System.Drawing.Size(312, 22);
+            this.choroplethMapWithGraduatedColorToolStripMenuItem.Size = new System.Drawing.Size(317, 22);
             this.choroplethMapWithGraduatedColorToolStripMenuItem.Text = "Choropleth Map with Overlaid Symbol";
             this.choroplethMapWithGraduatedColorToolStripMenuItem.Click += new System.EventHandler(this.choroplethMapWithGraduatedColorToolStripMenuItem_Click);
             // 
             // graduatedSymbolToolStripMenuItem
             // 
             this.graduatedSymbolToolStripMenuItem.Name = "graduatedSymbolToolStripMenuItem";
-            this.graduatedSymbolToolStripMenuItem.Size = new System.Drawing.Size(312, 22);
+            this.graduatedSymbolToolStripMenuItem.Size = new System.Drawing.Size(317, 22);
             this.graduatedSymbolToolStripMenuItem.Text = "Composite Symbols";
             this.graduatedSymbolToolStripMenuItem.Click += new System.EventHandler(this.graduatedSymbolToolStripMenuItem_Click);
             // 
@@ -546,7 +555,7 @@ namespace VisUncertainty
             this.gliderToolStripMenuItem,
             this.blinkingToolStripMenuItem});
             this.dynamicToolStripMenuItem.Name = "dynamicToolStripMenuItem";
-            this.dynamicToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.dynamicToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.dynamicToolStripMenuItem.Text = "Dynamic Visualization";
             // 
             // gliderToolStripMenuItem
@@ -570,27 +579,27 @@ namespace VisUncertainty
             this.classificationOptimizationToolStripMenuItem,
             this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem});
             this.classificationToolStripMenuItem.Name = "classificationToolStripMenuItem";
-            this.classificationToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.classificationToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.classificationToolStripMenuItem.Text = "Classification";
             // 
             // classSeparabilityToolStripMenuItem
             // 
             this.classSeparabilityToolStripMenuItem.Name = "classSeparabilityToolStripMenuItem";
-            this.classSeparabilityToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.classSeparabilityToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.classSeparabilityToolStripMenuItem.Text = "Class Separability";
             this.classSeparabilityToolStripMenuItem.Click += new System.EventHandler(this.classSeparabilityToolStripMenuItem_Click);
             // 
             // classificationOptimizationToolStripMenuItem
             // 
             this.classificationOptimizationToolStripMenuItem.Name = "classificationOptimizationToolStripMenuItem";
-            this.classificationOptimizationToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.classificationOptimizationToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.classificationOptimizationToolStripMenuItem.Text = "Optimized Classification with Uncertainty";
             this.classificationOptimizationToolStripMenuItem.Click += new System.EventHandler(this.classificationOptimizationToolStripMenuItem_Click);
             // 
             // theRoubustnessOfChoroplethMapClassificationToolStripMenuItem
             // 
             this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Name = "theRoubustnessOfChoroplethMapClassificationToolStripMenuItem";
-            this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Text = "Evaluation";
             this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Visible = false;
             this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem.Click += new System.EventHandler(this.theRoubustnessOfChoroplethMapClassificationToolStripMenuItem_Click);
@@ -600,14 +609,14 @@ namespace VisUncertainty
             this.remoteSensingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.parallelCoordinatePlotToolStripMenuItem});
             this.remoteSensingToolStripMenuItem.Name = "remoteSensingToolStripMenuItem";
-            this.remoteSensingToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.remoteSensingToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.remoteSensingToolStripMenuItem.Text = "Remote Sensing";
             this.remoteSensingToolStripMenuItem.Visible = false;
             // 
             // parallelCoordinatePlotToolStripMenuItem
             // 
             this.parallelCoordinatePlotToolStripMenuItem.Name = "parallelCoordinatePlotToolStripMenuItem";
-            this.parallelCoordinatePlotToolStripMenuItem.Size = new System.Drawing.Size(312, 22);
+            this.parallelCoordinatePlotToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
             this.parallelCoordinatePlotToolStripMenuItem.Text = "Uncertainty Visualization in Classified RS data";
             this.parallelCoordinatePlotToolStripMenuItem.Click += new System.EventHandler(this.parallelCoordinatePlotToolStripMenuItem_Click);
             // 
@@ -616,14 +625,14 @@ namespace VisUncertainty
             this.clusteringToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hierarchicalClusteringToolStripMenuItem});
             this.clusteringToolStripMenuItem.Name = "clusteringToolStripMenuItem";
-            this.clusteringToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.clusteringToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.clusteringToolStripMenuItem.Text = "Clustering";
             this.clusteringToolStripMenuItem.Visible = false;
             // 
             // hierarchicalClusteringToolStripMenuItem
             // 
             this.hierarchicalClusteringToolStripMenuItem.Name = "hierarchicalClusteringToolStripMenuItem";
-            this.hierarchicalClusteringToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.hierarchicalClusteringToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.hierarchicalClusteringToolStripMenuItem.Text = "Hierarchical Clustering";
             this.hierarchicalClusteringToolStripMenuItem.Click += new System.EventHandler(this.hierarchicalClusteringToolStripMenuItem_Click);
             // 
@@ -640,21 +649,21 @@ namespace VisUncertainty
             // createSpatialWeightMatrixToolStripMenuItem
             // 
             this.createSpatialWeightMatrixToolStripMenuItem.Name = "createSpatialWeightMatrixToolStripMenuItem";
-            this.createSpatialWeightMatrixToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.createSpatialWeightMatrixToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.createSpatialWeightMatrixToolStripMenuItem.Text = "Create Spatial Weights Matrix";
             this.createSpatialWeightMatrixToolStripMenuItem.Click += new System.EventHandler(this.createSpatialWeightMatrixToolStripMenuItem_Click);
             // 
             // createFlowLinesToolStripMenuItem
             // 
             this.createFlowLinesToolStripMenuItem.Name = "createFlowLinesToolStripMenuItem";
-            this.createFlowLinesToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.createFlowLinesToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.createFlowLinesToolStripMenuItem.Text = "Create Flow Lines";
             this.createFlowLinesToolStripMenuItem.Click += new System.EventHandler(this.createFlowLinesToolStripMenuItem_Click);
             // 
             // mLClassificationToolStripMenuItem
             // 
             this.mLClassificationToolStripMenuItem.Name = "mLClassificationToolStripMenuItem";
-            this.mLClassificationToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.mLClassificationToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.mLClassificationToolStripMenuItem.Text = "ML Classification";
             this.mLClassificationToolStripMenuItem.Visible = false;
             this.mLClassificationToolStripMenuItem.Click += new System.EventHandler(this.mLClassificationToolStripMenuItem_Click);
@@ -670,7 +679,7 @@ namespace VisUncertainty
             // openLayoutViewToolStripMenuItem
             // 
             this.openLayoutViewToolStripMenuItem.Name = "openLayoutViewToolStripMenuItem";
-            this.openLayoutViewToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.openLayoutViewToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.openLayoutViewToolStripMenuItem.Text = "Open Layout View";
             this.openLayoutViewToolStripMenuItem.Click += new System.EventHandler(this.openLayoutViewToolStripMenuItem_Click);
             // 
@@ -695,66 +704,66 @@ namespace VisUncertainty
             // bivariateLISAMapsToolStripMenuItem
             // 
             this.bivariateLISAMapsToolStripMenuItem.Name = "bivariateLISAMapsToolStripMenuItem";
-            this.bivariateLISAMapsToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateLISAMapsToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateLISAMapsToolStripMenuItem.Text = "Bivariate LISA Maps";
             this.bivariateLISAMapsToolStripMenuItem.Click += new System.EventHandler(this.bivariateLISAMapsToolStripMenuItem_Click);
             // 
             // bivariateSpatialQuadrantMapsToolStripMenuItem
             // 
             this.bivariateSpatialQuadrantMapsToolStripMenuItem.Name = "bivariateSpatialQuadrantMapsToolStripMenuItem";
-            this.bivariateSpatialQuadrantMapsToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialQuadrantMapsToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialQuadrantMapsToolStripMenuItem.Text = "Bivariate Spatial Quadrant Maps";
             this.bivariateSpatialQuadrantMapsToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialQuadrantMapsToolStripMenuItem_Click);
             // 
             // bivariateSpatialProbabilityMapsToolStripMenuItem
             // 
             this.bivariateSpatialProbabilityMapsToolStripMenuItem.Name = "bivariateSpatialProbabilityMapsToolStripMenuItem";
-            this.bivariateSpatialProbabilityMapsToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialProbabilityMapsToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialProbabilityMapsToolStripMenuItem.Text = "Bivariate Spatial Probability Maps";
             this.bivariateSpatialProbabilityMapsToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialProbabilityMapsToolStripMenuItem_Click);
             // 
             // bivariateSpatialSignificanceMapsToolStripMenuItem
             // 
             this.bivariateSpatialSignificanceMapsToolStripMenuItem.Name = "bivariateSpatialSignificanceMapsToolStripMenuItem";
-            this.bivariateSpatialSignificanceMapsToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialSignificanceMapsToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialSignificanceMapsToolStripMenuItem.Text = "Bivariate Spatial Significant Quadrant Maps";
             this.bivariateSpatialSignificanceMapsToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialSignificanceMapsToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(326, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(332, 6);
             // 
             // bivariateSpatialRangeToolStripMenuItem
             // 
             this.bivariateSpatialRangeToolStripMenuItem.Name = "bivariateSpatialRangeToolStripMenuItem";
-            this.bivariateSpatialRangeToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialRangeToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialRangeToolStripMenuItem.Text = "Bivariate Spatial Range Maps";
             this.bivariateSpatialRangeToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialRangeToolStripMenuItem_Click);
             // 
             // bivariateSpatialClusterToolStripMenuItem
             // 
             this.bivariateSpatialClusterToolStripMenuItem.Name = "bivariateSpatialClusterToolStripMenuItem";
-            this.bivariateSpatialClusterToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialClusterToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialClusterToolStripMenuItem.Text = "Bivariate Spatial Cluster Maps";
             this.bivariateSpatialClusterToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialClusterToolStripMenuItem_Click);
             // 
             // bivariateSpatialOutlierToolStripMenuItem
             // 
             this.bivariateSpatialOutlierToolStripMenuItem.Name = "bivariateSpatialOutlierToolStripMenuItem";
-            this.bivariateSpatialOutlierToolStripMenuItem.Size = new System.Drawing.Size(329, 22);
+            this.bivariateSpatialOutlierToolStripMenuItem.Size = new System.Drawing.Size(335, 22);
             this.bivariateSpatialOutlierToolStripMenuItem.Text = "Bivariate Spatial Outlier Maps";
             this.bivariateSpatialOutlierToolStripMenuItem.Click += new System.EventHandler(this.bivariateSpatialOutlierToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(326, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(332, 6);
             // 
             // globalBivariateSpatialAssociationToolStripMenuItem1
             // 
             this.globalBivariateSpatialAssociationToolStripMenuItem1.Name = "globalBivariateSpatialAssociationToolStripMenuItem1";
-            this.globalBivariateSpatialAssociationToolStripMenuItem1.Size = new System.Drawing.Size(329, 22);
+            this.globalBivariateSpatialAssociationToolStripMenuItem1.Size = new System.Drawing.Size(335, 22);
             this.globalBivariateSpatialAssociationToolStripMenuItem1.Text = "Global Bivariate Spatial Autocorrelation Statistics";
             this.globalBivariateSpatialAssociationToolStripMenuItem1.Click += new System.EventHandler(this.globalBivariateSpatialAssociationToolStripMenuItem1_Click);
             // 
@@ -771,14 +780,14 @@ namespace VisUncertainty
             // geocodingToolStripMenuItem
             // 
             this.geocodingToolStripMenuItem.Name = "geocodingToolStripMenuItem";
-            this.geocodingToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.geocodingToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.geocodingToolStripMenuItem.Text = "Geocoding";
             this.geocodingToolStripMenuItem.Click += new System.EventHandler(this.geocodingToolStripMenuItem_Click);
             // 
             // uncernSAMToolStripMenuItem
             // 
             this.uncernSAMToolStripMenuItem.Name = "uncernSAMToolStripMenuItem";
-            this.uncernSAMToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.uncernSAMToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.uncernSAMToolStripMenuItem.Text = "Uncern SAM";
             this.uncernSAMToolStripMenuItem.Click += new System.EventHandler(this.uncernSAMToolStripMenuItem_Click);
             // 
@@ -848,7 +857,7 @@ namespace VisUncertainty
             this.statusBarXY.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statusBarXY.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusBarXY.Name = "statusBarXY";
-            this.statusBarXY.Size = new System.Drawing.Size(49, 17);
+            this.statusBarXY.Size = new System.Drawing.Size(53, 17);
             this.statusBarXY.Text = "Test 123";
             // 
             // ofdAddData
@@ -877,25 +886,10 @@ namespace VisUncertainty
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            try
-            {
-                ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
-            }
-            catch (Exception ex)
-            {
-                frmErrorLog pfrmErrorLog = new frmErrorLog();
-                pfrmErrorLog.ex = ex;
-                if (ex.Message == "You must have a license to use this ActiveX control.")
-                    pfrmErrorLog.strAdditionalMessage = "You must have a license to use SAAR.";
-
-                pfrmErrorLog.ShowDialog();
-
-                this.Close();
-            }
-
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -995,6 +989,7 @@ namespace VisUncertainty
         private System.Windows.Forms.ToolStripMenuItem clusteringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hierarchicalClusteringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spatiallyVaryingCoefficientsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutSAARToolStripMenuItem;
     }
 }
 

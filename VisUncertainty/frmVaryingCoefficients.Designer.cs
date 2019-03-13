@@ -326,6 +326,7 @@
             this.cboNormalization.Name = "cboNormalization";
             this.cboNormalization.Size = new System.Drawing.Size(265, 21);
             this.cboNormalization.TabIndex = 128;
+            this.cboNormalization.SelectedIndexChanged += new System.EventHandler(this.cboNormalization_SelectedIndexChanged);
             // 
             // lblNorm
             // 
@@ -343,6 +344,7 @@
             this.cboFamily.Items.AddRange(new object[] {
             "Linear (Gaussian)",
             "Poisson",
+            "Negative Binomial",
             "Binomial",
             "Logistic"});
             this.cboFamily.Location = new System.Drawing.Point(15, 71);

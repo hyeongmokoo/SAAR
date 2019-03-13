@@ -137,7 +137,7 @@ namespace VisUncertainty
                         cboNormalization.Enabled = true;
                     }
 
-                    else if (cboFamily.Text == "Poisson")
+                    else if (cboFamily.Text == "Poisson"|| cboFamily.Text == "Negative Binomial")
                     {
                         lblNorm.Text = "Offset (Optional):";
                         lblNorm.Enabled = true;
@@ -165,7 +165,7 @@ namespace VisUncertainty
                     lstIndeVar.Items.Clear();
                     cboNormalization.Text = "";
 
-                    if (cboFamily.Text == "Poisson"||cboFamily.Text == "Logistic")
+                    if (cboFamily.Text == "Poisson"||cboFamily.Text == "Logistic" || cboFamily.Text == "Negative Binomial")
                     {
                         for (int i = 0; i < fields.FieldCount; i++)
                         {
@@ -377,6 +377,12 @@ namespace VisUncertainty
                     m_pEngine.SetSymbol(strNoramlName, vecNormal);
                     plotCommmand.Append(dependentName + "~");
                 }
+                else if (cboFamily.Text == "Negative Binomial" && intNoramIdx != -1)
+                {
+                    vecNormal = m_pEngine.CreateNumericVector(arrNormal);
+                    m_pEngine.SetSymbol(strNoramlName, vecNormal);
+                    plotCommmand.Append(dependentName + "~");
+                }
                 else
                     plotCommmand.Append(dependentName + "~");
 
@@ -403,6 +409,10 @@ namespace VisUncertainty
                 {
                     PoissonRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, intDeciPlaces, intInterceptModel);
                 }
+                else if(cboFamily.Text == "Negative Binomial")
+                {
+                    NBRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, intDeciPlaces, intInterceptModel);
+                }
                 else if (cboFamily.Text == "Binomial" || cboFamily.Text == "Logistic")
                     BinomRegression(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, intDeciPlaces, intInterceptModel);
 
@@ -414,7 +424,190 @@ namespace VisUncertainty
                 return;
             }
         }
-        
+
+        private void NBRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, int intDeciPlaces, int intInterceptModel)
+        {
+            pfrmProgress.lblStatus.Text = "Calculate Regression Coefficients";
+
+            if (strNoramlName == "")
+                m_pEngine.Evaluate("sample.glm <- glm.nb(" + strLM + ")");
+            else
+                m_pEngine.Evaluate("sample.glm <- glm.nb(" + strLM + "+ offset(" + strNoramlName + "))");
+
+            pfrmProgress.lblStatus.Text = "Printing Output:";
+            m_pEngine.Evaluate("sum.glm <- summary(sample.glm)");
+            m_pEngine.Evaluate("sample.n <- length(sample.nb)");
+
+            NumericMatrix matCoe = m_pEngine.Evaluate("as.matrix(sum.glm$coefficient)").AsNumericMatrix();
+            CharacterVector vecNames = m_pEngine.Evaluate("attributes(sum.glm$coefficients)$dimnames[[1]]").AsCharacter();
+            double dblNullDevi = m_pEngine.Evaluate("sum.glm$null.deviance").AsNumeric().First();
+            double dblNullDF = m_pEngine.Evaluate("sum.glm$df.null").AsNumeric().First();
+            double dblResiDevi = m_pEngine.Evaluate("sum.glm$deviance").AsNumeric().First();
+            double dblResiDF = m_pEngine.Evaluate("sum.glm$df.residual").AsNumeric().First();
+
+            //Nagelkerke r squared //Previous
+            //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.glm$dev - sample.glm$null)/sample.n))/(1 - exp(-sample.glm$null/sample.n))").AsNumeric().First(); 
+            //New pseduo R squared calculation
+            double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.glm$y~sample.glm$fitted.values))$r.squared").AsNumeric().First();
+
+            double dblResiLMMC = 0;
+            double dblResiLMpVal = 0;
+            if (chkResiAuto.Checked)
+            {
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <- moran.mc(residuals(sample.glm, type='" + cboResiType.Text + "'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
+
+                dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
+                dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
+            }
+
+            NumericVector nvecNonAIC = m_pEngine.Evaluate("sample.glm$aic").AsNumeric();
+            //Open Ouput form
+            frmRegResult pfrmRegResult = new frmRegResult();
+
+            if (strNoramlName == "")
+                pfrmRegResult.Text = "Negative Binomial Regression Summary";
+            else
+                pfrmRegResult.Text = "Negative Binomial Regression with Offset (" + strNoramlName + ") Summary";
+
+            //Create DataTable to store Result
+            System.Data.DataTable tblRegResult = new DataTable("PoiResult");
+
+            //Assign DataTable
+            DataColumn dColName = new DataColumn();
+            dColName.DataType = System.Type.GetType("System.String");
+            dColName.ColumnName = "Name";
+            tblRegResult.Columns.Add(dColName);
+
+            DataColumn dColValue = new DataColumn();
+            dColValue.DataType = System.Type.GetType("System.Double");
+            dColValue.ColumnName = "Estimate";
+            tblRegResult.Columns.Add(dColValue);
+
+            DataColumn dColSE = new DataColumn();
+            dColSE.DataType = System.Type.GetType("System.Double");
+            dColSE.ColumnName = "Std. Error";
+            tblRegResult.Columns.Add(dColSE);
+
+            DataColumn dColTValue = new DataColumn();
+            dColTValue.DataType = System.Type.GetType("System.Double");
+            dColTValue.ColumnName = "z value";
+            tblRegResult.Columns.Add(dColTValue);
+
+            DataColumn dColPvT = new DataColumn();
+            dColPvT.DataType = System.Type.GetType("System.Double");
+            dColPvT.ColumnName = "Pr(>|z|)";
+            tblRegResult.Columns.Add(dColPvT);
+
+            int intNCoeff = matCoe.RowCount;
+
+            //Store Data Table by R result
+            for (int j = 0; j < intNCoeff; j++)
+            {
+                DataRow pDataRow = tblRegResult.NewRow();
+                if (j == 0 && intInterceptModel != 1)
+                {
+                    pDataRow["Name"] = "(Intercept)";
+                }
+                else if (intInterceptModel == 1)
+                    pDataRow["Name"] = independentNames[j];
+                else
+                {
+                    pDataRow["Name"] = independentNames[j - 1];
+                }
+                pDataRow["Estimate"] = Math.Round(matCoe[j, 0], intDeciPlaces);
+                pDataRow["Std. Error"] = Math.Round(matCoe[j, 1], intDeciPlaces);
+                pDataRow["z value"] = Math.Round(matCoe[j, 2], intDeciPlaces);
+                pDataRow["Pr(>|z|)"] = Math.Round(matCoe[j, 3], intDeciPlaces);
+                tblRegResult.Rows.Add(pDataRow);
+            }
+
+            //Assign Datagridview to Data Table
+            pfrmRegResult.dgvResults.DataSource = tblRegResult;
+
+            int nFeature = pFLayer.FeatureClass.FeatureCount(null);
+            //Assign values at Textbox
+            string strDecimalPlaces = "N" + intDeciPlaces.ToString();
+            string[] strResults = new string[6];
+            strResults[0] = "Number of rows: " + nFeature.ToString();
+            strResults[1] = "AIC: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+            strResults[2] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
+            strResults[3] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
+            if (intInterceptModel != 1)
+                strResults[4] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+            else
+                strResults[4] = "";
+            if (chkResiAuto.Checked)
+            {
+                if (dblResiLMpVal < 0.001)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+            }
+            else
+                strResults[5] = "";
+
+            pfrmRegResult.txtOutput.Lines = strResults;
+
+            if (chkSave.Checked)
+            {
+                pfrmProgress.lblStatus.Text = "Saving residuals:";
+                //The field names are related with string[] DeterminedName in clsSnippet 
+                string strResiFldName = lstSave.Items[0].SubItems[1].Text;
+
+                //Get EVs and residuals
+                NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(residuals(sample.glm, type='" + cboResiType.Text + "'))").AsNumeric();
+
+                // Create field, if there isn't
+                if (m_pFClass.FindField(strResiFldName) == -1)
+                {
+                    //Add fields
+                    IField newField = new FieldClass();
+                    IFieldEdit fieldEdit = (IFieldEdit)newField;
+                    fieldEdit.Name_2 = strResiFldName;
+                    fieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
+                    m_pFClass.AddField(newField);
+                }
+                else
+                {
+                    DialogResult dialogResult = MessageBox.Show("Do you want to overwrite " + strResiFldName + " field?", "Overwrite", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+
+                //Update Field
+                IFeatureCursor pFCursor = m_pFClass.Update(null, false);
+                IFeature pFeature = pFCursor.NextFeature();
+
+                int featureIdx = 0;
+                int intResiFldIdx = m_pFClass.FindField(strResiFldName);
+
+                while (pFeature != null)
+                {
+                    //Update Residuals
+                    pFeature.set_Value(intResiFldIdx, (object)nvResiduals[featureIdx]);
+
+                    pFCursor.UpdateFeature(pFeature);
+
+                    pFeature = pFCursor.NextFeature();
+                    featureIdx++;
+                }
+
+            }
+            pfrmRegResult.Show();
+        }
+
         private void PoissonRegression(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, int intDeciPlaces, int intInterceptModel)
         {
             pfrmProgress.lblStatus.Text = "Calculate Regression Coefficients";
@@ -962,6 +1155,15 @@ namespace VisUncertainty
         private void lstIndeVar_DoubleClick(object sender, EventArgs e)
         {
             m_pSnippet.MoveSelectedItemsinListBoxtoOtherListBox(lstIndeVar, lstFields);
+        }
+
+        private void cboNormalization_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cboNormalization.Text=="offset")
+            {
+                MessageBox.Show("The field name of 'offset' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNormalization.Text = "";
+            }
         }
 
         //private void chkIntercept_CheckedChanged(object sender, EventArgs e)

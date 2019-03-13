@@ -33,7 +33,9 @@ namespace VisUncertainty
 
         private void frmSWMSummary_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                
             if (Def_SWM == null)
                 return;
             //Assign values at Textbox
@@ -104,92 +106,108 @@ namespace VisUncertainty
 
             txtResult.Lines = strResults;
             this.ActiveControl = label1;
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
 
         private void btnHistogram_Click(object sender, EventArgs e)
         {
-            if (Def_SWM == null)
+            try
+            {
+
+                if (Def_SWM == null)
+                    return;
+
+                int intBreakCount = Convert.ToInt32(Def_SWM.NeighborCounts.Max() - Def_SWM.NeighborCounts.Min() + 1);
+
+                //NumericVector vecValue = m_pEngine.CreateNumericVector(Def_SWM.NeighborCounts);
+                //m_pEngine.SetSymbol("sample.neighbors", vecValue);
+                //m_pEngine.Evaluate("hist.sample <- hist(sample.neighbors, plot = FALSE, nclass=" + intBreakCount.ToString() + ")");
+
+                //Double[] vecMids = m_pEngine.Evaluate("hist.sample$mids").AsNumeric().ToArray();
+                Double[] vecMids = m_pEngine.Evaluate("c(" + Def_SWM.NeighborCounts.Min().ToString("N0") + ":" + Def_SWM.NeighborCounts.Max().ToString("N0") + ")+0.5").AsNumeric().ToArray();
+                //Double[] vecCounts = m_pEngine.Evaluate("hist.sample$counts").AsNumeric().ToArray();
+                Double[] vecCounts = new double[intBreakCount];
+                Double[] dblBreaks = m_pEngine.Evaluate("c(" + Def_SWM.NeighborCounts.Min().ToString("N0") + ":" + Def_SWM.NeighborCounts.Max().ToString("N0") + ")").AsNumeric().ToArray();
+
+
+                StringBuilder whereClause = new StringBuilder();
+                for (int j = 0; j < dblBreaks.Length; j++)
+                {
+                    int intSelectedValue = Convert.ToInt32(dblBreaks[j]);
+                    int[] SelectedFIDs = Def_SWM.NeighborCounts.Select((b, i) => b == intSelectedValue ? i : -1).Where(i => i != -1).ToArray();
+                    vecCounts[j] = SelectedFIDs.Length;
+                }
+
+
+                frmConnectivityHistogram pfrmTemp = new frmConnectivityHistogram();
+                pfrmTemp.Text = "Histogram of neighbors count";
+                pfrmTemp.pChart.Series.Clear();
+
+                var series1 = new System.Windows.Forms.DataVisualization.Charting.Series
+                {
+                    Name = "Series1",
+                    Color = System.Drawing.Color.White,
+                    BorderColor = System.Drawing.Color.Black,
+                    IsVisibleInLegend = false,
+                    IsXValueIndexed = true,
+                    ChartType = SeriesChartType.Column,
+
+                };
+
+                pfrmTemp.pChart.Series.Add(series1);
+
+                int intNBins = vecMids.Length;
+
+                for (int j = 0; j < intNBins; j++)
+                {
+                    series1.Points.AddXY(vecMids[j], vecCounts[j]);
+                }
+
+                pfrmTemp.pChart.Series[0]["PointWidth"] = "1";
+                pfrmTemp.pChart.ChartAreas[0].AxisX.Title = "Number of neighbors";
+                pfrmTemp.pChart.ChartAreas[0].AxisY.Title = "Frequency";
+
+                pfrmTemp.pChart.ChartAreas[0].AxisX.MajorTickMark.Enabled = false;
+
+                pfrmTemp.dblBreaks = dblBreaks;
+                pfrmTemp.m_pForm = m_pForm;
+                pfrmTemp.pActiveView = m_pActiveView;
+                pfrmTemp.pFLayer = m_pFLayer;
+                pfrmTemp.intNBins = intNBins;
+                pfrmTemp.vecCounts = vecCounts;
+                pfrmTemp.vecMids = vecMids;
+                pfrmTemp.DefSWM = Def_SWM;
+
+                //double dblInterval = dblBreaks[1] - dblBreaks[0];
+                int intDecimalPlaces = 1;
+                string strDecimalPlaces = "N" + intDecimalPlaces.ToString();
+                for (int n = 0; n < dblBreaks.Length; n++)
+                {
+                    CustomLabel pcutsomLabel = new CustomLabel();
+                    pcutsomLabel.FromPosition = n;
+                    pcutsomLabel.ToPosition = n + 1;
+                    pcutsomLabel.Text = dblBreaks[n].ToString(strDecimalPlaces);
+
+                    pfrmTemp.pChart.ChartAreas[0].AxisX.CustomLabels.Add(pcutsomLabel);
+                }
+
+                pfrmTemp.Show();
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
                 return;
-
-            int intBreakCount = Convert.ToInt32(Def_SWM.NeighborCounts.Max() - Def_SWM.NeighborCounts.Min() + 1);
-
-            //NumericVector vecValue = m_pEngine.CreateNumericVector(Def_SWM.NeighborCounts);
-            //m_pEngine.SetSymbol("sample.neighbors", vecValue);
-            //m_pEngine.Evaluate("hist.sample <- hist(sample.neighbors, plot = FALSE, nclass=" + intBreakCount.ToString() + ")");
-
-            //Double[] vecMids = m_pEngine.Evaluate("hist.sample$mids").AsNumeric().ToArray();
-            Double[] vecMids = m_pEngine.Evaluate("c("+Def_SWM.NeighborCounts.Min().ToString("N0")+":"+ Def_SWM.NeighborCounts.Max().ToString("N0") + ")+0.5").AsNumeric().ToArray();
-            //Double[] vecCounts = m_pEngine.Evaluate("hist.sample$counts").AsNumeric().ToArray();
-            Double[] vecCounts = new double[intBreakCount];
-            Double[] dblBreaks = m_pEngine.Evaluate("c(" + Def_SWM.NeighborCounts.Min().ToString("N0") + ":" + Def_SWM.NeighborCounts.Max().ToString("N0") + ")").AsNumeric().ToArray();
-
-            
-            StringBuilder whereClause = new StringBuilder();
-            for (int j = 0; j < dblBreaks.Length; j++)
-            {
-                int intSelectedValue = Convert.ToInt32(dblBreaks[j]);
-                int[] SelectedFIDs = Def_SWM.NeighborCounts.Select((b, i) => b == intSelectedValue ? i : -1).Where(i => i != -1).ToArray();
-                vecCounts[j] = SelectedFIDs.Length;
             }
-
-
-            frmConnectivityHistogram pfrmTemp = new frmConnectivityHistogram();
-            pfrmTemp.Text = "Histogram of neighbors count";
-            pfrmTemp.pChart.Series.Clear();
-
-            var series1 = new System.Windows.Forms.DataVisualization.Charting.Series
-            {
-                Name = "Series1",
-                Color = System.Drawing.Color.White,
-                BorderColor = System.Drawing.Color.Black,
-                IsVisibleInLegend = false,
-                IsXValueIndexed = true,
-                ChartType = SeriesChartType.Column,
-
-            };
-
-            pfrmTemp.pChart.Series.Add(series1);
-
-            int intNBins = vecMids.Length;
-
-            for (int j = 0; j < intNBins; j++)
-            {
-                series1.Points.AddXY(vecMids[j], vecCounts[j]);
-            }
-
-            pfrmTemp.pChart.Series[0]["PointWidth"] = "1";
-            pfrmTemp.pChart.ChartAreas[0].AxisX.Title = "Number of neighbors";
-            pfrmTemp.pChart.ChartAreas[0].AxisY.Title = "Frequency";
-
-            pfrmTemp.pChart.ChartAreas[0].AxisX.MajorTickMark.Enabled = false;
-
-            pfrmTemp.dblBreaks = dblBreaks;
-            pfrmTemp.m_pForm = m_pForm;
-            pfrmTemp.pActiveView = m_pActiveView;
-            pfrmTemp.pFLayer = m_pFLayer;
-            pfrmTemp.intNBins = intNBins;
-            pfrmTemp.vecCounts = vecCounts;
-            pfrmTemp.vecMids = vecMids;
-            pfrmTemp.DefSWM = Def_SWM;
-
-            //double dblInterval = dblBreaks[1] - dblBreaks[0];
-            int intDecimalPlaces = 1;
-            string strDecimalPlaces = "N" + intDecimalPlaces.ToString();
-            for (int n = 0; n < dblBreaks.Length; n++)
-            {
-                CustomLabel pcutsomLabel = new CustomLabel();
-                pcutsomLabel.FromPosition = n;
-                pcutsomLabel.ToPosition = n + 1;
-                pcutsomLabel.Text = dblBreaks[n].ToString(strDecimalPlaces);
-
-                pfrmTemp.pChart.ChartAreas[0].AxisX.CustomLabels.Add(pcutsomLabel);
-            }
-
-            pfrmTemp.Show();
         }
 
         private void btnConnectivity_Click(object sender, EventArgs e)
         {
+
             frmConnectivityMap pfrmConnectivityMap = new frmConnectivityMap();
             IActiveView pConnectActiveView = pfrmConnectivityMap.ConMapControl.ActiveView;
             IFeatureSelection featureSelection = (IFeatureSelection)m_pFLayer;
@@ -199,6 +217,14 @@ namespace VisUncertainty
             pfrmConnectivityMap.m_pFLayer = m_pFLayer;
             pfrmConnectivityMap.Def_SWM = Def_SWM;
             pfrmConnectivityMap.Show();
+        }
+
+        private void btnEVs_Click(object sender, EventArgs e)
+        {
+            frmSaveESFFull pfrmSaveESF = new frmSaveESFFull();
+            pfrmSaveESF.m_pEngine = m_pEngine;
+            pfrmSaveESF.m_pFClass = m_pFLayer.FeatureClass;
+            pfrmSaveESF.Show();
         }
     }
 }

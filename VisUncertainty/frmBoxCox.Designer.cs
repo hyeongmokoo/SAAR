@@ -63,6 +63,7 @@
             this.pQQPlot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.conMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportToImageFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnLog = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pHistogram)).BeginInit();
             this.panel1.SuspendLayout();
             this.grbSave.SuspendLayout();
@@ -111,7 +112,7 @@
             series1.MarkerBorderColor = System.Drawing.Color.White;
             series1.Name = "Series1";
             this.pHistogram.Series.Add(series1);
-            this.pHistogram.Size = new System.Drawing.Size(348, 460);
+            this.pHistogram.Size = new System.Drawing.Size(348, 493);
             this.pHistogram.TabIndex = 1;
             this.pHistogram.Text = "chart1";
             this.pHistogram.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pHistogram_MouseUp);
@@ -124,7 +125,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(189, 460);
+            this.panel1.Size = new System.Drawing.Size(189, 493);
             this.panel1.TabIndex = 2;
             // 
             // grbSave
@@ -134,9 +135,9 @@
             this.grbSave.Controls.Add(this.txtSaveResult);
             this.grbSave.Controls.Add(this.btnSave);
             this.grbSave.Enabled = false;
-            this.grbSave.Location = new System.Drawing.Point(12, 374);
+            this.grbSave.Location = new System.Drawing.Point(12, 397);
             this.grbSave.Name = "grbSave";
-            this.grbSave.Size = new System.Drawing.Size(161, 83);
+            this.grbSave.Size = new System.Drawing.Size(161, 85);
             this.grbSave.TabIndex = 34;
             this.grbSave.TabStop = false;
             this.grbSave.Text = "Save Result";
@@ -188,9 +189,9 @@
             this.grbPara.Controls.Add(this.label3);
             this.grbPara.Controls.Add(this.trbGamma);
             this.grbPara.Enabled = false;
-            this.grbPara.Location = new System.Drawing.Point(12, 190);
+            this.grbPara.Location = new System.Drawing.Point(12, 217);
             this.grbPara.Name = "grbPara";
-            this.grbPara.Size = new System.Drawing.Size(161, 178);
+            this.grbPara.Size = new System.Drawing.Size(161, 172);
             this.grbPara.TabIndex = 29;
             this.grbPara.TabStop = false;
             this.grbPara.Text = "Parameters";
@@ -198,7 +199,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 141);
+            this.label5.Location = new System.Drawing.Point(4, 145);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 31;
@@ -207,7 +208,7 @@
             // lblGamma
             // 
             this.lblGamma.AutoSize = true;
-            this.lblGamma.Location = new System.Drawing.Point(9, 78);
+            this.lblGamma.Location = new System.Drawing.Point(9, 82);
             this.lblGamma.Name = "lblGamma";
             this.lblGamma.Size = new System.Drawing.Size(46, 13);
             this.lblGamma.TabIndex = 2;
@@ -215,7 +216,7 @@
             // 
             // txtSW
             // 
-            this.txtSW.Location = new System.Drawing.Point(99, 135);
+            this.txtSW.Location = new System.Drawing.Point(99, 139);
             this.txtSW.Name = "txtSW";
             this.txtSW.ReadOnly = true;
             this.txtSW.Size = new System.Drawing.Size(54, 20);
@@ -230,7 +231,7 @@
             0,
             0,
             131072});
-            this.nudGamma.Location = new System.Drawing.Point(60, 76);
+            this.nudGamma.Location = new System.Drawing.Point(60, 80);
             this.nudGamma.Maximum = new decimal(new int[] {
             0,
             0,
@@ -251,7 +252,7 @@
             0,
             0,
             131072});
-            this.nudLambda.Location = new System.Drawing.Point(61, 16);
+            this.nudLambda.Location = new System.Drawing.Point(61, 20);
             this.nudLambda.Maximum = new decimal(new int[] {
             2,
             0,
@@ -270,9 +271,9 @@
             // 
             // trbLambda
             // 
-            this.trbLambda.Location = new System.Drawing.Point(12, 42);
-            this.trbLambda.Maximum = 200;
-            this.trbLambda.Minimum = -200;
+            this.trbLambda.Location = new System.Drawing.Point(12, 46);
+            this.trbLambda.Maximum = 100;
+            this.trbLambda.Minimum = -100;
             this.trbLambda.Name = "trbLambda";
             this.trbLambda.Size = new System.Drawing.Size(142, 45);
             this.trbLambda.TabIndex = 2;
@@ -283,7 +284,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 20);
+            this.label3.Location = new System.Drawing.Point(9, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 13);
             this.label3.TabIndex = 0;
@@ -292,9 +293,9 @@
             // trbGamma
             // 
             this.trbGamma.Enabled = false;
-            this.trbGamma.Location = new System.Drawing.Point(12, 100);
-            this.trbGamma.Maximum = 200;
-            this.trbGamma.Minimum = -200;
+            this.trbGamma.Location = new System.Drawing.Point(12, 104);
+            this.trbGamma.Maximum = 100;
+            this.trbGamma.Minimum = -100;
             this.trbGamma.Name = "trbGamma";
             this.trbGamma.Size = new System.Drawing.Size(142, 45);
             this.trbGamma.TabIndex = 6;
@@ -304,6 +305,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnLog);
             this.groupBox1.Controls.Add(this.btnAddPlot);
             this.groupBox1.Controls.Add(this.chkGamma);
             this.groupBox1.Controls.Add(this.btnTrans);
@@ -313,7 +315,7 @@
             this.groupBox1.Controls.Add(this.cboTargetLayer);
             this.groupBox1.Location = new System.Drawing.Point(12, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(166, 174);
+            this.groupBox1.Size = new System.Drawing.Size(166, 202);
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
@@ -321,7 +323,7 @@
             // btnAddPlot
             // 
             this.btnAddPlot.Enabled = false;
-            this.btnAddPlot.Location = new System.Drawing.Point(7, 145);
+            this.btnAddPlot.Location = new System.Drawing.Point(7, 170);
             this.btnAddPlot.Name = "btnAddPlot";
             this.btnAddPlot.Size = new System.Drawing.Size(148, 23);
             this.btnAddPlot.TabIndex = 34;
@@ -332,6 +334,7 @@
             // chkGamma
             // 
             this.chkGamma.AutoSize = true;
+            this.chkGamma.Enabled = false;
             this.chkGamma.Location = new System.Drawing.Point(9, 100);
             this.chkGamma.Name = "chkGamma";
             this.chkGamma.Size = new System.Drawing.Size(84, 17);
@@ -341,7 +344,8 @@
             // 
             // btnTrans
             // 
-            this.btnTrans.Location = new System.Drawing.Point(6, 120);
+            this.btnTrans.Enabled = false;
+            this.btnTrans.Location = new System.Drawing.Point(7, 120);
             this.btnTrans.Name = "btnTrans";
             this.btnTrans.Size = new System.Drawing.Size(148, 23);
             this.btnTrans.TabIndex = 32;
@@ -421,7 +425,7 @@
             series2.MarkerBorderColor = System.Drawing.Color.White;
             series2.Name = "Series1";
             this.pQQPlot.Series.Add(series2);
-            this.pQQPlot.Size = new System.Drawing.Size(367, 460);
+            this.pQQPlot.Size = new System.Drawing.Size(367, 493);
             this.pQQPlot.TabIndex = 3;
             this.pQQPlot.Text = "chart1";
             this.pQQPlot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pQQPlot_MouseDown);
@@ -433,20 +437,31 @@
             this.conMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportToImageFileToolStripMenuItem});
             this.conMenu.Name = "conMenu";
-            this.conMenu.Size = new System.Drawing.Size(177, 26);
+            this.conMenu.Size = new System.Drawing.Size(181, 26);
             // 
             // exportToImageFileToolStripMenuItem
             // 
             this.exportToImageFileToolStripMenuItem.Name = "exportToImageFileToolStripMenuItem";
-            this.exportToImageFileToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.exportToImageFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToImageFileToolStripMenuItem.Text = "Export to image file";
+            // 
+            // btnLog
+            // 
+            this.btnLog.Enabled = false;
+            this.btnLog.Location = new System.Drawing.Point(7, 145);
+            this.btnLog.Name = "btnLog";
+            this.btnLog.Size = new System.Drawing.Size(148, 23);
+            this.btnLog.TabIndex = 35;
+            this.btnLog.Text = "Log Transformation";
+            this.btnLog.UseVisualStyleBackColor = true;
+            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
             // 
             // frmBoxCox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(904, 460);
+            this.ClientSize = new System.Drawing.Size(904, 493);
             this.Controls.Add(this.pQQPlot);
             this.Controls.Add(this.pHistogram);
             this.Controls.Add(this.panel1);
@@ -502,5 +517,6 @@
         private System.Windows.Forms.Button btnAddPlot;
         private System.Windows.Forms.ContextMenuStrip conMenu;
         private System.Windows.Forms.ToolStripMenuItem exportToImageFileToolStripMenuItem;
+        private System.Windows.Forms.Button btnLog;
     }
 }

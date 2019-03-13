@@ -1,0 +1,68 @@
+Update Note (v1.0.6) (03/13/2019)
+
+
+
+TOC Context menu - Symbology
+
+: The initial number of classes in choropleth and graduated symbol maps is determined based on the count of unique values in the selected field.
+
+
+
+File - About SAAR
+
+: Added this tool to check the version information.
+
+
+Data - Field Calculator
+
+: Allowed other field types in the R option, and included a warning message when a field is not successfully updated.
+
+: Added a warning message when the ArcGIS field calculator is not loaded properly.
+
+
+
+Data - Data Transformation
+: Added a button for log-transformation
+
+: Redefined the range of the gamma value by setting the minimum value to avoid negative values in the original data, and the maximum value based on the range of the original data [i.e., max = min + 2*(the range of the original data)].
+
+: Update the search range of the lambda value as between -2 and 2.
+
+
+
+Explore - Histogram
+
+: Histogram tool is not closed after drawing a histogram.
+
+
+
+Explore - Spatial Composition
+
+: Added the Save Eigenvectors tool to store eigenvectors into a target shapefile.
+
+: Added a button into the SWM analysis form to launch the Save EV tool.
+
+
+
+Regression - Generalized Linear Models
+
+: Added a warning when using the field name of "offset" as an offset variable.
+
+: Added a negative binomial specification
+
+
+
+Regression - Eigenvector Spatial Filtering
+
+: Added a warning when using the field name of "offset" as an offset variable.
+
+: Added a negative binomial specification
+
+: The ESF result form can save individual selected eigenvectors into the target shapefile.
+
+
+
+Regression - Spatially Varying Coefficients
+
+: Added a warning when using the field name of "offset" as an offset variable.
+: Added a negative binomial specification.

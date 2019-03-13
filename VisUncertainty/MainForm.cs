@@ -983,5 +983,11 @@ namespace VisUncertainty
             frmVaryingCoefficients pfrmVC = new frmVaryingCoefficients();
             pfrmVC.Show();
         }
+
+        private void aboutSAARToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAboutSAAR pfrmAboutSAAR = new frmAboutSAAR();
+            pfrmAboutSAAR.ShowDialog();
+        }
     }
 }

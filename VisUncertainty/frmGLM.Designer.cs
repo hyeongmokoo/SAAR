@@ -56,12 +56,12 @@
             this.colNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chkSave = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cboAlternative = new System.Windows.Forms.ComboBox();
             this.chkResiAuto = new System.Windows.Forms.CheckBox();
+            this.lblAlternative = new System.Windows.Forms.Label();
             this.btnOpenSWM = new System.Windows.Forms.Button();
             this.txtSWM = new System.Windows.Forms.TextBox();
             this.lblSWM = new System.Windows.Forms.Label();
-            this.cboAlternative = new System.Windows.Forms.ComboBox();
-            this.lblAlternative = new System.Windows.Forms.Label();
             this.grbSave.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -184,6 +184,7 @@
             this.cboFamily.FormattingEnabled = true;
             this.cboFamily.Items.AddRange(new object[] {
             "Poisson",
+            "Negative Binomial",
             "Binomial",
             "Logistic"});
             this.cboFamily.Location = new System.Drawing.Point(13, 66);
@@ -209,6 +210,7 @@
             this.cboNormalization.Name = "cboNormalization";
             this.cboNormalization.Size = new System.Drawing.Size(265, 21);
             this.cboNormalization.TabIndex = 62;
+            this.cboNormalization.SelectedIndexChanged += new System.EventHandler(this.cboNormalization_SelectedIndexChanged);
             // 
             // lblNorm
             // 
@@ -309,6 +311,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Residual analysis";
             // 
+            // cboAlternative
+            // 
+            this.cboAlternative.FormattingEnabled = true;
+            this.cboAlternative.Items.AddRange(new object[] {
+            "Greater",
+            "Less"});
+            this.cboAlternative.Location = new System.Drawing.Point(163, 94);
+            this.cboAlternative.Name = "cboAlternative";
+            this.cboAlternative.Size = new System.Drawing.Size(90, 21);
+            this.cboAlternative.TabIndex = 94;
+            this.cboAlternative.Text = "Greater";
+            // 
             // chkResiAuto
             // 
             this.chkResiAuto.AutoSize = true;
@@ -321,6 +335,15 @@
             this.chkResiAuto.Text = "Calculate Moran Coefficient for Residuals";
             this.chkResiAuto.UseVisualStyleBackColor = true;
             this.chkResiAuto.CheckedChanged += new System.EventHandler(this.chkResiAuto_CheckedChanged);
+            // 
+            // lblAlternative
+            // 
+            this.lblAlternative.AutoSize = true;
+            this.lblAlternative.Location = new System.Drawing.Point(43, 98);
+            this.lblAlternative.Name = "lblAlternative";
+            this.lblAlternative.Size = new System.Drawing.Size(115, 13);
+            this.lblAlternative.TabIndex = 93;
+            this.lblAlternative.Text = "Alternative Hypothesis:";
             // 
             // btnOpenSWM
             // 
@@ -348,27 +371,6 @@
             this.lblSWM.Size = new System.Drawing.Size(112, 13);
             this.lblSWM.TabIndex = 87;
             this.lblSWM.Text = "Spatial Weights Matrix";
-            // 
-            // cboAlternative
-            // 
-            this.cboAlternative.FormattingEnabled = true;
-            this.cboAlternative.Items.AddRange(new object[] {
-            "Greater",
-            "Less"});
-            this.cboAlternative.Location = new System.Drawing.Point(163, 94);
-            this.cboAlternative.Name = "cboAlternative";
-            this.cboAlternative.Size = new System.Drawing.Size(90, 21);
-            this.cboAlternative.TabIndex = 94;
-            this.cboAlternative.Text = "Greater";
-            // 
-            // lblAlternative
-            // 
-            this.lblAlternative.AutoSize = true;
-            this.lblAlternative.Location = new System.Drawing.Point(43, 98);
-            this.lblAlternative.Name = "lblAlternative";
-            this.lblAlternative.Size = new System.Drawing.Size(115, 13);
-            this.lblAlternative.TabIndex = 93;
-            this.lblAlternative.Text = "Alternative Hypothesis:";
             // 
             // frmGLM
             // 

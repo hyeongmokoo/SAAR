@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSWMSummary));
             this.txtResult = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtLayer = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnHistogram = new System.Windows.Forms.Button();
+            this.btnEVs = new System.Windows.Forms.Button();
             this.btnConnectivity = new System.Windows.Forms.Button();
+            this.btnHistogram = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +56,7 @@
             // 
             // panel1
             // 
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.txtLayer);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -84,6 +87,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnEVs);
             this.panel2.Controls.Add(this.btnConnectivity);
             this.panel2.Controls.Add(this.btnHistogram);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -92,36 +96,51 @@
             this.panel2.Size = new System.Drawing.Size(334, 52);
             this.panel2.TabIndex = 12;
             // 
-            // btnHistogram
+            // btnEVs
             // 
-            this.btnHistogram.Location = new System.Drawing.Point(12, 17);
-            this.btnHistogram.Name = "btnHistogram";
-            this.btnHistogram.Size = new System.Drawing.Size(115, 23);
-            this.btnHistogram.TabIndex = 0;
-            this.btnHistogram.Text = "Histogram";
-            this.btnHistogram.UseVisualStyleBackColor = true;
-            this.btnHistogram.Click += new System.EventHandler(this.btnHistogram_Click);
+            this.btnEVs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnEVs.Location = new System.Drawing.Point(227, 17);
+            this.btnEVs.Name = "btnEVs";
+            this.btnEVs.Size = new System.Drawing.Size(100, 23);
+            this.btnEVs.TabIndex = 2;
+            this.btnEVs.Text = "Save EVs";
+            this.btnEVs.UseVisualStyleBackColor = true;
+            this.btnEVs.Click += new System.EventHandler(this.btnEVs_Click);
             // 
             // btnConnectivity
             // 
-            this.btnConnectivity.Location = new System.Drawing.Point(146, 17);
+            this.btnConnectivity.Location = new System.Drawing.Point(117, 17);
             this.btnConnectivity.Name = "btnConnectivity";
-            this.btnConnectivity.Size = new System.Drawing.Size(115, 23);
+            this.btnConnectivity.Size = new System.Drawing.Size(100, 23);
             this.btnConnectivity.TabIndex = 1;
             this.btnConnectivity.Text = "Connectivity Map";
             this.btnConnectivity.UseVisualStyleBackColor = true;
             this.btnConnectivity.Click += new System.EventHandler(this.btnConnectivity_Click);
             // 
+            // btnHistogram
+            // 
+            this.btnHistogram.Location = new System.Drawing.Point(7, 17);
+            this.btnHistogram.Name = "btnHistogram";
+            this.btnHistogram.Size = new System.Drawing.Size(100, 23);
+            this.btnHistogram.TabIndex = 0;
+            this.btnHistogram.Text = "Histogram";
+            this.btnHistogram.UseVisualStyleBackColor = true;
+            this.btnHistogram.Click += new System.EventHandler(this.btnHistogram_Click);
+            // 
             // frmSWMSummary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(334, 287);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.txtResult);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSWMSummary";
-            this.Text = "frmSWMSummary";
+            this.Text = "SWM Summary";
             this.Load += new System.EventHandler(this.frmSWMSummary_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -140,5 +159,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnHistogram;
         private System.Windows.Forms.Button btnConnectivity;
+        private System.Windows.Forms.Button btnEVs;
     }
 }

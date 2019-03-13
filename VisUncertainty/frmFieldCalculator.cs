@@ -5,8 +5,10 @@ using System.Windows.Forms;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.GeoDatabaseUI;
+using ESRI.ArcGIS.DataManagementTools;
 
 using RDotNet;
+using ESRI.ArcGIS.Geoprocessor;
 
 namespace VisUncertainty
 {
@@ -158,11 +160,13 @@ namespace VisUncertainty
                         //Get index for target and source fields
                         int intTargetIdx = pFLayer.FeatureClass.Fields.FindField(strTargetFld);
                         IField pField = pFLayer.FeatureClass.Fields.Field[intTargetIdx];
-                        if (pField.Type != esriFieldType.esriFieldTypeDouble)
-                        {
-                            MessageBox.Show("R sytanx is only applicable to Double field type");
-                            return;
-                        }
+
+                        ////Allow calculation for other field types (v.1.0.6)
+                        //if (pField.Type != esriFieldType.esriFieldTypeDouble)
+                        //{
+                        //    MessageBox.Show("R sytanx is only applicable to Double field type");
+                        //    return;
+                        //}
 
                         NumericVector vecResult = null;
                         bool blnINF = false;
@@ -180,7 +184,7 @@ namespace VisUncertainty
                             }
 
                             //Store values in source fields into Array
-                           //double[,] arrSource = new double[nFeature, intNExpressedFld];
+                            //double[,] arrSource = new double[nFeature, intNExpressedFld];
                             double[][] arrSource = new double[intNExpressedFld][];
 
                             for (int j = 0; j < intNExpressedFld; j++)
@@ -256,14 +260,23 @@ namespace VisUncertainty
 
                         int featureIdx = 0;
 
-                        while (pFeature != null)
+                        try
                         {
-                            pFeature.set_Value(intTargetIdx, (object)vecResult[featureIdx]);
-                            pFCursor.UpdateFeature(pFeature);
+                            while (pFeature != null)
+                            {
+                                pFeature.set_Value(intTargetIdx, (object)vecResult[featureIdx]);
+                                pFCursor.UpdateFeature(pFeature);
 
-                            pFeature = pFCursor.NextFeature();
-                            featureIdx++;
+                                pFeature = pFCursor.NextFeature();
+                                featureIdx++;
+                            }
                         }
+                        catch
+                        {
+                            MessageBox.Show("Fail to update field values. The field type might not support this calculation.", "Field Calcualation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -275,13 +288,37 @@ namespace VisUncertainty
                 {
                     try
                     {
-                        ICalculator pCal = new Calculator();
+                        //Not working in 10.5
+                        ICalculator pCal = null;
+                        try
+                        {
+                            pCal = new Calculator();
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Fail to load the ArcGIS Field Calculator due to a license issue. Please use a R sytanx", "Field Calcualation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         IFeatureCursor pFCursor = pFClass.Update(null, false);
                         pCal.Cursor = (ICursor)pFCursor;
                         pCal.Expression = strExpression;
                         pCal.PreExpression = "";
                         pCal.Field = strTargetFld;
                         pCal.Calculate();
+
+                        ////Not working 
+                        //ITable pTable = (ITable)pFClass;
+                        //Geoprocessor gp = new Geoprocessor();
+                        //CalculateField pCalFld = new CalculateField();
+                        //pCalFld.in_table = pTable;
+                        //pCalFld.field = strTargetFld;
+                        //pCalFld.field = pFClass.Fields.Field[pFClass.FindField(strTargetFld)];
+                        //pCalFld.expression = strExpression;
+                        //pCalFld.expression = "5";
+                        //pCalFld.expression_type = "VB";
+
+                        //gp.Execute(pCalFld, null);
+
                     }
                     catch (Exception ex)
                     {
@@ -302,7 +339,7 @@ namespace VisUncertainty
             }
             catch (Exception ex)
             {
-                frmErrorLog pfrmErrorLog = new frmErrorLog();pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
                 return;
             }
         }
@@ -336,6 +373,8 @@ namespace VisUncertainty
                     rdArcGIS.Checked = false;
                 else
                     rdArcGIS.Checked = true;
+
+                txtNExpression.Text = "";
             }
             catch (Exception ex)
             {

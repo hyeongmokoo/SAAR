@@ -162,6 +162,9 @@ namespace VisUncertainty
 
         private void btnSummary_Click(object sender, EventArgs e)
         {
+            try
+            {
+                
             frmProgress pfrmProgress = new frmProgress();
             pfrmProgress.lblStatus.Text = "Processing:";
             pfrmProgress.pgbProgress.Style = ProgressBarStyle.Marquee;
@@ -284,6 +287,12 @@ namespace VisUncertainty
             pSMWSummary.Show();
 
             pfrmProgress.Close();
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
 
         private void txtSWM_TextChanged(object sender, EventArgs e)

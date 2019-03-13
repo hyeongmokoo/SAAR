@@ -846,8 +846,6 @@ C:\Users\hmoko\Dropbox\Projects\2014\NIH_withDrChun_DrGriffith\Programmings\VisU
 C:\Users\hmoko\Dropbox\Projects\2014\NIH_withDrChun_DrGriffith\Programmings\VisUncertainty\VisUncertainty\obj\x86\Debug\VisUncertainty.exe
 C:\Users\hmoko\Dropbox\Projects\2014\NIH_withDrChun_DrGriffith\Programmings\VisUncertainty\VisUncertainty\obj\x86\Debug\VisUncertainty.pdb
 C:\Gits\SAAR\VisUncertainty\bin\Debug\VisUncertainty.exe.config
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.exe
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.pdb
 C:\Gits\SAAR\VisUncertainty\bin\Debug\VisUncertainty.exe
 C:\Gits\SAAR\VisUncertainty\bin\Debug\VisUncertainty.pdb
 C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.ArcCatalog.dll
@@ -889,12 +887,8 @@ C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.Geometry.xml
 C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.Output.xml
 C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.System.xml
 C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.SystemUI.xml
-C:\Gits\SAAR\VisUncertainty\bin\Debug\UncernVis.BivariateRenderer.pdb
-C:\Gits\SAAR\VisUncertainty\bin\Debug\RDotNet.xml
-C:\Gits\SAAR\VisUncertainty\bin\Debug\RDotNet.Graphics.xml
-C:\Gits\SAAR\VisUncertainty\bin\Debug\RDotNet.NativeLibrary.xml
 C:\Gits\SAAR\VisUncertainty\bin\Debug\ESRI.ArcGIS.NetworkAnalyst.xml
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.csprojResolveAssemblyReference.cache
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmAboutSAAR.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmAdvSWM.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmAttributeField.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmBiCluster.resources
@@ -916,8 +910,10 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmConnectivityMap.reso
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCorrelogram.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCorrelogram_local.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCreateFlowLines.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCreateSWM_inR.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmDebug.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmErrorLog.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmESFResult.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmEvalRobustness.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmExportChart.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmGeocoding.resources
@@ -957,6 +953,8 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmLocalSAM.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmMScatterplot.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmREnvironment.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmRSSample.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmSaveESF.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmSaveESFFull.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmScatterPlotResults.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmSAutoCorr.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmScaleBarProperties.resources
@@ -979,6 +977,7 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmSWMAnalysis.resource
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmSWMSummary.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmUncernSAM.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVariogramCloud.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVaryingCoefficients.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmViolinPlot.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVisDN.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVisEntropy.resources
@@ -986,5 +985,5 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVisProbEnt.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.MainForm.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.Properties.Resources.resources
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.csproj.GenerateResource.Cache
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmVaryingCoefficients.resources
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.frmCreateSWM_inR.resources
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.exe
+C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.pdb

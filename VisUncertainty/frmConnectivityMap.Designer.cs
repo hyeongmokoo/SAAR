@@ -68,8 +68,9 @@
             this.ClientSize = new System.Drawing.Size(516, 449);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ConMapControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmConnectivityMap";
-            this.Text = "frmConnectivityMap";
+            this.Text = "Connectivity Map";
             this.Load += new System.EventHandler(this.frmConnectivityMap_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ConMapControl)).EndInit();
             this.statusStrip1.ResumeLayout(false);

@@ -15,7 +15,7 @@ ESF Tool
 : Modified pseduo R squared calculation of GLM based ESF from Nagelkerke R squred to R squared value of linear regression between observed and fitted values
 
 Spatially varying coefficients
-: Modified the interface for an only-intercept model
+: Added an only-intercept model
 : Added a non-intercept model option
 : Added a logistic regression option
 : Modified the candidate eigenvector selection methods to calculate eigenvalues ratio based on negative extreme value for negative eigenvector selection

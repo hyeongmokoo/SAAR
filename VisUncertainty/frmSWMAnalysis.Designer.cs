@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSWMAnalysis));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkCumulate = new System.Windows.Forms.CheckBox();
             this.nudAdvanced = new System.Windows.Forms.NumericUpDown();
@@ -205,12 +206,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(235, 249);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSummary);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboTargetLayer);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSWMAnalysis";
             this.Text = "SWM Analysis";
             this.groupBox1.ResumeLayout(false);

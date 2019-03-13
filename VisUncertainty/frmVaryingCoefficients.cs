@@ -83,7 +83,7 @@ namespace VisUncertainty
                     lstIndeVar.Items.Clear();
                     cboNormalization.Text = "";
 
-                    if (cboFamily.Text == "Poisson" || cboFamily.Text == "Logistic")
+                    if (cboFamily.Text == "Poisson" || cboFamily.Text == "Logistic" || cboFamily.Text == "Negative Binomial")
                     {
                         for (int i = 0; i < fields.FieldCount; i++)
                         {
@@ -354,7 +354,7 @@ namespace VisUncertainty
                     cboNormalization.Text = "";
 
 
-                    if (cboFamily.Text == "Poisson" || cboFamily.Text == "Logistic")
+                    if (cboFamily.Text == "Poisson" || cboFamily.Text == "Logistic" || cboFamily.Text == "Negative Binomial")
                     {
                         for (int i = 0; i < fields.FieldCount; i++)
                         {
@@ -594,6 +594,12 @@ namespace VisUncertainty
                 m_pEngine.SetSymbol(strNoramlName, vecNormal);
                 plotCommmand.Append(dependentName + "~");
             }
+            else if (cboFamily.Text == "Negative Binomial" && intNoramIdx != -1)
+            {
+                vecNormal = m_pEngine.CreateNumericVector(arrNormal);
+                m_pEngine.SetSymbol(strNoramlName, vecNormal);
+                plotCommmand.Append(dependentName + "~");
+            }
             else
                 plotCommmand.Append(dependentName + "~");
 
@@ -681,10 +687,285 @@ namespace VisUncertainty
                 LinearESF(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, dblNCandidateEvs, intDeciPlaces, intInterceptModel);
             else if (cboFamily.Text == "Poisson")
                 PoissonESF(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, dblNCandidateEvs, intDeciPlaces, intInterceptModel);
+            else if (cboFamily.Text == "Negative Binomial")
+                NBESF(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, strNoramlName, dblNCandidateEvs, intDeciPlaces, intInterceptModel);
             else if (cboFamily.Text == "Binomial" || cboFamily.Text == "Logistic")
                 BinomESF(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, dblNCandidateEvs, intDeciPlaces, intInterceptModel);
 
             pfrmProgress.Close();
+        }
+
+        private void NBESF(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, double dblNCandidateEvs, int intDeciPlaces, int intInterceptModel)
+        {
+            try
+            {
+                pfrmProgress.lblStatus.Text = "Selecting EVs";
+                if (strNoramlName == "")
+                {
+                    m_pEngine.Evaluate("esf.full <- glm.nb(" + strLM + "+., data=sEV)");
+                    m_pEngine.Evaluate("esf.org <- glm.nb(" + strLM + ", data=sEV)");
+                }
+                else
+                {
+                    m_pEngine.Evaluate("esf.full <- glm.nb(" + strLM + "+ offset(" + strNoramlName + ")+., data=sEV)");
+                    m_pEngine.Evaluate("esf.org <- glm(" + strLM + "+ offset(" + strNoramlName + "), data=sEV)");
+                }
+                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+
+                pfrmProgress.lblStatus.Text = "Printing Output:";
+                m_pEngine.Evaluate("sum.esf <- summary(sample.esf)");
+                //m_pEngine.Evaluate("sample.lm <- lm(" + strLM + ")");
+
+                NumericMatrix matCoe = m_pEngine.Evaluate("as.matrix(sum.esf$coefficient)").AsNumericMatrix();
+                CharacterVector vecNames = m_pEngine.Evaluate("attributes(sum.esf$coefficients)$dimnames[[1]]").AsCharacter();
+
+                double dblNullDevi = m_pEngine.Evaluate("sum.esf$null.deviance").AsNumeric().First();
+                double dblNullDF = m_pEngine.Evaluate("sum.esf$df.null").AsNumeric().First();
+                double dblResiDevi = m_pEngine.Evaluate("sum.esf$deviance").AsNumeric().First();
+                double dblResiDF = m_pEngine.Evaluate("sum.esf$df.residual").AsNumeric().First();
+
+                //double dblResiMC = m_pEngine.Evaluate("moran.test(sample.esf$residuals, sample.listw)$estimate").AsNumeric().First();
+                //double dblResiMCpVal = m_pEngine.Evaluate("moran.test(sample.esf$residuals, sample.listw)$p.value").AsNumeric().First();
+                //double dblResiLMMC = m_pEngine.Evaluate("moran.test(esf.org$residuals, sample.listw)$estimate").AsNumeric().First();
+                //double dblResiLMpVal = m_pEngine.Evaluate("moran.test(esf.org$residuals, sample.listw)$p.value").AsNumeric().First();
+
+                //MC Using Pearson residual (Lin and Zhang 2007, GA) 
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("sampleresi.mc <-moran.mc(residuals(sample.esf, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
+                double dblResiMC = m_pEngine.Evaluate("sampleresi.mc$statistic").AsNumeric().First();
+                double dblResiMCpVal = m_pEngine.Evaluate("sampleresi.mc$p.value").AsNumeric().First();
+
+                if (cboAlternative.Text == "Greater")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+                else if (cboAlternative.Text == "Less")
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'less', zero.policy=TRUE)");
+                else
+                    m_pEngine.Evaluate("orgresi.mc <-moran.mc(residuals(esf.org, type='pearson'), listw =sample.listb, nsim=999, alternative = 'greater', zero.policy=TRUE)");
+
+                double dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
+                double dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
+                //Nagelkerke r squared
+                //double dblPseudoRsquared = m_pEngine.Evaluate("(1 - exp((sample.esf$deviance - sample.esf$null.deviance)/sample.n))/(1 - exp(-sample.esf$null.deviance/sample.n))").AsNumeric().First();
+                double dblPseudoRsquared = m_pEngine.Evaluate("summary(lm(sample.esf$y~sample.esf$fitted.values))$r.squared").AsNumeric().First();
+
+                NumericVector nvecNonAIC = m_pEngine.Evaluate("sample.esf$aic").AsNumeric();
+
+                //Open Ouput form
+                frmRegResult pfrmRegResult = new frmRegResult();
+                if (strNoramlName == "")
+                    pfrmRegResult.Text = "ESF Negative Binomial Regression Summary";
+                else
+                    pfrmRegResult.Text = "ESF Negative Binomial Regression with Offset (" + strNoramlName + ") Summary";
+
+                //Create DataTable to store Result
+                System.Data.DataTable tblRegResult = new DataTable("ESFResult");
+
+                //Assign DataTable
+                DataColumn dColName = new DataColumn();
+                dColName.DataType = System.Type.GetType("System.String");
+                dColName.ColumnName = "Name";
+                tblRegResult.Columns.Add(dColName);
+
+                DataColumn dColValue = new DataColumn();
+                dColValue.DataType = System.Type.GetType("System.Double");
+                dColValue.ColumnName = "Estimate";
+                tblRegResult.Columns.Add(dColValue);
+
+                DataColumn dColSE = new DataColumn();
+                dColSE.DataType = System.Type.GetType("System.Double");
+                dColSE.ColumnName = "Std. Error";
+                tblRegResult.Columns.Add(dColSE);
+
+                DataColumn dColTValue = new DataColumn();
+                dColTValue.DataType = System.Type.GetType("System.Double");
+                dColTValue.ColumnName = "z value";
+                tblRegResult.Columns.Add(dColTValue);
+
+                DataColumn dColPvT = new DataColumn();
+                dColPvT.DataType = System.Type.GetType("System.Double");
+                dColPvT.ColumnName = "Pr(>|z|)";
+                tblRegResult.Columns.Add(dColPvT);
+
+                int intNCoeff = 0;
+                int intNSelectedEVs = matCoe.RowCount - nIDepen - 1;
+                if (intInterceptModel == 1)
+                    intNSelectedEVs = matCoe.RowCount - nIDepen;
+
+                if (chkCoeEVs.Checked)
+                    intNCoeff = matCoe.RowCount;
+                else
+                {
+                    intNCoeff = matCoe.RowCount - intNSelectedEVs;
+                }
+                //Store Data Table by R result
+                for (int j = 0; j < intNCoeff; j++)
+                {
+                    DataRow pDataRow = tblRegResult.NewRow();
+                    if (j == 0 && intInterceptModel != 1)
+                    {
+                        pDataRow["Name"] = "(Intercept)";
+                    }
+                    else
+                    {
+                        if (chkCoeEVs.Checked)
+                            pDataRow["Name"] = vecNames[j];
+                        else
+                        {
+                            if (intInterceptModel == 1)
+                                pDataRow["Name"] = independentNames[j];
+                            else
+                                pDataRow["Name"] = independentNames[j - 1];
+                        }
+                    }
+                    pDataRow["Estimate"] = Math.Round(matCoe[j, 0], intDeciPlaces);
+                    pDataRow["Std. Error"] = Math.Round(matCoe[j, 1], intDeciPlaces);
+                    pDataRow["z value"] = Math.Round(matCoe[j, 2], intDeciPlaces);
+                    pDataRow["Pr(>|z|)"] = Math.Round(matCoe[j, 3], intDeciPlaces);
+                    tblRegResult.Rows.Add(pDataRow);
+                }
+
+                //Assign Datagridview to Data Table
+                pfrmRegResult.dgvResults.DataSource = tblRegResult;
+
+                int nFeature = pFLayer.FeatureClass.FeatureCount(null);
+
+                //Assign values at Textbox
+                string strDecimalPlaces = "N" + intDeciPlaces.ToString();
+                string[] strResults = new string[7];
+                strResults[0] = "Number of rows: " + nFeature.ToString() + ", Number of candidate EVs: " + dblNCandidateEvs.ToString() + ", Selected EVs: " + intNSelectedEVs.ToString();
+
+                if (dblResiLMpVal < 0.001)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiLMpVal > 0.999)
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+
+                strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+                strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
+                strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
+                strResults[5] = "Pseudo R squared: " + dblPseudoRsquared.ToString(strDecimalPlaces);
+
+                if (dblResiMCpVal < 0.001)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value < 0.001";
+                else if (dblResiMCpVal > 0.999)
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value > 0.999";
+                else
+                    strResults[6] = "MC of residuals: " + dblResiMC.ToString("N3") + ", p-value: " + dblResiMCpVal.ToString("N3");
+
+                pfrmRegResult.txtOutput.Lines = strResults;
+
+                //Save Outputs in SHP
+                pfrmProgress.lblStatus.Text = "Saving results:";
+
+                int intResultCnt = lstSave.Items.Count;
+
+                //Get EVs and residuals
+                NumericMatrix nmModel = m_pEngine.Evaluate("as.matrix(sample.esf$model)").AsNumericMatrix();
+                //NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sample.esf$residuals)").AsNumeric();
+
+
+                for (int j = 0; j < intResultCnt; j++)
+                {
+                    string strSVName = lstSave.Items[j].SubItems[0].Text;
+                    string strFldName = lstSave.Items[j].SubItems[1].Text;
+
+                    // Create field, if there isn't
+                    // Create field, if there isn't
+                    if (m_pFClass.FindField(strFldName) == -1)
+                    {
+                        //Add fields
+                        IField newField = new FieldClass();
+                        IFieldEdit fieldEdit = (IFieldEdit)newField;
+                        fieldEdit.Name_2 = strFldName;
+                        fieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
+                        m_pFClass.AddField(newField);
+                    }
+                    else
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Do you want to overwrite " + strFldName + " field?", "Overwrite", MessageBoxButtons.YesNo);
+
+                        if (dialogResult == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+
+                    //Collect index of related coefficients and variables                    
+                    List<int> lstCoeffIdx = new List<int>();
+                    int intInterceptIdx = new int();
+                    for (int k = 1; k < vecNames.Length; k++) //Do not add intercept
+                    {
+                        string strRelatedVar = null;
+
+                        if (k < nIDepen + 1)
+                        {
+                            strRelatedVar = vecNames[k];
+                            if (strRelatedVar == strSVName)
+                                intInterceptIdx = k;
+                        }
+                        else
+                        {
+                            int intDivision = vecNames[k].IndexOf(":");
+
+                            if (j == 0 && intDivision == -1)
+                                lstCoeffIdx.Add(k);
+
+                            if (intDivision != -1)
+                            {
+                                //strRelatedVar = vecNames[k].Substring(0, intDivision);
+                                strRelatedVar = vecNames[k].Substring(1, intDivision - 1); //To consider "'";;
+                            }
+
+                            if (strRelatedVar == strSVName)
+                                lstCoeffIdx.Add(k);
+                        }
+                    }
+
+                    //Update Field
+                    IFeatureCursor pFCursor = pFLayer.FeatureClass.Update(null, false);
+                    IFeature pFeature = pFCursor.NextFeature();
+
+                    int featureIdx = 0;
+                    int intFldIdx = m_pFClass.FindField(strFldName);
+
+                    while (pFeature != null)
+                    {
+                        //Calculate and update spatial filter (Coefficient estimate * selected EVs)
+                        double dblIntMedValue = 0;
+                        double dblVaryingValue = 0;
+                        if (j == 0)
+                            dblVaryingValue = matCoe[0, 0];
+                        else
+                            dblVaryingValue = matCoe[intInterceptIdx, 0];
+
+                        foreach (int k in lstCoeffIdx)
+                        {
+                            dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
+                            dblVaryingValue += dblIntMedValue;
+                        }
+
+                        pFeature.set_Value(intFldIdx, (object)dblVaryingValue);
+
+                        pFCursor.UpdateFeature(pFeature);
+
+                        pFeature = pFCursor.NextFeature();
+                        featureIdx++;
+                    }
+                }
+
+                pfrmRegResult.Show();
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
 
         private void LinearESF(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, double dblNCandidateEvs, int intDeciPlaces, int intInterceptModel)
@@ -1495,6 +1776,15 @@ namespace VisUncertainty
         private void lstIndeVar_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             UpdateListview(lstSave, m_pFClass);
+        }
+
+        private void cboNormalization_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboNormalization.Text == "offset")
+            {
+                MessageBox.Show("The field name of 'offset' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNormalization.Text = "";
+            }
         }
     }
 

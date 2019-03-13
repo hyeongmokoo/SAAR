@@ -91,8 +91,8 @@ namespace VisUncertainty
 
         private void btnHistogram_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 string strLayerName = cboTargetLayer.Text;
                 string strFieldName = cboFieldName.Text;
 
@@ -164,12 +164,12 @@ namespace VisUncertainty
                 //                vecCounts[k]++;
                 //        }
                 //    }
-                int intBreakCount = Convert.ToInt32(nudBinsCnt.Value)-1;
+                int intBreakCount = Convert.ToInt32(nudBinsCnt.Value) - 1;
 
                 NumericVector vecValue = m_pEngine.CreateNumericVector(arrValue);
                 m_pEngine.SetSymbol(strFieldName, vecValue);
 
-            m_pEngine.Evaluate("hist.sample <- hist(" + strFieldName + ", plot = FALSE, nclass="+intBreakCount.ToString()+")");
+                m_pEngine.Evaluate("hist.sample <- hist(" + strFieldName + ", plot = FALSE, nclass=" + intBreakCount.ToString() + ")");
 
                 Double[] vecMids = m_pEngine.Evaluate("hist.sample$mids").AsNumeric().ToArray();
                 Double[] vecCounts = m_pEngine.Evaluate("hist.sample$counts").AsNumeric().ToArray();
@@ -228,13 +228,13 @@ namespace VisUncertainty
                 }
 
                 pfrmTemp.Show();
-                this.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    frmErrorLog pfrmErrorLog = new frmErrorLog();pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
-            //    return;
-            //}
+                //this.Close();
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
 
         //The method is move to Snippet class 012016 HK

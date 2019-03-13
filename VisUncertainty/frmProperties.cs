@@ -46,6 +46,7 @@ namespace VisUncertainty
         private Image[] m_previewImages;
         private ICartographicLineSymbol m_pOutline;
         private IRgbColor m_pOutColor;
+        private bool blnClassRedraw = false;
 
         //Proportional symbol map members
         private IProportionalSymbolRenderer m_pPropRenderer;
@@ -913,21 +914,34 @@ namespace VisUncertainty
         }
         public void DrawSymboliinDataGridView()
         {
-            string strGCRenderField = cboValueField.Text;
-            string strUncernfld = cboUncernFld.Text;
-            intGCBreakeCount = Convert.ToInt32(nudGCNClasses.Value);
-            double dblOutlineWidth = Convert.ToDouble(nudGCLinewidth.Value);
-            double dblGCSymbolSize = Convert.ToDouble(nudChoSymbolSize.Value);
-            m_pOutColor = m_pSnippet.getRGB(picGCLineColor.BackColor.R, picGCLineColor.BackColor.G, picGCLineColor.BackColor.B);
+            try
+            {
 
-            int intValueFldIdx = m_pFClass.FindField(strGCRenderField);
-            int intUncernfldIdx = m_pFClass.FindField(strUncernfld);
+                string strGCRenderField = cboValueField.Text;
+                string strUncernfld = cboUncernFld.Text;
 
-            if (intUncernfldIdx == -1 && cboGCClassify.Text == "Class Separability")
-                return;
+                //Error control to deal with binary data (1.0.6 Update)
+                int intUniqueCnt = GetUniqueCnt(strGCRenderField);
+                if (intUniqueCnt < Convert.ToInt32(nudGCNClasses.Value))
+                {
+                    nudGCNClasses.Value = intUniqueCnt;
+                    //return;
+                }
 
-            ITable pTable = (ITable)m_pFClass;
-            IClassifyGEN pClassifyGEN = null;
+                intGCBreakeCount = Convert.ToInt32(nudGCNClasses.Value);
+
+                double dblOutlineWidth = Convert.ToDouble(nudGCLinewidth.Value);
+                double dblGCSymbolSize = Convert.ToDouble(nudChoSymbolSize.Value);
+                m_pOutColor = m_pSnippet.getRGB(picGCLineColor.BackColor.R, picGCLineColor.BackColor.G, picGCLineColor.BackColor.B);
+
+                int intValueFldIdx = m_pFClass.FindField(strGCRenderField);
+                int intUncernfldIdx = m_pFClass.FindField(strUncernfld);
+
+                if (intUncernfldIdx == -1 && cboGCClassify.Text == "Class Separability")
+                    return;
+
+                ITable pTable = (ITable)m_pFClass;
+                IClassifyGEN pClassifyGEN = null;
 
                 switch (cboGCClassify.Text)
                 {
@@ -966,109 +980,115 @@ namespace VisUncertainty
                 pClassifyGEN.Classify(xVals, frqs, intGCBreakeCount);
                 cb = (double[])pClassifyGEN.ClassBreaks;
 
-            m_pRender = new ClassBreaksRenderer();
+                m_pRender = new ClassBreaksRenderer();
 
-            m_pRender.Field = strGCRenderField;
-            m_pRender.BreakCount = intGCBreakeCount;
-            m_pRender.MinimumBreak = cb[0];
+                m_pRender.Field = strGCRenderField;
+                m_pRender.BreakCount = intGCBreakeCount;
+                m_pRender.MinimumBreak = cb[0];
 
-            string strColorRamp = cboColorRamp.Text;
+                string strColorRamp = cboColorRamp.Text;
 
-            pEnumColors = MultiPartColorRamp(strColorRamp, cboAlgorithm.Text, intGCBreakeCount);
-            pEnumColors.Reset();
+                pEnumColors = MultiPartColorRamp(strColorRamp, cboAlgorithm.Text, intGCBreakeCount);
+                pEnumColors.Reset();
 
-            arrColors = new int[intGCBreakeCount, 3];
+                arrColors = new int[intGCBreakeCount, 3];
 
-            IStyleGalleryItem styleGalleryItem = new ServerStyleGalleryItem();
+                IStyleGalleryItem styleGalleryItem = new ServerStyleGalleryItem();
 
-            switch (m_fLayer.FeatureClass.ShapeType)
-            {
-                case esriGeometryType.esriGeometryPoint:
-                    ISimpleMarkerSymbol pSimpleMarkerSym = new SimpleMarkerSymbolClass();
+                switch (m_fLayer.FeatureClass.ShapeType)
+                {
+                    case esriGeometryType.esriGeometryPoint:
+                        ISimpleMarkerSymbol pSimpleMarkerSym = new SimpleMarkerSymbolClass();
 
-                    m_previewImages = new Image[intGCBreakeCount];
+                        m_previewImages = new Image[intGCBreakeCount];
 
-                    for (int k = 0; k < intGCBreakeCount; k++)
-                    {
-                        IColor pColor = pEnumColors.Next();
-                        IRgbColor pRGBColor = new RgbColorClass();
-                        pRGBColor.RGB = pColor.RGB;
+                        for (int k = 0; k < intGCBreakeCount; k++)
+                        {
+                            IColor pColor = pEnumColors.Next();
+                            IRgbColor pRGBColor = new RgbColorClass();
+                            pRGBColor.RGB = pColor.RGB;
 
-                        pSimpleMarkerSym = new SimpleMarkerSymbolClass();
-                        styleGalleryItem = new ServerStyleGalleryItem();
+                            pSimpleMarkerSym = new SimpleMarkerSymbolClass();
+                            styleGalleryItem = new ServerStyleGalleryItem();
 
-                        pSimpleMarkerSym.Color = (IColor)pRGBColor;
-                        pSimpleMarkerSym.OutlineColor = (IColor)m_pOutColor;
-                        pSimpleMarkerSym.OutlineSize = dblOutlineWidth;
-                        pSimpleMarkerSym.Size = dblGCSymbolSize;
-                        styleGalleryItem.Item = (ISymbol)pSimpleMarkerSym;
-                        m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, styleGalleryItem);
-
-
-                        arrColors[k, 0] = pRGBColor.Red;
-                        arrColors[k, 1] = pRGBColor.Green;
-                        arrColors[k, 2] = pRGBColor.Blue;
-                    }
-                    pEnumColors.Reset();
-                    break;
-                case esriGeometryType.esriGeometryPolyline:
-                    ISimpleLineSymbol pSimpleLinerSym = new SimpleLineSymbolClass();
-
-                    m_previewImages = new Image[intGCBreakeCount];
-
-                    for (int k = 0; k < intGCBreakeCount; k++)
-                    {
-                        IColor pColor = pEnumColors.Next();
-                        IRgbColor pRGBColor = new RgbColorClass();
-                        pRGBColor.RGB = pColor.RGB;
-
-                        pSimpleLinerSym = new SimpleLineSymbolClass();
-                        styleGalleryItem = new ServerStyleGalleryItem();
-
-                        pSimpleLinerSym.Color = (IColor)pRGBColor;
-                        pSimpleLinerSym.Width = dblOutlineWidth;
-
-                        styleGalleryItem.Item = (ISymbol)pSimpleLinerSym;
-                        m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, styleGalleryItem);
-
-                        arrColors[k, 0] = pRGBColor.Red;
-                        arrColors[k, 1] = pRGBColor.Green;
-                        arrColors[k, 2] = pRGBColor.Blue;
-                    }
-                    pEnumColors.Reset();
-                    break;
-                case esriGeometryType.esriGeometryPolygon:
-                    ISimpleFillSymbol pFillSymbol = new SimpleFillSymbolClass();
-
-                    m_pOutline = new CartographicLineSymbolClass();
-                    m_pOutline.Color = (IColor)m_pOutColor;
-                    m_pOutline.Width = dblOutlineWidth;
-
-                    m_previewImages = new Image[intGCBreakeCount];
-
-                    for (int k = 0; k < intGCBreakeCount; k++)
-                    {
-                        IColor pColor = pEnumColors.Next();
-                        IRgbColor pRGBColor = new RgbColorClass();
-                        pRGBColor.RGB = pColor.RGB;
-
-                        pFillSymbol = new SimpleFillSymbolClass();
-                        styleGalleryItem = new ServerStyleGalleryItem();
-
-                        pFillSymbol.Color = (IColor)pRGBColor;
-                        pFillSymbol.Outline = m_pOutline;
-                        styleGalleryItem.Item = (ISymbol)pFillSymbol;
-                        m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassFillSymbols, styleGalleryItem);
+                            pSimpleMarkerSym.Color = (IColor)pRGBColor;
+                            pSimpleMarkerSym.OutlineColor = (IColor)m_pOutColor;
+                            pSimpleMarkerSym.OutlineSize = dblOutlineWidth;
+                            pSimpleMarkerSym.Size = dblGCSymbolSize;
+                            styleGalleryItem.Item = (ISymbol)pSimpleMarkerSym;
+                            m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, styleGalleryItem);
 
 
-                        arrColors[k, 0] = pRGBColor.Red;
-                        arrColors[k, 1] = pRGBColor.Green;
-                        arrColors[k, 2] = pRGBColor.Blue;
-                    }
-                    pEnumColors.Reset();
-                    break;
+                            arrColors[k, 0] = pRGBColor.Red;
+                            arrColors[k, 1] = pRGBColor.Green;
+                            arrColors[k, 2] = pRGBColor.Blue;
+                        }
+                        pEnumColors.Reset();
+                        break;
+                    case esriGeometryType.esriGeometryPolyline:
+                        ISimpleLineSymbol pSimpleLinerSym = new SimpleLineSymbolClass();
+
+                        m_previewImages = new Image[intGCBreakeCount];
+
+                        for (int k = 0; k < intGCBreakeCount; k++)
+                        {
+                            IColor pColor = pEnumColors.Next();
+                            IRgbColor pRGBColor = new RgbColorClass();
+                            pRGBColor.RGB = pColor.RGB;
+
+                            pSimpleLinerSym = new SimpleLineSymbolClass();
+                            styleGalleryItem = new ServerStyleGalleryItem();
+
+                            pSimpleLinerSym.Color = (IColor)pRGBColor;
+                            pSimpleLinerSym.Width = dblOutlineWidth;
+
+                            styleGalleryItem.Item = (ISymbol)pSimpleLinerSym;
+                            m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, styleGalleryItem);
+
+                            arrColors[k, 0] = pRGBColor.Red;
+                            arrColors[k, 1] = pRGBColor.Green;
+                            arrColors[k, 2] = pRGBColor.Blue;
+                        }
+                        pEnumColors.Reset();
+                        break;
+                    case esriGeometryType.esriGeometryPolygon:
+                        ISimpleFillSymbol pFillSymbol = new SimpleFillSymbolClass();
+
+                        m_pOutline = new CartographicLineSymbolClass();
+                        m_pOutline.Color = (IColor)m_pOutColor;
+                        m_pOutline.Width = dblOutlineWidth;
+
+                        m_previewImages = new Image[intGCBreakeCount];
+
+                        for (int k = 0; k < intGCBreakeCount; k++)
+                        {
+                            IColor pColor = pEnumColors.Next();
+                            IRgbColor pRGBColor = new RgbColorClass();
+                            pRGBColor.RGB = pColor.RGB;
+
+                            pFillSymbol = new SimpleFillSymbolClass();
+                            styleGalleryItem = new ServerStyleGalleryItem();
+
+                            pFillSymbol.Color = (IColor)pRGBColor;
+                            pFillSymbol.Outline = m_pOutline;
+                            styleGalleryItem.Item = (ISymbol)pFillSymbol;
+                            m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassFillSymbols, styleGalleryItem);
+
+
+                            arrColors[k, 0] = pRGBColor.Red;
+                            arrColors[k, 1] = pRGBColor.Green;
+                            arrColors[k, 2] = pRGBColor.Blue;
+                        }
+                        pEnumColors.Reset();
+                        break;
+                }
+                UpdateData(intGCBreakeCount);
             }
-            UpdateData(intGCBreakeCount);
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
         private void UpdateData(int intGCBreakeCount)
         {
@@ -1878,113 +1898,130 @@ namespace VisUncertainty
         }
         private void DisplayProportionalSymbols()
         {
-            string strFld = cboProValue.Text;
-            if (strFld == "") return;
-
-            IRgbColor pRgbColor = new RgbColor();
-            pRgbColor = m_pSnippet.getRGB(picProColor.BackColor.R, picProColor.BackColor.G, picProColor.BackColor.B);
-
-            IRgbColor pOutColor = new RgbColor();
-            pOutColor = m_pSnippet.getRGB(picProOutColor.BackColor.R, picProOutColor.BackColor.G, picProOutColor.BackColor.B);
-
-            double dblOutlineWidth = Convert.ToDouble(nudProOutWidth.Value);
-
-            IStyleGalleryItem pMinstyleGalleryItem = new ServerStyleGalleryItem();
-            IStyleGalleryItem pMaxstyleGalleryItem = new ServerStyleGalleryItem();
-
-            switch (m_fLayer.FeatureClass.ShapeType)
+            try
             {
-                case esriGeometryType.esriGeometryPoint:
-                case esriGeometryType.esriGeometryPolygon:
-                    m_pMinMarkerSymbol = new SimpleMarkerSymbolClass();
-                    m_pMinMarkerSymbol.Color = (IColor)pRgbColor;
-                    m_pMinMarkerSymbol.Size = m_dblMinSymbolSize;
-                    m_pMinMarkerSymbol.Outline = chkProOutline.Checked;
 
-                    if (chkProOutline.Checked)
-                    {
-                        m_pMinMarkerSymbol.OutlineColor = (IColor)pOutColor;
-                        m_pMinMarkerSymbol.OutlineSize = dblOutlineWidth;
-                    }
-                    else
-                        m_pMinMarkerSymbol.Outline = false;
-                    ISimpleMarkerSymbol pMaxMarkerSymbol = new SimpleMarkerSymbolClass();
-                    pMaxMarkerSymbol.Color = (IColor)pRgbColor;
-                    pMaxMarkerSymbol.Size = m_dblMaxSymbolSize;
-                    pMaxMarkerSymbol.Outline = chkProOutline.Checked;
+                string strFld = cboProValue.Text;
+                if (strFld == "") return;
 
-                    if (chkProOutline.Checked)
-                    {
-                        pMaxMarkerSymbol.OutlineColor = (IColor)pOutColor;
-                        pMaxMarkerSymbol.OutlineSize = dblOutlineWidth;
-                    }
-                    else
-                        pMaxMarkerSymbol.Outline = false;
+                IRgbColor pRgbColor = new RgbColor();
+                pRgbColor = m_pSnippet.getRGB(picProColor.BackColor.R, picProColor.BackColor.G, picProColor.BackColor.B);
 
-                    //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMinMarkerSymbol);
-                    pMinstyleGalleryItem.Item = (ISymbol)m_pMinMarkerSymbol;
-                    PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, pMinstyleGalleryItem, true);
+                IRgbColor pOutColor = new RgbColor();
+                pOutColor = m_pSnippet.getRGB(picProOutColor.BackColor.R, picProOutColor.BackColor.G, picProOutColor.BackColor.B);
 
-                    //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMaxMarkerSymbol);
-                    pMaxstyleGalleryItem.Item = (ISymbol)pMaxMarkerSymbol;
-                    PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, pMaxstyleGalleryItem, false);
+                double dblOutlineWidth = Convert.ToDouble(nudProOutWidth.Value);
 
-                    break;
-                case esriGeometryType.esriGeometryPolyline:
-                    m_pMinLineSymbol = new SimpleLineSymbolClass();
-                    m_pMinLineSymbol.Color = (IColor)pRgbColor;
-                    m_pMinLineSymbol.Width = m_dblMinSymbolSize;
+                IStyleGalleryItem pMinstyleGalleryItem = new ServerStyleGalleryItem();
+                IStyleGalleryItem pMaxstyleGalleryItem = new ServerStyleGalleryItem();
 
-                    ISimpleLineSymbol pMaxLineSymbol = new SimpleLineSymbolClass();
-                    pMaxLineSymbol.Color = (IColor)pRgbColor;
-                    pMaxLineSymbol.Width = m_dblMaxSymbolSize;
+                switch (m_fLayer.FeatureClass.ShapeType)
+                {
+                    case esriGeometryType.esriGeometryPoint:
+                    case esriGeometryType.esriGeometryPolygon:
+                        m_pMinMarkerSymbol = new SimpleMarkerSymbolClass();
+                        m_pMinMarkerSymbol.Color = (IColor)pRgbColor;
+                        m_pMinMarkerSymbol.Size = m_dblMinSymbolSize;
+                        m_pMinMarkerSymbol.Outline = chkProOutline.Checked;
 
-                    //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMinMarkerSymbol);
-                    pMinstyleGalleryItem.Item = (ISymbol)m_pMinLineSymbol;
-                    PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, pMinstyleGalleryItem, true);
+                        if (chkProOutline.Checked)
+                        {
+                            m_pMinMarkerSymbol.OutlineColor = (IColor)pOutColor;
+                            m_pMinMarkerSymbol.OutlineSize = dblOutlineWidth;
+                        }
+                        else
+                            m_pMinMarkerSymbol.Outline = false;
+                        ISimpleMarkerSymbol pMaxMarkerSymbol = new SimpleMarkerSymbolClass();
+                        pMaxMarkerSymbol.Color = (IColor)pRgbColor;
+                        pMaxMarkerSymbol.Size = m_dblMaxSymbolSize;
+                        pMaxMarkerSymbol.Outline = chkProOutline.Checked;
 
-                    //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMaxMarkerSymbol);
-                    pMaxstyleGalleryItem.Item = (ISymbol)pMaxLineSymbol;
-                    PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, pMaxstyleGalleryItem, false);
-                    break;
+                        if (chkProOutline.Checked)
+                        {
+                            pMaxMarkerSymbol.OutlineColor = (IColor)pOutColor;
+                            pMaxMarkerSymbol.OutlineSize = dblOutlineWidth;
+                        }
+                        else
+                            pMaxMarkerSymbol.Outline = false;
+
+                        //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMinMarkerSymbol);
+                        pMinstyleGalleryItem.Item = (ISymbol)m_pMinMarkerSymbol;
+                        PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, pMinstyleGalleryItem, true);
+
+                        //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMaxMarkerSymbol);
+                        pMaxstyleGalleryItem.Item = (ISymbol)pMaxMarkerSymbol;
+                        PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, pMaxstyleGalleryItem, false);
+
+                        break;
+                    case esriGeometryType.esriGeometryPolyline:
+                        m_pMinLineSymbol = new SimpleLineSymbolClass();
+                        m_pMinLineSymbol.Color = (IColor)pRgbColor;
+                        m_pMinLineSymbol.Width = m_dblMinSymbolSize;
+
+                        ISimpleLineSymbol pMaxLineSymbol = new SimpleLineSymbolClass();
+                        pMaxLineSymbol.Color = (IColor)pRgbColor;
+                        pMaxLineSymbol.Width = m_dblMaxSymbolSize;
+
+                        //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMinMarkerSymbol);
+                        pMinstyleGalleryItem.Item = (ISymbol)m_pMinLineSymbol;
+                        PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, pMinstyleGalleryItem, true);
+
+                        //styleGalleryItem = GetGalleryItem(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, (ISymbol)pMaxMarkerSymbol);
+                        pMaxstyleGalleryItem.Item = (ISymbol)pMaxLineSymbol;
+                        PreviewProportionalImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, pMaxstyleGalleryItem, false);
+                        break;
+                }
             }
-
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
+                return;
+            }
         }
         private void btnProApply_Click(object sender, EventArgs e)
         {
-            if (cboProValue.Text == "")
-                return;
-
-
-            IProportionalSymbolRenderer pProSymbRenerer = new ProportionalSymbolRendererClass();
-            pProSymbRenerer.ValueUnit = esriUnits.esriUnknownUnits;
-            pProSymbRenerer.Field = cboProValue.Text;
-            if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPoint || m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+            try
             {
-                pProSymbRenerer.MinSymbol = (ISymbol)m_pMinMarkerSymbol;
-                pProSymbRenerer.FlanneryCompensation = chkFlannery.Checked;
-                if (m_BackSymbol != null)
-                    pProSymbRenerer.BackgroundSymbol = (IFillSymbol)m_BackSymbol;
+
+                if (cboProValue.Text == "")
+                    return;
+
+
+                IProportionalSymbolRenderer pProSymbRenerer = new ProportionalSymbolRendererClass();
+                pProSymbRenerer.ValueUnit = esriUnits.esriUnknownUnits;
+                pProSymbRenerer.Field = cboProValue.Text;
+                if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPoint || m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+                {
+                    pProSymbRenerer.MinSymbol = (ISymbol)m_pMinMarkerSymbol;
+                    pProSymbRenerer.FlanneryCompensation = chkFlannery.Checked;
+                    if (m_BackSymbol != null)
+                        pProSymbRenerer.BackgroundSymbol = (IFillSymbol)m_BackSymbol;
+                }
+                else if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolyline)
+                    pProSymbRenerer.MinSymbol = (ISymbol)m_pMinLineSymbol;
+                else
+                {
+                    MessageBox.Show("Shape type is invalid for this process.");
+                    return;
+                }
+
+
+                pProSymbRenerer.MinDataValue = m_dblMinDataValue;
+                pProSymbRenerer.MaxDataValue = m_dblMaxDataValue;
+
+                pProSymbRenerer.LegendSymbolCount = Convert.ToInt32(nudLegendCount.Value);
+                pProSymbRenerer.CreateLegendSymbols();
+                IGeoFeatureLayer pGeofeatureLayer = (IGeoFeatureLayer)m_fLayer;
+                pGeofeatureLayer.Renderer = (IFeatureRenderer)pProSymbRenerer;
+
+                mForm.axTOCControl1.Update();
+                mForm.axMapControl1.Refresh();
             }
-            else if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolyline)
-                pProSymbRenerer.MinSymbol = (ISymbol)m_pMinLineSymbol;
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Shape type is invalid for this process.");
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
                 return;
             }
-
-
-            pProSymbRenerer.MinDataValue = m_dblMinDataValue;
-            pProSymbRenerer.MaxDataValue = m_dblMaxDataValue;
-
-            pProSymbRenerer.LegendSymbolCount = Convert.ToInt32(nudLegendCount.Value);
-            pProSymbRenerer.CreateLegendSymbols();
-            IGeoFeatureLayer pGeofeatureLayer = (IGeoFeatureLayer)m_fLayer;
-            pGeofeatureLayer.Renderer = (IFeatureRenderer)pProSymbRenerer;
-
-            mForm.axTOCControl1.Update();
-            mForm.axMapControl1.Refresh();
         }
         private void btnProBackSymbol_Click(object sender, EventArgs e)
         {
@@ -2439,121 +2476,185 @@ namespace VisUncertainty
             }
         }
 
+        //Error control to deal with binary data (1.0.6 Update)
+        public int GetUniqueCnt(string strFldName)
+        {
+            ITable pTable = (ITable)m_pFClass;
+
+            ICursor pCursor = pTable.Search(null, true);
+            int InitialNumber = 0;
+
+
+            int intFldIdx = m_pFClass.Fields.FindField(strFldName);
+
+            List<object> uvList = new List<object>();
+            IRow ipRow = pCursor.NextRow();
+            while (ipRow != null)
+            {
+                object curValue = ipRow.get_Value(intFldIdx);
+
+                if (!uvList.Contains(curValue))
+                {
+                    uvList.Add(curValue);
+                }
+
+                ipRow = pCursor.NextRow();
+            }
+            int intUniqueCnt = uvList.Count;
+
+            //Not working
+            //DataStatistics ipDataStat = new DataStatisticsClass();
+            //ipDataStat.Field = strFldName;
+            //ipDataStat.Cursor = pCursor;
+            //System.Collections.IEnumerator ipEnum = ipDataStat.UniqueValues;
+            
+            //InitialNumber = ipDataStat.UniqueValueCount;
+            
+            if (intUniqueCnt <= 1)
+            {
+                MessageBox.Show("Fail to create classes. This field contains only a unique value.");
+                InitialNumber = 1;
+                
+            }
+
+            return intUniqueCnt;
+            
+        }
 
         public void DrawGSSymboliinDataGridView()
         {
-            string strGSRenderField = cboGSvaluefld.Text;
-            intGCBreakeCount = Convert.ToInt32(nudGSNClasses.Value);
-            double dblOutlineWidth = Convert.ToDouble(nudGSOutWidth.Value);
-            double dblGSSymbolMinSize = Convert.ToDouble(nudGSMinSymSz.Value);
-            double dblGSSymbolMaxSize = Convert.ToDouble(nudGSMaxSymSz.Value);
-            double dblIncrement = 0;
-            if (dblGSSymbolMaxSize <= dblGSSymbolMinSize)
+            try
             {
-                MessageBox.Show("Please input a proper range of symbol sizes.");
+                string strGSRenderField = cboGSvaluefld.Text;
+
+
+                //Error control to deal with binary data (1.0.6 Update)
+
+                int intUniqueCnt = GetUniqueCnt(strGSRenderField);
+                if (intUniqueCnt < Convert.ToInt32(nudGSNClasses.Value))
+                {
+                    nudGSNClasses.Value = intUniqueCnt;
+                    //return;
+                }
+
+                intGCBreakeCount = Convert.ToInt32(nudGSNClasses.Value);
+
+                double dblOutlineWidth = Convert.ToDouble(nudGSOutWidth.Value);
+                double dblGSSymbolMinSize = Convert.ToDouble(nudGSMinSymSz.Value);
+                double dblGSSymbolMaxSize = Convert.ToDouble(nudGSMaxSymSz.Value);
+                double dblIncrement = 0;
+                if (dblGSSymbolMaxSize <= dblGSSymbolMinSize)
+                {
+                    MessageBox.Show("Please input a proper range of symbol sizes.");
+                    return;
+                }
+                else
+                    dblIncrement = (dblGSSymbolMaxSize - dblGSSymbolMinSize) / Convert.ToDouble(intGCBreakeCount - 1);
+
+                m_pOutColor = m_pSnippet.getRGB(picGSOutColor.BackColor.R, picGSOutColor.BackColor.G, picGSOutColor.BackColor.B);
+                m_pSymColor = m_pSnippet.getRGB(picGSSymColor.BackColor.R, picGSSymColor.BackColor.G, picGSSymColor.BackColor.B);
+
+                int intValueFldIdx = m_pFClass.FindField(strGSRenderField);
+
+                ITable pTable = (ITable)m_pFClass;
+                IClassifyGEN pClassifyGEN = null;
+
+                m_strClassificationMethod = cboGSClassificationMethod.Text;
+
+                switch (m_strClassificationMethod)
+                {
+                    case "Equal Interval":
+                        pClassifyGEN = new EqualIntervalClass();
+                        break;
+                    case "Geometrical Interval":
+                        pClassifyGEN = new GeometricalInterval();
+                        break;
+                    case "Natural Breaks":
+                        pClassifyGEN = new NaturalBreaksClass();
+                        break;
+                    case "Quantile":
+                        pClassifyGEN = new QuantileClass();
+                        break;
+                    case "StandardDeviation":
+                        pClassifyGEN = new StandardDeviationClass();
+                        break;
+                    default:
+                        pClassifyGEN = new NaturalBreaksClass();
+                        break;
+                }
+
+                //ITableHistogram pTableHistogram = new TableHistogramClass();
+                ITableHistogram pTableHistogram2 = new BasicTableHistogramClass();
+
+                pTableHistogram2.Field = strGSRenderField;
+                pTableHistogram2.Table = pTable;
+                //IHistogram pHistogram = (IHistogram)pTableHistogram2;
+                IBasicHistogram pHistogram = (IBasicHistogram)pTableHistogram2;
+                object xVals, frqs;
+                pHistogram.GetHistogram(out xVals, out frqs);
+                pClassifyGEN.Classify(xVals, frqs, intGCBreakeCount);
+                cb = (double[])pClassifyGEN.ClassBreaks;
+
+                m_pRender = new ClassBreaksRenderer();
+
+                m_pRender.Field = strGSRenderField;
+                m_pRender.BreakCount = intGCBreakeCount;
+                m_pRender.MinimumBreak = cb[0];
+
+                m_arrSizes = new double[intGCBreakeCount];
+
+                IStyleGalleryItem styleGalleryItem = new ServerStyleGalleryItem();
+
+                switch (m_fLayer.FeatureClass.ShapeType)
+                {
+                    case esriGeometryType.esriGeometryPoint:
+                    case esriGeometryType.esriGeometryPolygon:
+                        ISimpleMarkerSymbol pSimpleMarkerSym = new SimpleMarkerSymbolClass();
+
+                        m_previewImages = new Image[intGCBreakeCount];
+
+                        for (int k = 0; k < intGCBreakeCount; k++)
+                        {
+                            pSimpleMarkerSym = new SimpleMarkerSymbolClass();
+                            styleGalleryItem = new ServerStyleGalleryItem();
+
+                            pSimpleMarkerSym.Color = (IColor)m_pSymColor;
+                            pSimpleMarkerSym.OutlineColor = (IColor)m_pOutColor;
+                            pSimpleMarkerSym.OutlineSize = dblOutlineWidth;
+                            m_arrSizes[k] = dblGSSymbolMinSize + dblIncrement * Convert.ToDouble(k);
+                            pSimpleMarkerSym.Size = m_arrSizes[k];
+                            pSimpleMarkerSym.Outline = true;
+                            styleGalleryItem.Item = (ISymbol)pSimpleMarkerSym;
+                            m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, styleGalleryItem);
+                        }
+                        break;
+                    case esriGeometryType.esriGeometryPolyline:
+                        ISimpleLineSymbol pSimpleLinerSym = new SimpleLineSymbolClass();
+
+                        m_previewImages = new Image[intGCBreakeCount];
+
+                        for (int k = 0; k < intGCBreakeCount; k++)
+                        {
+                            pSimpleLinerSym = new SimpleLineSymbolClass();
+                            styleGalleryItem = new ServerStyleGalleryItem();
+
+                            pSimpleLinerSym.Color = (IColor)m_pSymColor;
+                            m_arrSizes[k] = dblGSSymbolMinSize + dblIncrement * Convert.ToDouble(k);
+                            pSimpleLinerSym.Width = m_arrSizes[k];
+
+                            styleGalleryItem.Item = (ISymbol)pSimpleLinerSym;
+                            m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, styleGalleryItem);
+
+                        }
+                        break;
+                }
+                UpdateGSData(intGCBreakeCount);
+            }
+            catch (Exception ex)
+            {
+                frmErrorLog pfrmErrorLog = new frmErrorLog(); pfrmErrorLog.ex = ex; pfrmErrorLog.ShowDialog();
                 return;
             }
-            else
-                dblIncrement = (dblGSSymbolMaxSize - dblGSSymbolMinSize) / Convert.ToDouble(intGCBreakeCount - 1);
-
-            m_pOutColor = m_pSnippet.getRGB(picGSOutColor.BackColor.R, picGSOutColor.BackColor.G, picGSOutColor.BackColor.B);
-            m_pSymColor = m_pSnippet.getRGB(picGSSymColor.BackColor.R, picGSSymColor.BackColor.G, picGSSymColor.BackColor.B);
-
-            int intValueFldIdx = m_pFClass.FindField(strGSRenderField);
-
-            ITable pTable = (ITable)m_pFClass;
-            IClassifyGEN pClassifyGEN = null;
-
-            m_strClassificationMethod = cboGSClassificationMethod.Text;
-
-            switch (m_strClassificationMethod)
-            {
-                case "Equal Interval":
-                    pClassifyGEN = new EqualIntervalClass();
-                    break;
-                case "Geometrical Interval":
-                    pClassifyGEN = new GeometricalInterval();
-                    break;
-                case "Natural Breaks":
-                    pClassifyGEN = new NaturalBreaksClass();
-                    break;
-                case "Quantile":
-                    pClassifyGEN = new QuantileClass();
-                    break;
-                case "StandardDeviation":
-                    pClassifyGEN = new StandardDeviationClass();
-                    break;
-                default:
-                    pClassifyGEN = new NaturalBreaksClass();
-                    break;
-            }
-
-            //ITableHistogram pTableHistogram = new TableHistogramClass();
-            ITableHistogram pTableHistogram2 = new BasicTableHistogramClass();
-
-            pTableHistogram2.Field = strGSRenderField;
-            pTableHistogram2.Table = pTable;
-            //IHistogram pHistogram = (IHistogram)pTableHistogram2;
-            IBasicHistogram pHistogram = (IBasicHistogram)pTableHistogram2;
-            object xVals, frqs;
-            pHistogram.GetHistogram(out xVals, out frqs);
-            pClassifyGEN.Classify(xVals, frqs, intGCBreakeCount);
-            cb = (double[])pClassifyGEN.ClassBreaks;
-
-            m_pRender = new ClassBreaksRenderer();
-
-            m_pRender.Field = strGSRenderField;
-            m_pRender.BreakCount = intGCBreakeCount;
-            m_pRender.MinimumBreak = cb[0];
-
-            m_arrSizes = new double[intGCBreakeCount];
-
-            IStyleGalleryItem styleGalleryItem = new ServerStyleGalleryItem();
-
-            switch (m_fLayer.FeatureClass.ShapeType)
-            {
-                case esriGeometryType.esriGeometryPoint:
-                case esriGeometryType.esriGeometryPolygon:
-                    ISimpleMarkerSymbol pSimpleMarkerSym = new SimpleMarkerSymbolClass();
-
-                    m_previewImages = new Image[intGCBreakeCount];
-
-                    for (int k = 0; k < intGCBreakeCount; k++)
-                    {
-                        pSimpleMarkerSym = new SimpleMarkerSymbolClass();
-                        styleGalleryItem = new ServerStyleGalleryItem();
-
-                        pSimpleMarkerSym.Color = (IColor)m_pSymColor;
-                        pSimpleMarkerSym.OutlineColor = (IColor)m_pOutColor;
-                        pSimpleMarkerSym.OutlineSize = dblOutlineWidth;
-                        m_arrSizes[k] = dblGSSymbolMinSize + dblIncrement * Convert.ToDouble(k);
-                        pSimpleMarkerSym.Size = m_arrSizes[k];
-                        pSimpleMarkerSym.Outline = true;
-                        styleGalleryItem.Item = (ISymbol)pSimpleMarkerSym;
-                        m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassMarkerSymbols, styleGalleryItem);
-                    }
-                    break;
-                case esriGeometryType.esriGeometryPolyline:
-                    ISimpleLineSymbol pSimpleLinerSym = new SimpleLineSymbolClass();
-
-                    m_previewImages = new Image[intGCBreakeCount];
-
-                    for (int k = 0; k < intGCBreakeCount; k++)
-                    {
-                        pSimpleLinerSym = new SimpleLineSymbolClass();
-                        styleGalleryItem = new ServerStyleGalleryItem();
-
-                        pSimpleLinerSym.Color = (IColor)m_pSymColor;
-                        m_arrSizes[k] = dblGSSymbolMinSize + dblIncrement * Convert.ToDouble(k);
-                        pSimpleLinerSym.Width = m_arrSizes[k];
-
-                        styleGalleryItem.Item = (ISymbol)pSimpleLinerSym;
-                        m_previewImages[k] = GetPreviewImage(esriSymbologyStyleClass.esriStyleClassLineSymbols, styleGalleryItem);
-
-                    }
-                    break;
-            }
-            UpdateGSData(intGCBreakeCount);
         }
         private void UpdateGSData(int intGCBreakeCount)
         {

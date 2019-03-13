@@ -36,7 +36,10 @@
             "sfilter"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmESF));
             this.grbEV = new System.Windows.Forms.GroupBox();
+            this.btnOpenSWM = new System.Windows.Forms.Button();
             this.lblDirection = new System.Windows.Forms.Label();
+            this.txtSWM = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.cboDirection = new System.Windows.Forms.ComboBox();
             this.nudEValue = new System.Windows.Forms.NumericUpDown();
             this.rbEValue = new System.Windows.Forms.RadioButton();
@@ -63,14 +66,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cboNormalization = new System.Windows.Forms.ComboBox();
             this.lblNorm = new System.Windows.Forms.Label();
-            this.btnOpenSWM = new System.Windows.Forms.Button();
-            this.txtSWM = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.cboAlternative = new System.Windows.Forms.ComboBox();
             this.lblAlternative = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.grbEV.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEValue)).BeginInit();
             this.grbSave.SuspendLayout();
@@ -94,6 +94,16 @@
             this.grbEV.TabStop = false;
             this.grbEV.Text = "Candidate Eigenvector Selection";
             // 
+            // btnOpenSWM
+            // 
+            this.btnOpenSWM.Location = new System.Drawing.Point(218, 38);
+            this.btnOpenSWM.Name = "btnOpenSWM";
+            this.btnOpenSWM.Size = new System.Drawing.Size(39, 23);
+            this.btnOpenSWM.TabIndex = 63;
+            this.btnOpenSWM.Text = "...";
+            this.btnOpenSWM.UseVisualStyleBackColor = true;
+            this.btnOpenSWM.Click += new System.EventHandler(this.btnOpenSWM_Click);
+            // 
             // lblDirection
             // 
             this.lblDirection.AutoSize = true;
@@ -103,6 +113,23 @@
             this.lblDirection.Size = new System.Drawing.Size(52, 13);
             this.lblDirection.TabIndex = 4;
             this.lblDirection.Text = "Direction:";
+            // 
+            // txtSWM
+            // 
+            this.txtSWM.Location = new System.Drawing.Point(9, 40);
+            this.txtSWM.Name = "txtSWM";
+            this.txtSWM.Size = new System.Drawing.Size(199, 20);
+            this.txtSWM.TabIndex = 62;
+            this.txtSWM.Text = "Default";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 23);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(115, 13);
+            this.label6.TabIndex = 61;
+            this.label6.Text = "Spatial Weights Matrix:";
             // 
             // cboDirection
             // 
@@ -351,6 +378,7 @@
             this.cboFamily.Items.AddRange(new object[] {
             "Linear (Gaussian)",
             "Poisson",
+            "Negative Binomial",
             "Binomial",
             "Logistic"});
             this.cboFamily.Location = new System.Drawing.Point(14, 68);
@@ -377,6 +405,7 @@
             this.cboNormalization.Name = "cboNormalization";
             this.cboNormalization.Size = new System.Drawing.Size(265, 21);
             this.cboNormalization.TabIndex = 60;
+            this.cboNormalization.SelectedIndexChanged += new System.EventHandler(this.cboNormalization_SelectedIndexChanged);
             // 
             // lblNorm
             // 
@@ -387,33 +416,6 @@
             this.lblNorm.Size = new System.Drawing.Size(73, 13);
             this.lblNorm.TabIndex = 59;
             this.lblNorm.Text = "Normalization:";
-            // 
-            // btnOpenSWM
-            // 
-            this.btnOpenSWM.Location = new System.Drawing.Point(218, 38);
-            this.btnOpenSWM.Name = "btnOpenSWM";
-            this.btnOpenSWM.Size = new System.Drawing.Size(39, 23);
-            this.btnOpenSWM.TabIndex = 63;
-            this.btnOpenSWM.Text = "...";
-            this.btnOpenSWM.UseVisualStyleBackColor = true;
-            this.btnOpenSWM.Click += new System.EventHandler(this.btnOpenSWM_Click);
-            // 
-            // txtSWM
-            // 
-            this.txtSWM.Location = new System.Drawing.Point(9, 40);
-            this.txtSWM.Name = "txtSWM";
-            this.txtSWM.Size = new System.Drawing.Size(199, 20);
-            this.txtSWM.TabIndex = 62;
-            this.txtSWM.Text = "Default";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 13);
-            this.label6.TabIndex = 61;
-            this.label6.Text = "Spatial Weights Matrix:";
             // 
             // ofdOpenSWM
             // 
@@ -432,6 +434,15 @@
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 43);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(145, 13);
+            this.label7.TabIndex = 96;
+            this.label7.Text = "Moran Coefficient Calculation";
             // 
             // cboAlternative
             // 
@@ -454,15 +465,6 @@
             this.lblAlternative.Size = new System.Drawing.Size(115, 13);
             this.lblAlternative.TabIndex = 94;
             this.lblAlternative.Text = "Alternative Hypothesis:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 43);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 13);
-            this.label7.TabIndex = 96;
-            this.label7.Text = "Moran Coefficient Calculation";
             // 
             // frmESF
             // 
