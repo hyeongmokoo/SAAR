@@ -53,6 +53,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.trbGamma = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnLog = new System.Windows.Forms.Button();
             this.btnAddPlot = new System.Windows.Forms.Button();
             this.chkGamma = new System.Windows.Forms.CheckBox();
             this.btnTrans = new System.Windows.Forms.Button();
@@ -63,7 +64,6 @@
             this.pQQPlot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.conMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportToImageFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnLog = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pHistogram)).BeginInit();
             this.panel1.SuspendLayout();
             this.grbSave.SuspendLayout();
@@ -320,6 +320,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
             // 
+            // btnLog
+            // 
+            this.btnLog.Enabled = false;
+            this.btnLog.Location = new System.Drawing.Point(7, 145);
+            this.btnLog.Name = "btnLog";
+            this.btnLog.Size = new System.Drawing.Size(148, 23);
+            this.btnLog.TabIndex = 35;
+            this.btnLog.Text = "Log Transformation";
+            this.btnLog.UseVisualStyleBackColor = true;
+            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
+            // 
             // btnAddPlot
             // 
             this.btnAddPlot.Enabled = false;
@@ -444,17 +455,6 @@
             this.exportToImageFileToolStripMenuItem.Name = "exportToImageFileToolStripMenuItem";
             this.exportToImageFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToImageFileToolStripMenuItem.Text = "Export to image file";
-            // 
-            // btnLog
-            // 
-            this.btnLog.Enabled = false;
-            this.btnLog.Location = new System.Drawing.Point(7, 145);
-            this.btnLog.Name = "btnLog";
-            this.btnLog.Size = new System.Drawing.Size(148, 23);
-            this.btnLog.TabIndex = 35;
-            this.btnLog.Text = "Log Transformation";
-            this.btnLog.UseVisualStyleBackColor = true;
-            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
             // 
             // frmBoxCox
             // 
