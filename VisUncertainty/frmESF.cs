@@ -438,7 +438,7 @@ namespace VisUncertainty
                     }
                     catch
                     {
-                        MessageBox.Show("an offset requires a logarithm form. Please check the model again.");
+                        MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
                         pfrmProgress.Close();
                         return;
                     }
@@ -1118,7 +1118,7 @@ namespace VisUncertainty
                     }
                     catch
                     {
-                        MessageBox.Show("an offset value requires a logarithm form. Please check the model again.");
+                        MessageBox.Show("An offset value requires a logarithm form. Please check the model again.");
                         pfrmProgress.Close();
                         return;
                     }
@@ -1979,6 +1979,7 @@ namespace VisUncertainty
                     lstFields.Items.Clear();
                     lstIndeVar.Items.Clear();
                     cboNormalization.Text = "";
+                    cboNormalization.Items.Clear();
 
                     if (cboFamily.Text == "Linear (Gaussian)")
                         rbEquation.Enabled = true;
@@ -2074,6 +2075,12 @@ namespace VisUncertainty
             if (cboNormalization.Text == "offset")
             {
                 MessageBox.Show("The field name of 'offset' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNormalization.Text = "";
+            }
+
+            if (cboNormalization.Text == "area")
+            {
+                MessageBox.Show("The field name of 'area' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboNormalization.Text = "";
             }
         }

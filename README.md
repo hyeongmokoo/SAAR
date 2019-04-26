@@ -9,7 +9,7 @@ SAAR provides an efficient working environment for both general and advanced GIS
 You can find an installation file, a user tutorial and a sample dataset from the below:
 - [SAAR webpage](https://thesaar.github.io)
 - [Developer's personal homepage](https://hymokoo.weebly.com/gis-applications.html)
-- [Download the current version of SAAR installation file](https://www.utdallas.edu/~yxc070300/SAAR/Setup_saar_103.msi)
+- [Download the current version of SAAR installation file (1.0.6)](https://www.utdallas.edu/~ywchun/SAAR/Setup_saar_106.msi)
 
 The reference for SAAR appears in [Koo et al. (2018)](https://onlinelibrary.wiley.com/doi/abs/10.1111/tgis.12452).
 - Koo, H., Chun, Y., and Griffith, D. A. (2018). Integrating spatial data analysis functionalities in a GIS environment: Spatial Analysis using ArcGIS Engine and R (SAAR). Transactions in GIS, 22(3), 721-736.

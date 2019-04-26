@@ -77,7 +77,7 @@ namespace VisUncertainty
                     cboNormalization.Text = "";
                     cboNormalization.Items.Clear();
 
-                    if (cboFamily.Text == "Poisson")
+                    if (cboFamily.Text == "Poisson" || cboFamily.Text == "Logistic" || cboFamily.Text == "Negative Binomial")
                     {
                         for (int i = 0; i < fields.FieldCount; i++)
                         {
@@ -317,6 +317,7 @@ namespace VisUncertainty
                     pFeature = pFCursor.NextFeature();
                 }
 
+                //Check the range of binomial RV
                 if (cboFamily.Text == "Binomial" && intNoramIdx == -1)
                 {
                     double dblMaxDepen = arrDepen.Max();
@@ -432,7 +433,18 @@ namespace VisUncertainty
             if (strNoramlName == "")
                 m_pEngine.Evaluate("sample.glm <- glm.nb(" + strLM + ")");
             else
-                m_pEngine.Evaluate("sample.glm <- glm.nb(" + strLM + "+ offset(" + strNoramlName + "))");
+            {
+                try
+                {
+                    m_pEngine.Evaluate("sample.glm <- glm.nb(" + strLM + "+ offset(" + strNoramlName + "))");
+                }
+                catch
+                {
+                    MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
+                    pfrmProgress.Close();
+                }
+            }
+
 
             pfrmProgress.lblStatus.Text = "Printing Output:";
             m_pEngine.Evaluate("sum.glm <- summary(sample.glm)");
@@ -615,7 +627,20 @@ namespace VisUncertainty
             if (strNoramlName == "")
                 m_pEngine.Evaluate("sample.glm <- glm(" + strLM + ", family='poisson')");
             else
-                m_pEngine.Evaluate("sample.glm <- glm(" + strLM + ", offset=" + strNoramlName + ", family='poisson')");
+            {
+                try
+                {
+                    m_pEngine.Evaluate("sample.glm <- glm(" + strLM + ", offset=" + strNoramlName + ", family='poisson')");
+                }
+                catch
+                {
+                    MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
+                    pfrmProgress.Close();
+                    return;
+                }
+
+            }
+
 
             pfrmProgress.lblStatus.Text = "Printing Output:";
             m_pEngine.Evaluate("sum.glm <- summary(sample.glm)");
@@ -728,11 +753,11 @@ namespace VisUncertainty
             if (chkResiAuto.Checked)
             {
                 if (dblResiLMpVal < 0.001)
-                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
+                    strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value < 0.001";
                 else if (dblResiLMpVal > 0.999)
-                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
+                    strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value > 0.999";
                 else
-                    strResults[3] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
+                    strResults[5] = "MC of residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
             }
             else
                 strResults[5] = "";
@@ -1162,6 +1187,11 @@ namespace VisUncertainty
             if(cboNormalization.Text=="offset")
             {
                 MessageBox.Show("The field name of 'offset' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNormalization.Text = "";
+            }
+            if (cboNormalization.Text == "area")
+            {
+                MessageBox.Show("The field name of 'area' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboNormalization.Text = "";
             }
         }

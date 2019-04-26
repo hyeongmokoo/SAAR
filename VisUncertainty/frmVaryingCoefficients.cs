@@ -1249,7 +1249,7 @@ namespace VisUncertainty
                 }
                 else
                 {
-                    m_pEngine.Evaluate("esf.full <- glm(" + strLM + "+., offset=" + strNoramlName + ", data=sEV, family='poisson')");
+                    m_pEngine.Evaluate("esf.full <- glm(" + strLM + "+. , offset=" + strNoramlName + ", data=sEV, family='poisson')");
                     m_pEngine.Evaluate("esf.org <- glm(" + strLM + ", offset=" + strNoramlName + ", data=sEV, family='poisson')");
                 }
                 m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
@@ -1783,6 +1783,12 @@ namespace VisUncertainty
             if (cboNormalization.Text == "offset")
             {
                 MessageBox.Show("The field name of 'offset' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNormalization.Text = "";
+            }
+
+            if (cboNormalization.Text == "area")
+            {
+                MessageBox.Show("The field name of 'area' cannot be used for an offset variable name in this tool. Please assign the field to another name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cboNormalization.Text = "";
             }
         }

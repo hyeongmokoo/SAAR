@@ -699,7 +699,6 @@ namespace VisUncertainty
             this.leesToolsToolStripMenuItem.Name = "leesToolsToolStripMenuItem";
             this.leesToolsToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.leesToolsToolStripMenuItem.Text = "LARRY";
-            this.leesToolsToolStripMenuItem.Visible = false;
             // 
             // bivariateLISAMapsToolStripMenuItem
             // 
