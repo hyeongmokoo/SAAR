@@ -681,7 +681,10 @@ namespace VisUncertainty
             SEV_Name_builder.Append(")");
 
             m_pEngine.Evaluate(SEV_builder.ToString());
+
             m_pEngine.Evaluate(SEV_Name_builder.ToString());
+
+            //NumericMatrix nmTemp = m_pEngine.Evaluate("sEV[1,1]").AsNumericMatrix();
 
             if (cboFamily.Text == "Linear (Gaussian)")
                 LinearESF(pfrmProgress, m_pFLayer, plotCommmand.ToString(), nIDepen, independentNames, dblNCandidateEvs, intDeciPlaces, intInterceptModel);
@@ -939,15 +942,24 @@ namespace VisUncertainty
                         //Calculate and update spatial filter (Coefficient estimate * selected EVs)
                         double dblIntMedValue = 0;
                         double dblVaryingValue = 0;
-                        if (j == 0)
-                            dblVaryingValue = matCoe[0, 0];
-                        else
-                            dblVaryingValue = matCoe[intInterceptIdx, 0];
-
-                        foreach (int k in lstCoeffIdx)
+                        if (j == 0) //Update this part 0508
                         {
-                            dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
-                            dblVaryingValue += dblIntMedValue;
+                            dblVaryingValue = matCoe[0, 0];
+
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
+                                dblVaryingValue += dblIntMedValue;
+                            }
+                        }
+                        else
+                        {
+                            dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblVaryingValue += dblIntMedValue;
+                            }
                         }
 
                         pFeature.set_Value(intFldIdx, (object)dblVaryingValue);
@@ -1208,16 +1220,26 @@ namespace VisUncertainty
                         //Calculate and update spatial filter (Coefficient estimate * selected EVs)
                         double dblIntMedValue = 0;
                         double dblVaryingValue = 0;
-                        if (j == 0)
-                            dblVaryingValue = matCoe[0, 0];
-                        else
-                            dblVaryingValue = matCoe[intInterceptIdx, 0];
-                        
-                        foreach (int k in lstCoeffIdx)
+                        if (j == 0) //Update this part 0508
                         {
-                            dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
-                            dblVaryingValue += dblIntMedValue;
+                            dblVaryingValue = matCoe[0, 0];
+
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
+                                dblVaryingValue += dblIntMedValue;
+                            }
                         }
+                        else
+                        {
+                            dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblVaryingValue += dblIntMedValue;
+                            }
+                        }
+
 
                         pFeature.set_Value(intFldIdx, (object)dblVaryingValue);
 
@@ -1481,15 +1503,24 @@ namespace VisUncertainty
                         //Calculate and update spatial filter (Coefficient estimate * selected EVs)
                         double dblIntMedValue = 0;
                         double dblVaryingValue = 0;
-                        if (j == 0)
-                            dblVaryingValue = matCoe[0, 0];
-                        else
-                            dblVaryingValue = matCoe[intInterceptIdx, 0];
-
-                        foreach (int k in lstCoeffIdx)
+                        if (j == 0) //Update this part 0508
                         {
-                            dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
-                            dblVaryingValue += dblIntMedValue;
+                            dblVaryingValue = matCoe[0, 0];
+
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
+                                dblVaryingValue += dblIntMedValue;
+                            }
+                        }
+                        else
+                        {
+                            dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblVaryingValue += dblIntMedValue;
+                            }
                         }
 
                         pFeature.set_Value(intFldIdx, (object)dblVaryingValue);
@@ -1744,15 +1775,24 @@ namespace VisUncertainty
                         //Calculate and update spatial filter (Coefficient estimate * selected EVs)
                         double dblIntMedValue = 0;
                         double dblVaryingValue = 0;
-                        if (j == 0)
-                            dblVaryingValue = matCoe[0, 0];
-                        else
-                            dblVaryingValue = matCoe[intInterceptIdx, 0];
-
-                        foreach (int k in lstCoeffIdx)
+                        if (j == 0) //Update this part 0508
                         {
-                            dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
-                            dblVaryingValue += dblIntMedValue;
+                            dblVaryingValue = matCoe[0, 0];
+
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k];
+                                dblVaryingValue += dblIntMedValue;
+                            }
+                        }
+                        else
+                        {
+                            dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            foreach (int k in lstCoeffIdx)
+                            {
+                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblVaryingValue += dblIntMedValue;
+                            }
                         }
 
                         pFeature.set_Value(intFldIdx, (object)dblVaryingValue);
