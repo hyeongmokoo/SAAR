@@ -987,6 +987,5 @@ C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.Properties.Resources.re
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.csproj.GenerateResource.Cache
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.exe
 C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.pdb
-C:\Gits\SAAR\VisUncertainty\obj\x86\Debug\VisUncertainty.csprojResolveAssemblyReference.cache
 C:\Gits\SAAR\VisUncertainty\bin\Debug\Gurobi70.NET.dll
 C:\Gits\SAAR\VisUncertainty\bin\Debug\Gurobi70.NET.xml

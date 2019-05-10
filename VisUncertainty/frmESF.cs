@@ -281,6 +281,11 @@ namespace VisUncertainty
                     }
 
                 }
+                //Loading the stepwise function
+                //string strStartPath = m_pForm.strPath;
+                //string pathr = strStartPath.Replace(@"\", @"/");
+                //m_pEngine.Evaluate("source('" + pathr + "/AllFunctions.R')");
+
                 //Plot command for R
                 StringBuilder plotCommmand = new StringBuilder();
 
@@ -444,8 +449,9 @@ namespace VisUncertainty
                     }
 
                 }
-                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
-
+                //m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepwise(esf.full, esf.org, verbose=FALSE)");
+                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(lower = esf.org, upper= esf.full), verbose = FALSE)");
                 pfrmProgress.lblStatus.Text = "Printing Output:";
                 m_pEngine.Evaluate("sum.esf <- summary(sample.esf)");
                 //m_pEngine.Evaluate("sample.lm <- lm(" + strLM + ")");
@@ -651,6 +657,8 @@ namespace VisUncertainty
                     strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
 
                 strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+                //strResults[2] = "AIC of non-ESF: " + m_pEngine.Evaluate("AIC(esf.org)").AsNumeric().First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + m_pEngine.Evaluate("AIC(sample.esf)").AsNumeric().First().ToString(strDecimalPlaces);
+
                 strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
                 strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
 
@@ -766,7 +774,6 @@ namespace VisUncertainty
             }
         }
 
-
         private void BinomESF(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, double dblNCandidateEvs, int intDeciPlaces, int intInterceptModel)
         {
             try
@@ -775,12 +782,13 @@ namespace VisUncertainty
                 pfrmProgress.lblStatus.Text = "Selecting EVs";
                 m_pEngine.Evaluate("esf.full <- glm(" + strLM + "+., data=EV, family='binomial')");
                 m_pEngine.Evaluate("esf.org <- glm(" + strLM + ", data=EV, family='binomial')");
-                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepwise(esf.full, esf.org, verbose=FALSE)");
+                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(lower = esf.org, upper= esf.full), verbose = FALSE)");
 
                 pfrmProgress.lblStatus.Text = "Printing Output:";
                 m_pEngine.Evaluate("sum.esf <- summary(sample.esf)");
-                //m_pEngine.Evaluate("sample.lm <- lm(" + strLM + ")");
-
+                
                 NumericMatrix matCoe = m_pEngine.Evaluate("as.matrix(sum.esf$coefficient)").AsNumericMatrix();
                 CharacterVector vecNames = m_pEngine.Evaluate("attributes(sum.esf$coefficients)$dimnames[[1]]").AsCharacter();
                 double dblNullDevi = m_pEngine.Evaluate("sum.esf$null.deviance").AsNumeric().First();
@@ -817,7 +825,6 @@ namespace VisUncertainty
 
                 double dblResiLMMC = m_pEngine.Evaluate("orgresi.mc$statistic").AsNumeric().First();
                 double dblResiLMpVal = m_pEngine.Evaluate("orgresi.mc$p.value").AsNumeric().First();
-
 
                 NumericVector nvecNonAIC = m_pEngine.Evaluate("sample.esf$aic").AsNumeric();
 
@@ -983,6 +990,8 @@ namespace VisUncertainty
                     strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
 
                 strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+                //strResults[2] = "AIC of non-ESF: " + m_pEngine.Evaluate("AIC(esf.org)").AsNumeric().First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + m_pEngine.Evaluate("AIC(sample.esf)").AsNumeric().First().ToString(strDecimalPlaces);
+
                 strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
                 strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
 
@@ -1096,8 +1105,6 @@ namespace VisUncertainty
             }
         }
 
-
-
         private void PoissonESF(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, string strNoramlName, double dblNCandidateEvs, int intDeciPlaces, int intInterceptModel)
         {
             try
@@ -1124,7 +1131,9 @@ namespace VisUncertainty
                     }
 
                 }
-                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepwise(esf.full, esf.org, verbose=FALSE)");
+                m_pEngine.Evaluate("sample.esf <- stepAIC(esf.org, scope=list(lower = esf.org, upper= esf.full), verbose = FALSE)");
 
                 pfrmProgress.lblStatus.Text = "Printing Output:";
                 m_pEngine.Evaluate("sum.esf <- summary(sample.esf)");
@@ -1329,6 +1338,8 @@ namespace VisUncertainty
                     strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
 
                 strResults[2] = "AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+                //strResults[2] = "AIC of non-ESF: " + m_pEngine.Evaluate("AIC(esf.org)").AsNumeric().First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + m_pEngine.Evaluate("AIC(sample.esf)").AsNumeric().First().ToString(strDecimalPlaces);
+
                 strResults[3] = "Null deviance: " + dblNullDevi.ToString(strDecimalPlaces) + " on " + dblNullDF.ToString("N0") + " degrees of freedom";
                 strResults[4] = "Residual deviance: " + dblResiDevi.ToString(strDecimalPlaces) + " on " + dblResiDF.ToString("N0") + " degrees of freedom";
 
@@ -1444,7 +1455,6 @@ namespace VisUncertainty
             }
         }
 
-
         private void LinearESF(frmProgress pfrmProgress, IFeatureLayer pFLayer, string strLM, int nIDepen, String[] independentNames, double dblNCandidateEvs, int intDeciPlaces, int intInterceptModel)
         {
             try
@@ -1452,7 +1462,9 @@ namespace VisUncertainty
 
                 pfrmProgress.lblStatus.Text = "Selecting EVs";
                 m_pEngine.Evaluate("esf.full <- lm(" + strLM + "+., data=EV)");
-                m_pEngine.Evaluate("sample.esf <- stepAIC(lm(" + strLM + ", data=EV), scope=list(upper= esf.full), direction='forward')");
+                //m_pEngine.Evaluate("sample.esf <- stepAIC(lm(" + strLM + ", data=EV), scope=list(upper= esf.full), direction='forward')");
+                m_pEngine.Evaluate("sample.esf <- stepAIC(lm(" + strLM + ", data=EV), scope=list(lower = lm(" + strLM + ", data=EV), upper= esf.full), verbose = FALSE)");
+                //m_pEngine.Evaluate("sample.esf <- stepwise(esf.full, lm(" + strLM + ", data=EV), verbose=FALSE)");
 
                 pfrmProgress.lblStatus.Text = "Printing Output:";
                 m_pEngine.Evaluate("sum.esf <- summary(sample.esf)");
@@ -1659,6 +1671,8 @@ namespace VisUncertainty
                     strResults[1] = "MC of non-ESF residuals: " + dblResiLMMC.ToString("N3") + ", p-value: " + dblResiLMpVal.ToString("N3");
 
                 strResults[2] = "AIC of non-ESF: " + nvecNonAIC.First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + nvecNonAIC.Last().ToString(strDecimalPlaces);
+                //strResults[2] = "AIC of non-ESF: " + m_pEngine.Evaluate("AIC(sample.lm)").AsNumeric().First().ToString(strDecimalPlaces) + ", AIC of Final Model: " + m_pEngine.Evaluate("AIC(sample.esf)").AsNumeric().First().ToString(strDecimalPlaces);
+
                 strResults[3] = "Residual standard error: " + dblResiSE.ToString(strDecimalPlaces) +
                     " on " + vecResiDF[1].ToString() + " degrees of freedom";
                 strResults[4] = "Multiple R-squared: " + dblRsqaure.ToString(strDecimalPlaces) +
