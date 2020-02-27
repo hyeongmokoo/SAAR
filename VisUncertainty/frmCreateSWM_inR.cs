@@ -238,19 +238,22 @@ namespace VisUncertainty
 
                 if (cboFieldName.Text == "")
                 {
-                    MessageBox.Show("Please select an ID field to be used as region ID.",
-        "Please choose an ID field");
+                    MessageBox.Show("Please select an ID field to be used as region ID.", "Please choose an ID field");
                     return;
                 }
 
 
                 if (txtOutput.Text == "")
                 {
-                    MessageBox.Show("Please specify path and file name.",
-        "Please specify a path");
+                    MessageBox.Show("Please specify path and file name.", "Please specify a path");
                     return;
                 }
 
+                if (cboCoding.Text == "")
+                {
+                    MessageBox.Show("Please choose a coding scheme.", "Coding scheme");
+                    return;
+                }
 
                 frmProgress pfrmProgress = new frmProgress();
                 pfrmProgress.lblStatus.Text = "Processing:";
@@ -300,14 +303,14 @@ namespace VisUncertainty
                 if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon)
                 {
                     m_pEngine.Evaluate("sample.shp <- readShapePoly('" + strNameR + "')");
-                    intSuccess = m_pSnippet.CreateSpatialWeightMatrixPolywithID(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
+                    intSuccess = m_pSnippet.CreateSpatialWeightMatrixPolywithID(m_pEngine, m_pFClass, txtSWM.Text, cboCoding.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
 
                 }
                 else if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPoint)
                 {
                     m_pEngine.Evaluate("sample.shp <- readShapePoints('" + strNameR + "')");
                     //intSuccess = m_pSnippet.ExploreSpatialWeightMatrix1(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
-                    intSuccess = m_pSnippet.CreateSpatialWeightMatrixPtswithID(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked, m_pClippedPolygon);
+                    intSuccess = m_pSnippet.CreateSpatialWeightMatrixPtswithID(m_pEngine, m_pFClass, txtSWM.Text, cboCoding.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked, m_pClippedPolygon);
 
                     //chkCumulate.Visible = false;
                 }

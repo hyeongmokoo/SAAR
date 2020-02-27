@@ -2090,8 +2090,39 @@ namespace VisUncertainty
             }
             return 1;
         }
-        public int CreateSpatialWeightMatrix1(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
+        public int CreateSpatialWeightMatrix1(REngine pEngine, IFeatureClass pFClass, string strSWMtype, string strSWMcoding, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
         {
+            //Applying different coding schemes, 022720 HK
+            string strCodingOutput = "";
+            string strCodingZero = "";
+            SWMCodingScheme pSWMCoding = new SWMCodingScheme();
+            if(strSWMcoding == pSWMCoding.strSchemes[0]) //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[1]) //Binary
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='B');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='B', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[2]) //Globally standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='C');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='C', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[3]) //Variance-stabilizing
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='S');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='S', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else  //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            
+            
             //Return 0, means fails to create spatial weight matrix, 1 means success.
 
             SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
@@ -2137,7 +2168,8 @@ namespace VisUncertainty
                 //For dealing empty neighbors
                 try
                 {
-                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                    //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                    pEngine.Evaluate(strCodingOutput);
                 }
                 catch
                 {
@@ -2146,7 +2178,8 @@ namespace VisUncertainty
 
                     if (dialogResult == DialogResult.Yes)
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        pEngine.Evaluate(strCodingZero);
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -2168,7 +2201,8 @@ namespace VisUncertainty
 
                         try
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            pEngine.Evaluate(strCodingOutput);
                         }
                         catch
                         {
@@ -2177,7 +2211,8 @@ namespace VisUncertainty
 
                             if (dialogResult == DialogResult.Yes)
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                pEngine.Evaluate(strCodingZero);
                             }
                             else if (dialogResult == DialogResult.No)
                             {
@@ -2195,7 +2230,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
                     }
                     catch
                     {
@@ -2204,7 +2240,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2226,7 +2263,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
                     }
                     catch
                     {
@@ -2235,7 +2273,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2258,9 +2297,39 @@ namespace VisUncertainty
             }
             return 1;
         }//For only polygons
-        public int CreateSpatialWeightMatrixPolywithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
+        public int CreateSpatialWeightMatrixPolywithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, string strSWMcoding, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul)
         {
             //Return 0, means fails to create spatial weight matrix, 1 means success.
+
+            //Applying different coding schemes, 022720 HK
+            string strCodingOutput = "";
+            string strCodingZero = "";
+            SWMCodingScheme pSWMCoding = new SWMCodingScheme();
+            if (strSWMcoding == pSWMCoding.strSchemes[0]) //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[1]) //Binary
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='B');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='B', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[2]) //Globally standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='C');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='C', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[3]) //Variance-stabilizing
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='S');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='S', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else  //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
 
             SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
 
@@ -2296,7 +2365,8 @@ namespace VisUncertainty
                 //For dealing empty neighbors
                 try
                 {
-                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                    pEngine.Evaluate(strCodingOutput);
+                    //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
                 }
                 catch
                 {
@@ -2305,7 +2375,8 @@ namespace VisUncertainty
 
                     if (dialogResult == DialogResult.Yes)
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                        pEngine.Evaluate(strCodingZero);
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -2327,7 +2398,8 @@ namespace VisUncertainty
 
                         try
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            pEngine.Evaluate(strCodingOutput);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
                         }
                         catch
                         {
@@ -2336,7 +2408,8 @@ namespace VisUncertainty
 
                             if (dialogResult == DialogResult.Yes)
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                pEngine.Evaluate(strCodingZero);
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                             }
                             else if (dialogResult == DialogResult.No)
                             {
@@ -2354,7 +2427,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
                     }
                     catch
                     {
@@ -2363,7 +2437,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2385,7 +2460,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
                     }
                     catch
                     {
@@ -2394,7 +2470,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2417,9 +2494,40 @@ namespace VisUncertainty
             }
             return 1;
         }//For only polygons
-        public int CreateSpatialWeightMatrixPts(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
+        public int CreateSpatialWeightMatrixPts(REngine pEngine, IFeatureClass pFClass, string strSWMtype, string strSWMcoding, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
         {
             //Return 0, means fails to create spatial weight matrix, 1 means success.
+
+            //Applying different coding schemes, 022720 HK
+            string strCodingOutput = "";
+            string strCodingZero = "";
+            SWMCodingScheme pSWMCoding = new SWMCodingScheme();
+            if (strSWMcoding == pSWMCoding.strSchemes[0]) //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[1]) //Binary
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='B');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='B', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[2]) //Globally standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='C');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='C', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[3]) //Variance-stabilizing
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='S');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='S', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else  //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+
 
             SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
             
@@ -2436,7 +2544,8 @@ namespace VisUncertainty
 
                         try
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                            pEngine.Evaluate(strCodingOutput);
                         }
                         catch
                         {
@@ -2445,7 +2554,8 @@ namespace VisUncertainty
 
                             if (dialogResult == DialogResult.Yes)
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                pEngine.Evaluate(strCodingZero);
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                             }
                             else if (dialogResult == DialogResult.No)
                             {
@@ -2493,7 +2603,8 @@ namespace VisUncertainty
                         {
                             try
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                                pEngine.Evaluate(strCodingOutput);
                             }
                             catch
                             {
@@ -2502,7 +2613,8 @@ namespace VisUncertainty
 
                                 if (dialogResult == DialogResult.Yes)
                                 {
-                                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                    pEngine.Evaluate(strCodingZero);
+                                    //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                                 }
                                 else if (dialogResult == DialogResult.No)
                                 {
@@ -2526,7 +2638,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
                     }
                     catch
                     {
@@ -2535,7 +2648,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2568,7 +2682,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
                     }
                     catch
                     {
@@ -2577,7 +2692,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2609,9 +2725,40 @@ namespace VisUncertainty
             }
             return 1;
         }
-        public int CreateSpatialWeightMatrixPtswithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
+        public int CreateSpatialWeightMatrixPtswithID(REngine pEngine, IFeatureClass pFClass, string strSWMtype, string strSWMcoding, frmProgress pfrmProgress, double dblAdvancedValue, bool blnCumul, IFeatureLayer pFLayer)//For only point dataset
         {
             //Return 0, means fails to create spatial weight matrix, 1 means success.
+
+            //Applying different coding schemes, 022720 HK
+            string strCodingOutput = "";
+            string strCodingZero = "";
+            SWMCodingScheme pSWMCoding = new SWMCodingScheme();
+            if (strSWMcoding == pSWMCoding.strSchemes[0]) //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[1]) //Binary
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='B');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='B', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[2]) //Globally standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='C');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='C', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else if (strSWMcoding == pSWMCoding.strSchemes[3]) //Variance-stabilizing
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='S');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='S', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+            else  //Row standardized
+            {
+                strCodingOutput = "sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')";
+                strCodingZero = "sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)";
+            }
+
 
             SpatialWeightMatrixType pSWMType = new SpatialWeightMatrixType();
 
@@ -2628,7 +2775,8 @@ namespace VisUncertainty
 
                         try
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                            pEngine.Evaluate(strCodingOutput);
                         }
                         catch
                         {
@@ -2637,7 +2785,8 @@ namespace VisUncertainty
 
                             if (dialogResult == DialogResult.Yes)
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                pEngine.Evaluate(strCodingZero);
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                             }
                             else if (dialogResult == DialogResult.No)
                             {
@@ -2685,7 +2834,8 @@ namespace VisUncertainty
                         {
                             try
                             {
-                                pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                                //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                                pEngine.Evaluate(strCodingOutput);
                             }
                             catch
                             {
@@ -2694,7 +2844,8 @@ namespace VisUncertainty
 
                                 if (dialogResult == DialogResult.Yes)
                                 {
-                                    pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                                    pEngine.Evaluate(strCodingZero);
+                                    //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                                 }
                                 else if (dialogResult == DialogResult.No)
                                 {
@@ -2718,7 +2869,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
                     }
                     catch
                     {
@@ -2727,7 +2879,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -2760,7 +2913,8 @@ namespace VisUncertainty
 
                     try
                     {
-                        pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W'); sample.listb <- nb2listw(sample.nb, style='B')");
+                        //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W');sample.listb <- nb2listw(sample.nb, style='B')");
+                        pEngine.Evaluate(strCodingOutput);
                     }
                     catch
                     {
@@ -2769,7 +2923,8 @@ namespace VisUncertainty
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
+                            pEngine.Evaluate(strCodingZero);
+                            //pEngine.Evaluate("sample.listw <- nb2listw(sample.nb, style='W', zero.policy=TRUE);sample.listb <- nb2listw(sample.nb, style='B', zero.policy=TRUE)");
                         }
                         else if (dialogResult == DialogResult.No)
                         {

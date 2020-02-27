@@ -41,6 +41,8 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.ofdOpenSWM = new System.Windows.Forms.OpenFileDialog();
+            this.cboCoding = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudAdvanced)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +50,7 @@
             // 
             this.chkCumulate.AutoSize = true;
             this.chkCumulate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkCumulate.Location = new System.Drawing.Point(12, 77);
+            this.chkCumulate.Location = new System.Drawing.Point(12, 108);
             this.chkCumulate.Name = "chkCumulate";
             this.chkCumulate.Size = new System.Drawing.Size(122, 17);
             this.chkCumulate.TabIndex = 86;
@@ -57,7 +59,7 @@
             // 
             // nudAdvanced
             // 
-            this.nudAdvanced.Location = new System.Drawing.Point(118, 49);
+            this.nudAdvanced.Location = new System.Drawing.Point(118, 80);
             this.nudAdvanced.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -72,7 +74,7 @@
             // lblAdvanced
             // 
             this.lblAdvanced.AutoSize = true;
-            this.lblAdvanced.Location = new System.Drawing.Point(12, 50);
+            this.lblAdvanced.Location = new System.Drawing.Point(12, 81);
             this.lblAdvanced.Name = "lblAdvanced";
             this.lblAdvanced.Size = new System.Drawing.Size(100, 13);
             this.lblAdvanced.TabIndex = 84;
@@ -90,7 +92,7 @@
             // lblClip
             // 
             this.lblClip.AutoSize = true;
-            this.lblClip.Location = new System.Drawing.Point(12, 104);
+            this.lblClip.Location = new System.Drawing.Point(12, 135);
             this.lblClip.Name = "lblClip";
             this.lblClip.Size = new System.Drawing.Size(86, 13);
             this.lblClip.TabIndex = 83;
@@ -99,7 +101,7 @@
             // lblGeoDa
             // 
             this.lblGeoDa.AutoSize = true;
-            this.lblGeoDa.Location = new System.Drawing.Point(12, 135);
+            this.lblGeoDa.Location = new System.Drawing.Point(12, 166);
             this.lblGeoDa.Name = "lblGeoDa";
             this.lblGeoDa.Size = new System.Drawing.Size(145, 13);
             this.lblGeoDa.TabIndex = 81;
@@ -117,7 +119,7 @@
             // btnSubset
             // 
             this.btnSubset.Enabled = false;
-            this.btnSubset.Location = new System.Drawing.Point(151, 99);
+            this.btnSubset.Location = new System.Drawing.Point(151, 130);
             this.btnSubset.Name = "btnSubset";
             this.btnSubset.Size = new System.Drawing.Size(52, 23);
             this.btnSubset.TabIndex = 80;
@@ -127,7 +129,7 @@
             // 
             // btnOpenSWM
             // 
-            this.btnOpenSWM.Location = new System.Drawing.Point(172, 130);
+            this.btnOpenSWM.Location = new System.Drawing.Point(172, 161);
             this.btnOpenSWM.Name = "btnOpenSWM";
             this.btnOpenSWM.Size = new System.Drawing.Size(31, 23);
             this.btnOpenSWM.TabIndex = 79;
@@ -137,7 +139,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(22, 170);
+            this.btnApply.Location = new System.Drawing.Point(22, 201);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 87;
@@ -147,7 +149,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(128, 170);
+            this.btnCancel.Location = new System.Drawing.Point(128, 201);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 88;
@@ -160,12 +162,31 @@
             this.ofdOpenSWM.Filter = "GAL files|*.gal|GWT files|*.gwt";
             this.ofdOpenSWM.Title = "Open GAL files";
             // 
+            // cboCoding
+            // 
+            this.cboCoding.FormattingEnabled = true;
+            this.cboCoding.Location = new System.Drawing.Point(72, 48);
+            this.cboCoding.Name = "cboCoding";
+            this.cboCoding.Size = new System.Drawing.Size(131, 21);
+            this.cboCoding.TabIndex = 90;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 89;
+            this.label1.Text = "Coding:";
+            // 
             // frmAdvSWM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(223, 205);
+            this.ClientSize = new System.Drawing.Size(223, 234);
+            this.Controls.Add(this.cboCoding);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.chkCumulate);
@@ -203,5 +224,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.OpenFileDialog ofdOpenSWM;
         public System.Windows.Forms.ComboBox txtSWM;
+        public System.Windows.Forms.ComboBox cboCoding;
+        private System.Windows.Forms.Label label1;
     }
 }

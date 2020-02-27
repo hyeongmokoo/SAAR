@@ -128,6 +128,11 @@ namespace VisUncertainty
 
         private void frmAdvSWM_Load(object sender, EventArgs e)
         {
+            //Coding scheme for SWM 022720 HK
+            clsSnippet.SWMCodingScheme pSWMCodingScheme = new clsSnippet.SWMCodingScheme();
+            cboCoding.DataSource = pSWMCodingScheme.strSchemes;
+            cboCoding.Text = pSWMCodingScheme.strSchemes[0]; //Default is row-standarized.
+            
             //New Spatial Weight matrix function 083117 HK
             clsSnippet.SpatialWeightMatrixType pSWMType = new clsSnippet.SpatialWeightMatrixType();
             if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon) //Apply Different Spatial weight matrix according to geometry type 07052017 HK
@@ -211,14 +216,14 @@ namespace VisUncertainty
             if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPolygon)
             {
                 m_pEngine.Evaluate("sample.shp <- readShapePoly('" + strNameR + "')");
-                intSuccess = m_pSnippet.CreateSpatialWeightMatrix1(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
-
+                intSuccess = m_pSnippet.CreateSpatialWeightMatrix1(m_pEngine, m_pFClass, txtSWM.Text, cboCoding.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
+                
             }
             else if (m_pFClass.ShapeType == esriGeometryType.esriGeometryPoint)
             {
                 m_pEngine.Evaluate("sample.shp <- readShapePoints('" + strNameR + "')");
                 //intSuccess = m_pSnippet.ExploreSpatialWeightMatrix1(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked);
-                intSuccess = m_pSnippet.CreateSpatialWeightMatrixPts(m_pEngine, m_pFClass, txtSWM.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked, m_pClippedPolygon);
+                intSuccess = m_pSnippet.CreateSpatialWeightMatrixPts(m_pEngine, m_pFClass, txtSWM.Text, cboCoding.Text, pfrmProgress, Convert.ToDouble(nudAdvanced.Value), chkCumulate.Checked, m_pClippedPolygon);
 
                 //chkCumulate.Visible = false;
             }

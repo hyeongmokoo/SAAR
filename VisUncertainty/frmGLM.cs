@@ -440,7 +440,7 @@ namespace VisUncertainty
                 }
                 catch
                 {
-                    MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
+                    MessageBox.Show("Fail to estimate. Please check the variables and make sure that an offset requires a logarithm form.", "Error");
                     pfrmProgress.Close();
                 }
             }
@@ -634,7 +634,7 @@ namespace VisUncertainty
                 }
                 catch
                 {
-                    MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
+                    MessageBox.Show("Fail to estimate. Please check the variables and make sure that an offset requires a logarithm form.", "Error");
                     pfrmProgress.Close();
                     return;
                 }

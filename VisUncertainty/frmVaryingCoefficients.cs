@@ -439,7 +439,7 @@ namespace VisUncertainty
 
             //Decimal places
             int intDeciPlaces = 5;
-            
+
             //Get number of Independent variables 
             int nIndevarlistCnt = lstIndeVar.Items.Count;
             //Indicate an intercept only model (2) or a non-intercept model (1) or not (0)
@@ -628,7 +628,8 @@ namespace VisUncertainty
 
 
             m_pEngine.Evaluate("sample.n <- length(sample.nb)");
-            m_pEngine.Evaluate("B <- listw2mat(sample.listb); M <- diag(sample.n) - matrix(1/sample.n, sample.n, sample.n); MBM <- M%*%B%*%M");
+            //m_pEngine.Evaluate("B <- listw2mat(sample.listb); M <- diag(sample.n) - matrix(1/sample.n, sample.n, sample.n); MBM <- M%*%B%*%M");
+            m_pEngine.Evaluate("B <- nb2mat(sample.nb, style='B'); M <- diag(sample.n) - matrix(1/sample.n, sample.n, sample.n); MBM <- M%*%B%*%M");
             m_pEngine.Evaluate("eig <- eigen(MBM)");
             m_pEngine.Evaluate("EV <- as.data.frame( eig$vectors[,]); colnames(EV) <- paste('EV', 1:NCOL(EV), sep='')");
             double dblNCandidateEvs = 0;
@@ -886,7 +887,9 @@ namespace VisUncertainty
 
                 //Get EVs and residuals
                 NumericMatrix nmModel = m_pEngine.Evaluate("as.matrix(sample.esf$model)").AsNumericMatrix();
-                //NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sample.esf$residuals)").AsNumeric();
+
+                NumericMatrix nmEV = m_pEngine.Evaluate("as.matrix(EV)").AsNumericMatrix(); //Get EV
+                string[] cvEVnames = m_pEngine.Evaluate("colnames(EV)").AsCharacter().ToArray(); //Get EV names
 
 
                 for (int j = 0; j < intResultCnt; j++)
@@ -916,12 +919,13 @@ namespace VisUncertainty
                     }
 
                     //Collect index of related coefficients and variables                    
+                    List<int> lstEVIdx = new List<int>();
                     List<int> lstCoeffIdx = new List<int>();
                     int intInterceptIdx = new int();
                     for (int k = 1; k < vecNames.Length; k++) //Do not add intercept
                     {
-                        string strRelatedVar = null;
-
+                        string strRelatedVar = null; //Get Variable names
+                        string strRelatedEV = null; //Get EV names
                         if (k < nIDepen + 1)
                         {
                             strRelatedVar = vecNames[k];
@@ -939,10 +943,14 @@ namespace VisUncertainty
                             {
                                 //strRelatedVar = vecNames[k].Substring(0, intDivision);
                                 strRelatedVar = vecNames[k].Substring(1, intDivision - 1); //To consider "'";;
+                                strRelatedEV = vecNames[k].Substring(intDivision + 1, vecNames[k].Length - intDivision - 2); //Get an EV name
                             }
 
                             if (strRelatedVar == strSVName)
+                            {
                                 lstCoeffIdx.Add(k);
+                                lstEVIdx.Add(Array.IndexOf(cvEVnames, strRelatedEV)); //Find Index by the name
+                            }
                         }
                     }
 
@@ -971,10 +979,13 @@ namespace VisUncertainty
                         else
                         {
                             dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            int intEVidx = 0; //index for EVlist, sequentially increases
                             foreach (int k in lstCoeffIdx)
                             {
-                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                //dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblIntMedValue = matCoe[k, 0] * nmEV[featureIdx, lstEVIdx[intEVidx]]; //Directly calculated from EV
                                 dblVaryingValue += dblIntMedValue;
+                                intEVidx++;
                             }
                         }
 
@@ -1110,7 +1121,7 @@ namespace VisUncertainty
                             else
                                 pDataRow["Name"] = vecNames[j].Substring(1, vecNames[j].Length - 2); //Consider ', need to be changed
                         }
-                            
+
                         else
                         {
                             if (intInterceptModel == 1)
@@ -1176,7 +1187,8 @@ namespace VisUncertainty
 
                 //Get EVs and residuals
                 NumericMatrix nmModel = m_pEngine.Evaluate("as.matrix(sample.esf$model)").AsNumericMatrix();
-                //NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sample.esf$residuals)").AsNumeric();
+                NumericMatrix nmEV = m_pEngine.Evaluate("as.matrix(EV)").AsNumericMatrix(); //Get EV
+                string[] cvEVnames = m_pEngine.Evaluate("colnames(EV)").AsCharacter().ToArray(); //Get EV names
 
 
                 for (int j = 0; j < intResultCnt; j++)
@@ -1206,12 +1218,13 @@ namespace VisUncertainty
                     }
 
                     //Collect index of related coefficients and variables                    
+                    List<int> lstEVIdx = new List<int>();
                     List<int> lstCoeffIdx = new List<int>();
                     int intInterceptIdx = new int();
                     for (int k = 1; k < vecNames.Length; k++) //Do not add intercept
                     {
-                        string strRelatedVar = null;
-
+                        string strRelatedVar = null; //Get Variable names
+                        string strRelatedEV = null; //Get EV names
                         if (k < nIDepen + 1)
                         {
                             strRelatedVar = vecNames[k];
@@ -1229,10 +1242,14 @@ namespace VisUncertainty
                             {
                                 //strRelatedVar = vecNames[k].Substring(0, intDivision);
                                 strRelatedVar = vecNames[k].Substring(1, intDivision - 1); //To consider "'";;
+                                strRelatedEV = vecNames[k].Substring(intDivision + 1, vecNames[k].Length - intDivision - 2); //Get an EV name
                             }
 
                             if (strRelatedVar == strSVName)
+                            {
                                 lstCoeffIdx.Add(k);
+                                lstEVIdx.Add(Array.IndexOf(cvEVnames, strRelatedEV)); //Find Index by the name
+                            }
                         }
                     }
 
@@ -1261,10 +1278,13 @@ namespace VisUncertainty
                         else
                         {
                             dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            int intEVidx = 0; //index for EVlist, sequentially increases
                             foreach (int k in lstCoeffIdx)
                             {
-                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                //dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblIntMedValue = matCoe[k, 0] * nmEV[featureIdx, lstEVIdx[intEVidx]]; //Directly calculated from EV
                                 dblVaryingValue += dblIntMedValue;
+                                intEVidx++;
                             }
                         }
 
@@ -1470,7 +1490,9 @@ namespace VisUncertainty
 
                 //Get EVs and residuals
                 NumericMatrix nmModel = m_pEngine.Evaluate("as.matrix(sample.esf$model)").AsNumericMatrix();
-                //NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sample.esf$residuals)").AsNumeric();
+
+                NumericMatrix nmEV = m_pEngine.Evaluate("as.matrix(EV)").AsNumericMatrix(); //Get EV
+                string[] cvEVnames = m_pEngine.Evaluate("colnames(EV)").AsCharacter().ToArray(); //Get EV names
 
 
                 for (int j = 0; j < intResultCnt; j++)
@@ -1500,12 +1522,13 @@ namespace VisUncertainty
                     }
 
                     //Collect index of related coefficients and variables                    
+                    List<int> lstEVIdx = new List<int>();
                     List<int> lstCoeffIdx = new List<int>();
                     int intInterceptIdx = new int();
                     for (int k = 1; k < vecNames.Length; k++) //Do not add intercept
                     {
-                        string strRelatedVar = null;
-
+                        string strRelatedVar = null; //Get Variable names
+                        string strRelatedEV = null; //Get EV names
                         if (k < nIDepen + 1)
                         {
                             strRelatedVar = vecNames[k];
@@ -1523,12 +1546,19 @@ namespace VisUncertainty
                             {
                                 //strRelatedVar = vecNames[k].Substring(0, intDivision);
                                 strRelatedVar = vecNames[k].Substring(1, intDivision - 1); //To consider "'";;
+                                strRelatedEV = vecNames[k].Substring(intDivision + 1, vecNames[k].Length - intDivision - 2); //Get an EV name
                             }
 
                             if (strRelatedVar == strSVName)
+                            {
                                 lstCoeffIdx.Add(k);
+                                lstEVIdx.Add(Array.IndexOf(cvEVnames, strRelatedEV)); //Find Index by the name
+                            }
                         }
                     }
+
+
+
 
                     //Update Field
                     IFeatureCursor pFCursor = pFLayer.FeatureClass.Update(null, false);
@@ -1555,10 +1585,13 @@ namespace VisUncertainty
                         else
                         {
                             dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            int intEVidx = 0; //index for EVlist, sequentially increases
                             foreach (int k in lstCoeffIdx)
                             {
-                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                //dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblIntMedValue = matCoe[k, 0] * nmEV[featureIdx, lstEVIdx[intEVidx]]; //Directly calculated from EV
                                 dblVaryingValue += dblIntMedValue;
+                                intEVidx++;
                             }
                         }
 
@@ -1753,7 +1786,8 @@ namespace VisUncertainty
 
                 //Get EVs and residuals
                 NumericMatrix nmModel = m_pEngine.Evaluate("as.matrix(sample.esf$model)").AsNumericMatrix();
-                //NumericVector nvResiduals = m_pEngine.Evaluate("as.numeric(sample.esf$residuals)").AsNumeric();
+                NumericMatrix nmEV = m_pEngine.Evaluate("as.matrix(EV)").AsNumericMatrix(); //Get EV
+                string[] cvEVnames = m_pEngine.Evaluate("colnames(EV)").AsCharacter().ToArray(); //Get EV names
 
 
                 for (int j = 0; j < intResultCnt; j++)
@@ -1783,12 +1817,13 @@ namespace VisUncertainty
                     }
 
                     //Collect index of related coefficients and variables                    
+                    List<int> lstEVIdx = new List<int>();
                     List<int> lstCoeffIdx = new List<int>();
                     int intInterceptIdx = new int();
                     for (int k = 1; k < vecNames.Length; k++) //Do not add intercept
                     {
-                        string strRelatedVar = null;
-
+                        string strRelatedVar = null; //Get Variable names
+                        string strRelatedEV = null; //Get EV names
                         if (k < nIDepen + 1)
                         {
                             strRelatedVar = vecNames[k];
@@ -1806,10 +1841,14 @@ namespace VisUncertainty
                             {
                                 //strRelatedVar = vecNames[k].Substring(0, intDivision);
                                 strRelatedVar = vecNames[k].Substring(1, intDivision - 1); //To consider "'";;
+                                strRelatedEV = vecNames[k].Substring(intDivision + 1, vecNames[k].Length - intDivision - 2); //Get an EV name
                             }
 
                             if (strRelatedVar == strSVName)
+                            {
                                 lstCoeffIdx.Add(k);
+                                lstEVIdx.Add(Array.IndexOf(cvEVnames, strRelatedEV)); //Find Index by the name
+                            }
                         }
                     }
 
@@ -1838,10 +1877,13 @@ namespace VisUncertainty
                         else
                         {
                             dblVaryingValue = matCoe[intInterceptIdx, 0];
+                            int intEVidx = 0; //index for EVlist, sequentially increases
                             foreach (int k in lstCoeffIdx)
                             {
-                                dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                //dblIntMedValue = matCoe[k, 0] * nmModel[featureIdx, k] / nmModel[featureIdx, j];
+                                dblIntMedValue = matCoe[k, 0] * nmEV[featureIdx, lstEVIdx[intEVidx]]; //Directly calculated from EV
                                 dblVaryingValue += dblIntMedValue;
+                                intEVidx++;
                             }
                         }
 

@@ -456,14 +456,18 @@ namespace VisUncertainty
                     
                     if (dblMin <= 0)
                     {
-                        nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + 0.001);
+                        //nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + 0.001);
+                        nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + Double.Epsilon);
+
                         nudGamma.Maximum = nudGamma.Minimum + Convert.ToDecimal(m_dblIinValue * 2);
                     }
                     else
                     {
                         if (dblMin - m_dblIinValue <= 0)
                         {
-                            nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + 0.001);
+                            //nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + 0.001);
+                            nudGamma.Minimum = Convert.ToDecimal(((-1) * dblMin) + Double.Epsilon);
+
                             nudGamma.Maximum = nudGamma.Minimum + Convert.ToDecimal(m_dblIinValue * 2);
                         }
                         else

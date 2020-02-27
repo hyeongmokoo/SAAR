@@ -441,7 +441,7 @@ namespace VisUncertainty
                         m_pEngine.Evaluate("esf.full <- glm.nb(" + strLM + "+ offset(" + strNoramlName + ")+., data=EV)");
                         m_pEngine.Evaluate("esf.org <- glm.nb(" + strLM + "+ offset(" + strNoramlName + "), data=EV)");
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         MessageBox.Show("An offset requires a logarithm form. Please check the model again.");
                         pfrmProgress.Close();
